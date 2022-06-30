@@ -1,0 +1,16 @@
+
+
+! Set vertical, terrain-following coordinates transformation equation and
+! stretching function (see below for details), [1:Ngrids].
+
+N == 12            ! Number of vertical levels
+
+  Vtransform = 2                          ! transformation equation
+  Vstretching = 4                         ! stretching function
+
+! Vertical S-coordinates parameters (see below for details), [1:Ngrids].
+
+     THETA_S = 4.0d0                      ! surface stretching parameter
+     !THETA_S = 4.0e0                      ! surface stretching parameter
+     THETA_B = 2.0e0                      ! bottom  stretching parameter
+      TCLINE = 20.0e0                      ! critical depth (m)
