@@ -54,69 +54,67 @@ def stretching(Vstretching, theta_s, theta_b, N, kgrid, report = False):
     # Compute ROMS S-coordinates vertical stretching function
     #--------------------------------------------------------------------------
 
-    match kgrid:
-        case KGrid.W:
-            numLevels = N + 1
-            levels = np.arange(N+1)
-        case KGrid.Rho:
-            numLevels = N
-            levels = np.arange(N) + 0.5
+    if   kgrid == KGrid.W:
+        numLevels = N + 1
+        levels = np.arange(N+1)
+    elif kgrid == KGrid.Rho:
+        numLevels = N
+        levels = np.arange(N) + 0.5
 
     s = (1.0/N)*(levels - N)
 
-    match Vstretching:
-        case VStretch.Original:
+    if Vstretching == VStretch.Original:
 
-            if theta_s > 0:
-                Ptheta = np.sinh(theta_s*s)/np.sinh(theta_s)
-                Rtheta = np.tanh(theta_s*(s + 0.5))/(2.0*np.tanh(0.5*theta_s)) - 0.5
-                C = (1.0-theta_b)*Ptheta + theta_b*Rtheta
-            else:
-                C = s
-
-
-        case VStretch.Shchepetkin2005:
-
-            alfa = 1.0
-            beta = 1.0
-
-            if theta_s > 0:
-                Csur = (1.0 - np.cosh(theta_s*s))/(np.cosh(theta_s) - 1.0)
-                if theta_b > 0:
-                    Cbot = -1.0 + np.sinh(theta_b*(s + 1.0))/np.sinh(theta_b)
-                    weigth = ((s + 1.0)**alfa)*(1.0 + (alfa/beta)*(1.0 - (s + 1.0)**beta))
-                    C = weigth*Csur+(1.0 - weigth)*Cbot
-                else:
-                    C = Csur
-
-            else:
-                C = s
+        if theta_s > 0:
+            Ptheta = np.sinh(theta_s*s)/np.sinh(theta_s)
+            Rtheta = np.tanh(theta_s*(s + 0.5))/(2.0*np.tanh(0.5*theta_s)) - 0.5
+            C = (1.0-theta_b)*Ptheta + theta_b*Rtheta
+        else:
+            C = s
 
 
-        case VStretch.Geyer:
+    elif Vstretching == VStretch.Shchepetkin2005:
 
-          if theta_s > 0:
-              alpha = 3            # scale factor for all hyperbolic functions
-              Cbot =  np.log(np.cosh(alpha*(s + 1)**theta_b))/np.log(np.cosh(alpha)) - 1
-              Csur = -np.log(np.cosh(alpha*abs(s) **theta_s))/np.log(np.cosh(alpha))
-              weight = (1 - np.tanh(alpha*(s + 0.5)))/2
-              C = weight*Cbot + (1 - weight)*Csur
-          else:
-              C = s
+        alfa = 1.0
+        beta = 1.0
 
-
-        case VStretch.Shchepetkin2010:
-
-            if theta_s > 0:
-                Csur = (1.0 - np.cosh(theta_s*s))/(np.cosh(theta_s) - 1.0)
-            else:
-                Csur = -s**2
-
+        if theta_s > 0:
+            Csur = (1.0 - np.cosh(theta_s*s))/(np.cosh(theta_s) - 1.0)
             if theta_b > 0:
-                Cbot = (np.exp(theta_b*Csur) - 1.0)/(1.0 - np.exp(-theta_b))
-                C = Cbot
+                Cbot = -1.0 + np.sinh(theta_b*(s + 1.0))/np.sinh(theta_b)
+                weigth = ((s + 1.0)**alfa)*(1.0 + (alfa/beta)*(1.0 - (s + 1.0)**beta))
+                C = weigth*Csur+(1.0 - weigth)*Cbot
             else:
                 C = Csur
+
+        else:
+            C = s
+
+
+    elif Vstretching == VStretch.Geyer:
+
+        if theta_s > 0:
+            alpha = 3            # scale factor for all hyperbolic functions
+            Cbot =  np.log(np.cosh(alpha*(s + 1)**theta_b))/np.log(np.cosh(alpha)) - 1
+            Csur = -np.log(np.cosh(alpha*abs(s) **theta_s))/np.log(np.cosh(alpha))
+            weight = (1 - np.tanh(alpha*(s + 0.5)))/2
+            C = weight*Cbot + (1 - weight)*Csur
+        else:
+            C = s
+
+
+    elif Vstretching == VStretch.Shchepetkin2010:
+
+        if theta_s > 0:
+            Csur = (1.0 - np.cosh(theta_s*s))/(np.cosh(theta_s) - 1.0)
+        else:
+            Csur = -s**2
+
+        if theta_b > 0:
+            Cbot = (np.exp(theta_b*Csur) - 1.0)/(1.0 - np.exp(-theta_b))
+            C = Cbot
+        else:
+            C = Csur
 
 
     # Report S-coordinate parameters.

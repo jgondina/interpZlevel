@@ -22,5 +22,4 @@ for igrid in Igridtypes:
 
     print('Generated stretched z levels for grid = %s, size %s' % (IGrid.strIGridPointType[igrid-1], repr(z[igrid].shape)))
 
-
 print('Finished generating stretched z levels')

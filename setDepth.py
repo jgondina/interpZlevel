@@ -128,21 +128,20 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
     #  Bathymetry and free-surface interpolated at requested C-grid node type.
     #--------------------------------------------------------------------------
 
-    match igrid:
-        case IGrid.density | IGrid.wVel:
+    if igrid in [IGrid.density, IGrid.wVel]:
             pass
 
-        case IGrid.streamFunc:
-            h    = 0.25*(h   [:-1,:-1] + h   [1:,:-1] + h   [:-1,1:] + h   [1:,1:])
-            zeta = 0.25*(zeta[:-1,:-1] + zeta[1:,:-1] + zeta[:-1,1:] + zeta[1:,1:])
+    elif igrid == IGrid.streamFunc:
+        h    = 0.25*(h   [:-1,:-1] + h   [1:,:-1] + h   [:-1,1:] + h   [1:,1:])
+        zeta = 0.25*(zeta[:-1,:-1] + zeta[1:,:-1] + zeta[:-1,1:] + zeta[1:,1:])
 
-        case IGrid.uVel:
-            h    = 0.5*(h   [:-1,:] + h   [1:,:])
-            zeta = 0.5*(zeta[:-1,:] + zeta[1:,:])
+    elif igrid == IGrid.uVel:
+        h    = 0.5*(h   [:-1,:] + h   [1:,:])
+        zeta = 0.5*(zeta[:-1,:] + zeta[1:,:])
 
-        case IGrid.vVel:
-            h    = 0.5*(h   [:,:-1] + h   [:,1:])
-            zeta = 0.5*(zeta[:,:-1] + zeta[:,1:])
+    elif igrid == IGrid.vVel:
+        h    = 0.5*(h   [:,:-1] + h   [:,1:])
+        zeta = 0.5*(zeta[:,:-1] + zeta[:,1:])
 
 
     #--------------------------------------------------------------------------
@@ -159,16 +158,15 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
         Z  = newZ
 
     for k in range(N):
-        match igrid:
-            case IGrid.wVel:
-                z0 = Z0(s[k], C[k], hc, h)
-                if k == 0:
-                  z[:,:,0] = -h
-                else:
-                  z[:,:,k] = Z(z0, zeta, h)
+        if igrid == IGrid.wVel:
+            z0 = Z0(s[k], C[k], hc, h)
+            if k == 0:
+              z[:,:,0] = -h
+            else:
+              z[:,:,k] = Z(z0, zeta, h)
 
-            case _:
-                z0 = Z0(s[k], C[k], hc, h)
-                z[:,:,k] = Z(z0, zeta, h)
+        else:
+            z0 = Z0(s[k], C[k], hc, h)
+            z[:,:,k] = Z(z0, zeta, h)
 
     return z
