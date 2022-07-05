@@ -3,6 +3,7 @@ from netCDF4 import Dataset
 from setDepth import *
 import oceanIn
 import scipy.interpolate as spinterp
+import ray
 
 
 oceanInFilename = './ocean.in'
