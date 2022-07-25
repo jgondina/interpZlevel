@@ -148,7 +148,7 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
     # Compute depths (m) at requested C-grid location.
     #--------------------------------------------------------------------------
 
-    z = np.zeros(h.shape + (numLevels,))
+    z = np.zeros((numLevels,) + h.shape)
 
     if Vtransform == VTransform.Original:
         Z0 = oldZ0
@@ -161,12 +161,12 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
         if igrid == IGrid.wVel:
             z0 = Z0(s[k], C[k], hc, h)
             if k == 0:
-              z[:,:,0] = -h
+              z[0, :,:] = -h
             else:
-              z[:,:,k] = Z(z0, zeta, h)
+              z[k, :,:] = Z(z0, zeta, h)
 
         else:
             z0 = Z0(s[k], C[k], hc, h)
-            z[:,:,k] = Z(z0, zeta, h)
+            z[k, :,:] = Z(z0, zeta, h)
 
     return z
