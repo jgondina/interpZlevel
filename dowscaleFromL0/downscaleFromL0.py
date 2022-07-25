@@ -7,6 +7,8 @@
 
 import datetime
 import numpy as np
+import pyroms
+import pyromstools
 
 
 # Select analysis period
@@ -14,15 +16,15 @@ time_ini = datetime.datetime(2022,7,2,0,0,0)
 time_end = datetime.datetime(2022,7,7,0,0,0)
 
 # Select L0 parent grid and output file
-L0_grid = r'E:\FLORIDA_GRIDS\L0\useast_grd5_2_cnapsv2.nc'
-L0_out  = r'E:\noppL0_ocean_his.nc'
+L0_grid = r'/orange/olabarrieta/share/BRYINI_example/useast_grd5_2_cnapsv2.nc'
+L0_out  = r'/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc'
 L0_Vtransform= 2
 L0_Vstretching= 4
 L0_theta_s = 8.0
 L0_theta_b = 4.0
 
 # Input ROMS grid to which interpolate operational L0 grid results
-modelgrid = r'E:\FLORIDA_GRIDS\L1\GOMSAB\GOMSAB_1km_ext.nc'
+modelgrid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
 
 # Enter grid vertical coordinate parameters --These need to be consistent with the ROMS setup.
 theta_s=8.0
@@ -41,22 +43,23 @@ bry_file  = 'L0_L1_GOMSAB_1km_bry.nc'
 
 print('Getting roms grid dimensions ...')
 
-Sinp.N           =L1_N;            %number of vertical levels
-Sinp.Vtransform  =Vtransform;   %vertical transformation equation
-Sinp.Vstretching =Vstretching;  %vertical stretching function
-Sinp.theta_s     =theta_s;      %surface control parameter
-Sinp.theta_b     =theta_b;      %bottom  control parameter
-Sinp.Tcline      =Tcline;       %surface/bottom stretching width
+#
+# Sinp.N           =L1_N         # number of vertical levels
+# Sinp.Vtransform  =Vtransform   # vertical transformation equation
+# Sinp.Vstretching =Vstretching  # vertical stretching function
+# Sinp.theta_s     =theta_s      # surface control parameter
+# Sinp.theta_b     =theta_b      # bottom  control parameter
+# Sinp.Tcline      =Tcline       # surface/bottom stretching width
 
-if (Vtransform==1)
-    h=ncread(gridname,'h');
-    hmin=min(h(:));
-    hc=min(max(hmin,0),Tcline);
-    elseif (Vtransform==2)
-    h=ncread(gridname,'h');
-    hmin=max(0.1,min(h(:)));
-    hc=Tcline;
-end
+if (Vtransform==1):
+    h=ncread(gridname,'h')
+    hmin=min(h(:))
+    hc=min(max(hmin,0),Tcline)
+elif (Vtransform==2):
+    h=ncread(gridname,'h')
+    hmin=max(0.1,min(h(:)))
+    hc=Tcline
+
 
 Sinp.hc=hc;           %stretching width used in ROMS
 gn=get_roms_grid(gridname,Sinp);
