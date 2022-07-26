@@ -67,7 +67,7 @@ time4d = np.arange(timeIni, timeEnd, datetime.timedelta(days=1))
 # Read the input grid.
 print(L1_grid, L0_out)
 
-# pyroms.grid.get_ROMS_grid('L0', grid_file = '/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc', hist_file = '/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc')
+## pyroms.grid.get_ROMS_grid('L0', grid_file = '/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc', hist_file = '/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc')
 
 
 gridIn = pyroms.grid.get_ROMS_grid('L0', grid_file = L1_grid, hist_file = L0_out)
