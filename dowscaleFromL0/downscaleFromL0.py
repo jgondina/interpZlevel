@@ -147,8 +147,8 @@ L0_angler = gridL0.hgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 L0_masku  = gridL0.hgrid.mask_u   [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 L0_maskv  = gridL0.hgrid.mask_v   [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
-L0_h      = gridL0.vgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_hc     = gridL0.vgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_h      = gridL0.vgrid.h        [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_hc     = gridL0.vgrid.hc       [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
 L0_N, pp  = gridL0.vgrid.s_rho    [L0_xinir:L0_xendr, L0_yinir:L0_yendr].shape
 
