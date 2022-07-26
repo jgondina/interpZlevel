@@ -71,12 +71,12 @@ print(L1_grid, L0_out)
 
 
 gridIn = pyroms.grid.get_ROMS_grid('L0', grid_file = L1_grid, hist_file = L0_out)
-L1_lat_rho = gridIn.hgrid.L1_lat_rho
-L1_lat_u   = gridIn.hgrid.L1_lat_u
-L1_lat_v   = gridIn.hgrid.L1_lat_v
-L1_lon_rho = gridIn.hgrid.L1_lat_rho
-L1_lon_u   = gridIn.hgrid.L1_lat_u
-L1_lon_v   = gridIn.hgrid.L1_lat_v
+L1_lat_rho = gridIn.hgrid.lat_rho
+L1_lat_u   = gridIn.hgrid.lat_u
+L1_lat_v   = gridIn.hgrid.lat_v
+L1_lon_rho = gridIn.hgrid.lon_rho
+L1_lon_u   = gridIn.hgrid.lon_u
+L1_lon_v   = gridIn.hgrid.lon_v
 
 nxr, nyr = L1_lat_rho.shape
 nxu, nyu = L1_lat_u.  shape
