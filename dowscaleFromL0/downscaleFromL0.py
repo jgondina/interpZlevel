@@ -114,8 +114,8 @@ L0_xendr = IIr.max()
 L0_yinir = JJr.min()
 L0_yendr = JJr.max()
 
-L0_lonr = lonr[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_latr = latr[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lonr = L0_lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_latr = L0_lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
 L0_nxr, L0_nyr = L0_lonr.shape
 # #
