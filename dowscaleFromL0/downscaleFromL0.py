@@ -139,7 +139,7 @@ L0_nxr, L0_nyr = L0_lat_rho.shape
 L0_nxu, L0_nyu = L0_lat_u.shape
 L0_nxv, L0_nyv = L0_lat_v.shape
 
-print (gridL0.__dict__)
+print (gridL0.hgrid.__dict__)
 
 #
 # L0_maskr=ncread(L0_grid,'mask_rho',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
