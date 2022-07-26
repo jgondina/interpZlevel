@@ -106,36 +106,39 @@ L0_lat_rho = gridL0.hgrid.lat_rho
 L0_lon_rho = gridL0.hgrid.lon_rho
 
 # Gets the indices of the minimum set of L0 nodes that cover mesh L1 (this is to reduce the number of calculations of the interpolation).
-IIr, JJr = np.where((L0_lon_rho<=L1_lon_max) & (L0_lon_rho>=L1_lon_min) & \
+IIr, JJr = np.where((L0_lon_rho<=L1_lon_max) & (L0_lon_rho>=L1_lon_min) &
                     (L0_lat_rho<=L1_lat_max) & (L0_lat_rho>=L1_lat_min))
-print (L0_lat_rho.shape, IIr, JJr)
+
+# Indices limits
 L0_xinir = IIr.min()
 L0_xendr = IIr.max()
 L0_yinir = JJr.min()
 L0_yendr = JJr.max()
 
+# Limits for the u and v nodes
+L0_xiniu = L0_xinir
+L0_xendu = L0_xendr - 1
+L0_yiniu = L0_yinir
+L0_yendu = L0_yendr
+L0_xiniv = L0_xinir
+L0_xendv = L0_xendr
+L0_yiniv = L0_yinir
+L0_yendv = L0_yendr - 1
+
 L0_lonr = L0_lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 L0_latr = L0_lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
-L0_nxr, L0_nyr = L0_lonr.shape
-# #
-# # L0_xiniu=IIr(1)
-# L0_xendu=IIr(end)-1
-# L0_yiniu=JJr(1)
-# L0_yendu=JJr(end)
-# L0_xiniv=IIr(1)
-# L0_xendv=IIr(end)
-# L0_yiniv=JJr(1)
-# L0_yendv=JJr(end)-1
-#
-# clear lonr latr IIr JJr
-#
-# L0_lonu=ncread(L0_grid,'lon_u',[L0_xinir,L0_yinir],[L0_nxr-1,L0_nyr])
-# L0_latu=ncread(L0_grid,'lat_u',[L0_xinir,L0_yinir],[L0_nxr-1,L0_nyr])
-# L0_lonv=ncread(L0_grid,'lon_v',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr-1])
-# L0_latv=ncread(L0_grid,'lat_v',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr-1])
-# [L0_nxu,L0_nyu]=size(L0_lonu)
-# [L0_nxv,L0_nyv]=size(L0_lonv)
+L0_lat_rho = gridL0.hgrid.lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lon_rho = gridL0.hgrid.lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lat_u   = gridL0.hgrid.lat_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lon_u   = gridL0.hgrid.lon_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lat_v   = gridL0.hgrid.lat_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lon_v   = gridL0.hgrid.lon_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+
+L0_nxr, L0_nyr = L0_lat_rho.shape
+L0_nxu, L0_nyu = L0_lat_u.shape
+L0_nxv, L0_nyv = L0_lat_v.shape
+
 #
 # L0_maskr=ncread(L0_grid,'mask_rho',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
 # L0_angler=ncread(L0_grid,'angle',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
