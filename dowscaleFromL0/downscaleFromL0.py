@@ -108,8 +108,7 @@ L0_lon_rho = gridL0.hgrid.lon_rho
 # Gets the indices of the minimum set of L0 nodes that cover mesh L1 (this is to reduce the number of calculations of the interpolation).
 IIr, JJr = np.where((L0_lon_rho<=L1_lon_max) & (L0_lon_rho>=L1_lon_min) & \
                     (L0_lat_rho<=L1_lat_max) & (L0_lat_rho>=L1_lat_min))
-print (L0_lat_rho.shape)
-[IIr, JJr] = find((L0_lon_rho<=L1_lon_max & L0_lon_rho>=L1_lon_min) & (L0_lat_rho<=L1_lat_max & L0_lat_rho>=L1_lat_min))
+print (L0_lat_rho.shape, IIr, JJr)
 L0_xinir = IIr.min()
 L0_xendr = IIr.max()
 L0_yinir = JJr.min()
