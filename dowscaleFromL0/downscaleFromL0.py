@@ -101,13 +101,26 @@ L1_lat_max = np.max(L1_lat_rho[:]) + 0.1
 L1_lat_min = np.min(L1_lat_rho[:]) - 0.1
 
 # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
-gridL0 = pyroms.grid.get_ROMS_grid('L01', grid_file =L0_grid, hist_file = L0_out)
+gridL0 = pyroms.grid.get_ROMS_grid('L0', grid_file =L0_grid, hist_file = L0_out)
 L0_lat_rho = gridL0.hgrid.lat_rho
 L0_lon_rho = gridL0.hgrid.lon_rho
 
-# Gets the minimum set of L0 nodes that cover mesh L1 (this is to reduce the number of calculations of the interpolation).
+# Gets the indices of the minimum set of L0 nodes that cover mesh L1 (this is to reduce the number of calculations of the interpolation).
+IIr, JJr = np.where((L0_lon_rho<=L1_lon_max) & (L0_lon_rho>=L1_lon_min) & \
+                    (L0_lat_rho<=L1_lat_max) & (L0_lat_rho>=L1_lat_min))
 print (L0_lat_rho.shape)
-# [IIr, JJr] = find((L0_l
+[IIr, JJr] = find((L0_lon_rho<=L1_lon_max & L0_lon_rho>=L1_lon_min) & (L0_lat_rho<=L1_lat_max & L0_lat_rho>=L1_lat_min))
+L0_xinir = IIr.min()
+L0_xendr = IIr.max()
+L0_yinir = JJr.min()
+L0_yendr = JJr.max()
+
+L0_lonr = lonr[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_latr = latr[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+
+L0_nxr, L0_nyr = L0_lonr.shape
+# #
+# # L0_xiniu=IIr(1)
 # L0_xendu=IIr(end)-1
 # L0_yiniu=JJr(1)
 # L0_yendu=JJr(end)
