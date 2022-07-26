@@ -94,10 +94,10 @@ L1_vbar    = np.zeros((nxv, nyv,       len(time)))
 L1_zeta    = np.zeros((nxr, nyr,       len(time)))
 
 # Computes the domain ranges (with 0.1 deg of margin).
-L1_lon_max = max(max(L1_lon_rho)) + 0.1
-L1_lon_min = min(min(L1_lon_rho)) - 0.1
-L1_lat_max = max(max(L1_lat_rho)) + 0.1
-L1_lat_min = min(min(L1_lat_rho)) - 0.1
+L1_lon_max = max(L1_lon_rho[:]) + 0.1
+L1_lon_min = min(L1_lon_rho[:]) - 0.1
+L1_lat_max = max(L1_lat_rho[:]) + 0.1
+L1_lat_min = min(L1_lat_rho[:]) - 0.1
 
 # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
 gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
