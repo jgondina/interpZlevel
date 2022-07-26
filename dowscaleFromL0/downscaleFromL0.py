@@ -15,7 +15,7 @@ from netCDF4 import Dataset
 # Select analysis period
 timeIni = datetime.datetime(2022, 7, 2, 0, 0, 0)
 timeEnd = datetime.datetime(2022, 7, 7, 0, 0, 0)
-timeInterval
+timeInterval = datetime.timedelta(days=1)
 
 # Select L0 parent grid and output file
 L0_grid = r'/orange/olabarrieta/share/BRYINI_example/useast_grd5_2_cnapsv2.nc'
