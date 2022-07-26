@@ -8,13 +8,14 @@
 import datetime
 import numpy as np
 import pyroms
-import pyromstools
+# import pyromstools
 from netCDF4 import Dataset
 
 
 # Select analysis period
-time_ini = datetime.datetime(2022,7,2,0,0,0)
-time_end = datetime.datetime(2022,7,7,0,0,0)
+timeIni = datetime.datetime(2022, 7, 2, 0, 0, 0)
+timeEnd = datetime.datetime(2022, 7, 7, 0, 0, 0)
+timeInterval
 
 # Select L0 parent grid and output file
 L0_grid = r'/orange/olabarrieta/share/BRYINI_example/useast_grd5_2_cnapsv2.nc'
@@ -46,14 +47,6 @@ print('Getting roms grid dimensions ...')
 
 modelgridData = Dataset(modelgrid)
 
-#
-# Sinp.N           =L1_N         # number of vertical levels
-# Sinp.Vtransform  =Vtransform   # vertical transformation equation
-# Sinp.Vstretching =Vstretching  # vertical stretching function
-# Sinp.theta_s     =theta_s      # surface control parameter
-# Sinp.theta_b     =theta_b      # bottom  control parameter
-# Sinp.Tcline      =Tcline       # surface/bottom stretching width
-
 h = modelgridData['h']
 hmin = h.min()
 if Vtransform == 1:
@@ -67,35 +60,38 @@ else:
     sys.exit(1)
 
 
-# Sinp.hc=hc           %stretching width used in ROMS
-pyroms(get_roms_grid)
-gn = get_roms_grid(modelgrid,Sinp)
-nxr, nyr = gn.lon_rho.shape
-nxu, nyu = gn.lon_u  .shape
-nxv, nyv = gn.lon_v  .shape
-#
-# # Initialize the variables of interest
-# time=[time_ini:3/24:time_end]
-# time4d=[time_ini:1:time_end]
-# nt=length(time)
-# nt4d=length(time4d)
-#
-# L1_u       = zeros(nxu, nyu, L1_N, length(time4d))
-# L1_v       = zeros(nxv, nyv, L1_N, length(time4d))
-# L1_temp    = zeros(nxr, nyr, L1_N, length(time4d))
-# L1_salt    = zeros(nxr, nyr, L1_N, length(time4d))
-# L1_ubar_4d = zeros(nxu, nyu, length(time4d))
-# L1_vbar_4d = zeros(nxv, nyv, length(time4d))
-# L1_zeta_4d = zeros(nxr, nyr, length(time4d))
-# L1_ubar    = zeros(nxu, nyu, length(time))
-# L1_vbar    = zeros(nxv, nyv, length(time))
-# L1_zeta    = zeros(nxr, nyr, length(time))
-#
-# L1_lon_max = max(max(gn.lon_rho)) + 0.1
-# L1_lon_min = min(min(gn.lon_rho)) - 0.1
-# L1_lat_max = max(max(gn.lat_rho)) + 0.1
-# L1_lat_min = min(min(gn.lat_rho)) - 0.1
-#
+# Read the input grid.
+gridIn = pyroms.grid.get_ROMS_grid('in', modelgrid, L0_out)
+lat_rho = gridIn.hgrid.lat_rho
+lat_u   = gridIn.hgrid.lat_u
+lat_v   = gridIn.hgrid.lat_v
+
+nxr, nyr = lat_rho.shape
+nxu, nyu = lat_u.  shape
+nxv, nyv = lat_v.  shape
+
+# Initialize the variables of interest
+time   = np.arange(timeIni, timeEnd, datetime.timedelta(hours=3))
+time4d = np.arange(timeIni, timeEnd, datetime.timedelta(days=1))
+
+
+L1_u       = np.zeros(nxu, nyu, L1_N, len(time4d))
+L1_v       = np.zeros(nxv, nyv, L1_N, len(time4d))
+L1_temp    = np.zeros(nxr, nyr, L1_N, len(time4d))
+L1_salt    = np.zeros(nxr, nyr, L1_N, len(time4d))
+L1_ubar_4d = np.zeros(nxu, nyu, len(time4d))
+L1_vbar_4d = np.zeros(nxv, nyv, len(time4d))
+L1_zeta_4d = np.zeros(nxr, nyr, len(time4d))
+L1_ubar    = np.zeros(nxu, nyu, len(time))
+L1_vbar    = np.zeros(nxv, nyv, len(time))
+L1_zeta    = np.zeros(nxr, nyr, len(time))
+
+# Computes the domain ranges (with 0.1 deg of margin).
+L1_lon_max = max(max(lon_rho)) + 0.1
+L1_lon_min = min(min(lon_rho)) - 0.1
+L1_lat_max = max(max(lat_rho)) + 0.1
+L1_lat_min = min(min(lat_rho)) - 0.1
+
 # # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
 #
 # lonr=ncread(L0_grid,'lon_rho')
