@@ -98,27 +98,27 @@ L1_lat_min = min(min(L1_lat_rho)) - 0.1
 gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
 
 
-stop
-
-lonr=ncread(L0_grid,'lon_rho')
-latr=ncread(L0_grid,'lat_rho')
-[IIr,JJr]=find((lonr<=L1_lon_max & lonr>=L1_lon_min) & (latr<=L1_lat_max & latr>=L1_lat_min))
-L0_xinir=IIr(1)
-L0_xendr=IIr(end)
-L0_yinir=JJr(1)
-L0_yendr=JJr(end)
-L0_lonr=lonr(IIr(1):IIr(end),JJr(1):JJr(end))
-L0_latr=latr(IIr(1):IIr(end),JJr(1):JJr(end))
-[L0_nxr,L0_nyr]=size(L0_lonr)
-
-L0_xiniu=IIr(1)
-L0_xendu=IIr(end)-1
-L0_yiniu=JJr(1)
-L0_yendu=JJr(end)
-L0_xiniv=IIr(1)
-L0_xendv=IIr(end)
-L0_yiniv=JJr(1)
-L0_yendv=JJr(end)-1
+#
+#
+# lonr=ncread(L0_grid,'lon_rho')
+# latr=ncread(L0_grid,'lat_rho')
+# [IIr,JJr]=find((lonr<=L1_lon_max & lonr>=L1_lon_min) & (latr<=L1_lat_max & latr>=L1_lat_min))
+# L0_xinir=IIr(1)
+# L0_xendr=IIr(end)
+# L0_yinir=JJr(1)
+# L0_yendr=JJr(end)
+# L0_lonr=lonr(IIr(1):IIr(end),JJr(1):JJr(end))
+# L0_latr=latr(IIr(1):IIr(end),JJr(1):JJr(end))
+# [L0_nxr,L0_nyr]=size(L0_lonr)
+#
+# L0_xiniu=IIr(1)
+# L0_xendu=IIr(end)-1
+# L0_yiniu=JJr(1)
+# L0_yendu=JJr(end)
+# L0_xiniv=IIr(1)
+# L0_xendv=IIr(end)
+# L0_yiniv=JJr(1)
+# L0_yendv=JJr(end)-1
 #
 # clear lonr latr IIr JJr
 #
