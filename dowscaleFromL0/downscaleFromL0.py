@@ -128,29 +128,34 @@ L0_yendv = L0_yendr - 1
 L0_lonr = L0_lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 L0_latr = L0_lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
-L0_lat_rho = gridL0.hgrid.lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_lon_rho = gridL0.hgrid.lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_lat_u   = gridL0.hgrid.lat_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_lon_u   = gridL0.hgrid.lon_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_lat_v   = gridL0.hgrid.lat_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
-L0_lon_v   = gridL0.hgrid.lon_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_latr = gridL0.hgrid.lat_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lonr = gridL0.hgrid.lon_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_latu = gridL0.hgrid.lat_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lonu = gridL0.hgrid.lon_u  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_latv = gridL0.hgrid.lat_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_lonv = gridL0.hgrid.lon_v  [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
 
-L0_nxr, L0_nyr = L0_lat_rho.shape
-L0_nxu, L0_nyu = L0_lat_u.shape
-L0_nxv, L0_nyv = L0_lat_v.shape
+L0_nxr, L0_nyr = L0_latr.shape
+L0_nxu, L0_nyu = L0_latu.shape
+L0_nxv, L0_nyv = L0_latv.shape
 
-print (gridL0.hgrid.CGrid.__dict__)
 
-#
-# L0_maskr=ncread(L0_grid,'mask_rho',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
-# L0_angler=ncread(L0_grid,'angle',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
-# L0_h=ncread(L0_grid,'h',[L0_xinir,L0_yinir],[L0_nxr,L0_nyr])
-# L0_masku=ncread(L0_grid,'mask_u',[L0_xinir,L0_yinir],[L0_nxu,L0_nyu])
-# L0_maskv=ncread(L0_grid,'mask_v',[L0_xinir,L0_yinir],[L0_nxv,L0_nyv])
-# L0_hc=ncread(L0_out,'hc')
-# [L0_N,pp] = size(ncread(L0_out,'s_rho'))
-# clear pp
-#
+
+
+L0_maskr  = gridL0.hgrid.mask_rho [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_angler = gridL0.hgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_masku  = gridL0.hgrid.mask_u   [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_maskv  = gridL0.hgrid.mask_v   [L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+
+L0_h      = gridL0.vgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+L0_hc     = gridL0.vgrid.angle_rho[L0_xinir:L0_xendr, L0_yinir:L0_yendr]
+
+L0_N, pp  = gridL0.vgrid.s_rho    [L0_xinir:L0_xendr, L0_yinir:L0_yendr].shape
+
+
+
+
+
 # for zz in 1:L0_N:
 #     L0_lonr_z(:,:,zz)=L0_lonr
 #     L0_latr_z(:,:,zz)=L0_latr
