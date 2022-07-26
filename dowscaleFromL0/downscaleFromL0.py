@@ -101,7 +101,7 @@ L1_lat_max = np.max(L1_lat_rho[:]) + 0.1
 L1_lat_min = np.min(L1_lat_rho[:]) - 0.1
 
 # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
-gridL1 = pyroms.grid.get_ROMS_grid('L1', L1_grid, L1_out)
+gridL1 = pyroms.grid.get_ROMS_grid('L1', grid_file =L1_grid, hist_file = L1_out)
 
 
 #
