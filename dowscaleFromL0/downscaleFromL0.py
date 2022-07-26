@@ -82,16 +82,16 @@ nxr, nyr = L1_lat_rho.shape
 nxu, nyu = L1_lat_u.  shape
 nxv, nyv = L1_lat_v.  shape
 
-L1_u       = np.zeros(nxu, nyu, L1_N, len(time4d))
-L1_v       = np.zeros(nxv, nyv, L1_N, len(time4d))
-L1_temp    = np.zeros(nxr, nyr, L1_N, len(time4d))
-L1_salt    = np.zeros(nxr, nyr, L1_N, len(time4d))
-L1_ubar_4d = np.zeros(nxu, nyu, len(time4d))
-L1_vbar_4d = np.zeros(nxv, nyv, len(time4d))
-L1_zeta_4d = np.zeros(nxr, nyr, len(time4d))
-L1_ubar    = np.zeros(nxu, nyu, len(time))
-L1_vbar    = np.zeros(nxv, nyv, len(time))
-L1_zeta    = np.zeros(nxr, nyr, len(time))
+L1_u       = np.zeros((nxu, nyu, L1_N, len(time4d)))
+L1_v       = np.zeros((nxv, nyv, L1_N, len(time4d)))
+L1_temp    = np.zeros((nxr, nyr, L1_N, len(time4d)))
+L1_salt    = np.zeros((nxr, nyr, L1_N, len(time4d)))
+L1_ubar_4d = np.zeros((nxu, nyu,       len(time4d)))
+L1_vbar_4d = np.zeros((nxv, nyv,       len(time4d)))
+L1_zeta_4d = np.zeros((nxr, nyr,       len(time4d)))
+L1_ubar    = np.zeros((nxu, nyu,       len(time)))
+L1_vbar    = np.zeros((nxv, nyv,       len(time)))
+L1_zeta    = np.zeros((nxr, nyr,       len(time)))
 
 # Computes the domain ranges (with 0.1 deg of margin).
 L1_lon_max = max(max(L1_lon_rho)) + 0.1
