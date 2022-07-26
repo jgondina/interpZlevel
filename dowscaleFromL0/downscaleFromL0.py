@@ -27,6 +27,7 @@ L0_theta_b = 4.0
 
 # Input ROMS grid to which interpolate operational L0 grid results (L1 grid?)
 L1_grid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
+L1_out  = r'/blue/olabarrieta/molabarrieta/PROJECTS/NOPP/L1_GOMSAB_1km/ocean_his_00001.nc'
 
 # Enter grid vertical coordinate parameters --These need to be consistent with the ROMS setup.
 theta_s = 8.0
@@ -70,13 +71,13 @@ print(L1_grid, L0_out)
 ## pyroms.grid.get_ROMS_grid('L0', grid_file = '/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc', hist_file = '/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc')
 
 
-gridIn = pyroms.grid.get_ROMS_grid('L0', grid_file = L1_grid, hist_file = L0_out)
-L1_lat_rho = gridIn.hgrid.lat_rho
-L1_lat_u   = gridIn.hgrid.lat_u
-L1_lat_v   = gridIn.hgrid.lat_v
-L1_lon_rho = gridIn.hgrid.lon_rho
-L1_lon_u   = gridIn.hgrid.lon_u
-L1_lon_v   = gridIn.hgrid.lon_v
+gridL0 = pyroms.grid.get_ROMS_grid('L0', grid_file = L1_grid, hist_file = L0_out)
+L1_lat_rho = gridL0.hgrid.lat_rho
+L1_lat_u   = gridL0.hgrid.lat_u
+L1_lat_v   = gridL0.hgrid.lat_v
+L1_lon_rho = gridL0.hgrid.lon_rho
+L1_lon_u   = gridL0.hgrid.lon_u
+L1_lon_v   = gridL0.hgrid.lon_v
 
 nxr, nyr = L1_lat_rho.shape
 nxu, nyu = L1_lat_u.  shape
@@ -100,7 +101,7 @@ L1_lat_max = np.max(L1_lat_rho[:]) + 0.1
 L1_lat_min = np.min(L1_lat_rho[:]) - 0.1
 
 # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
-gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
+gridL1 = pyroms.grid.get_ROMS_grid('L1', L1_grid, L1_out)
 
 
 #
