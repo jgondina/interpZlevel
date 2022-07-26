@@ -65,7 +65,7 @@ time   = np.arange(timeIni, timeEnd, datetime.timedelta(hours=3))
 time4d = np.arange(timeIni, timeEnd, datetime.timedelta(days=1))
 
 # Read the input grid.
-gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
+gridIn = pyroms.grid.get_ROMS_grid('L1', L0_grid, L0_out)
 L1_lat_rho = gridIn.hgrid.L1_lat_rho
 L1_lat_u   = gridIn.hgrid.L1_lat_u
 L1_lat_v   = gridIn.hgrid.L1_lat_v
