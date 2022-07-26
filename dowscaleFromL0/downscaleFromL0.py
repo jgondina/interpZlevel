@@ -70,14 +70,14 @@ print(L1_grid, L0_out)
 
 ## pyroms.grid.get_ROMS_grid('L0', grid_file = '/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc', hist_file = '/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc')
 
-
-gridL0 = pyroms.grid.get_ROMS_grid('L0', grid_file = L1_grid, hist_file = L0_out)
-L1_lat_rho = gridL0.hgrid.lat_rho
-L1_lat_u   = gridL0.hgrid.lat_u
-L1_lat_v   = gridL0.hgrid.lat_v
-L1_lon_rho = gridL0.hgrid.lon_rho
-L1_lon_u   = gridL0.hgrid.lon_u
-L1_lon_v   = gridL0.hgrid.lon_v
+# READ L0 GRID INFORMATION AND EXTRACT VARIABLES
+gridL1 = pyroms.grid.get_ROMS_grid('L1', grid_file = L1_grid, hist_file = L1_out)
+L1_lat_rho = gridL1.hgrid.lat_rho
+L1_lat_u   = gridL1.hgrid.lat_u
+L1_lat_v   = gridL1.hgrid.lat_v
+L1_lon_rho = gridL1.hgrid.lon_rho
+L1_lon_u   = gridL1.hgrid.lon_u
+L1_lon_v   = gridL1.hgrid.lon_v
 
 nxr, nyr = L1_lat_rho.shape
 nxu, nyu = L1_lat_u.  shape
@@ -101,14 +101,13 @@ L1_lat_max = np.max(L1_lat_rho[:]) + 0.1
 L1_lat_min = np.min(L1_lat_rho[:]) - 0.1
 
 # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
-gridL1 = pyroms.grid.get_ROMS_grid('L1', grid_file =L1_grid, hist_file = L1_out)
+gridL0 = pyroms.grid.get_ROMS_grid('L01', grid_file =L0_grid, hist_file = L0_out)
+L0_lat_rho = gridL0.hgrid.lat_rho
+L0_lon_rho = gridL0.hgrid.lon_rho
 
-
-#
-#
-# lonr=ncread(L0_grid,'lon_rho')
-# latr=ncread(L0_grid,'lat_rho')
-# [IIr,JJr]=find((lonr<=L1_lon_max & lonr>=L1_lon_min) & (latr<=L1_lat_max & latr>=L1_lat_min))
+# Gets the minimum set of L0 nodes that cover mesh L1 (this is to reduce the number of calculations of the interpolation).
+print (L0_lat_rho.shape)
+# [IIr, JJr] = find((L0_lon_rho<=L1_lon_max & L0_lon_rho>=L1_lon_min) & (L0_lat_rho<=L1_lat_max & L0_lat_rho>=L1_lat_min))
 # L0_xinir=IIr(1)
 # L0_xendr=IIr(end)
 # L0_yinir=JJr(1)
@@ -116,8 +115,8 @@ gridL1 = pyroms.grid.get_ROMS_grid('L1', grid_file =L1_grid, hist_file = L1_out)
 # L0_lonr=lonr(IIr(1):IIr(end),JJr(1):JJr(end))
 # L0_latr=latr(IIr(1):IIr(end),JJr(1):JJr(end))
 # [L0_nxr,L0_nyr]=size(L0_lonr)
-#
-# L0_xiniu=IIr(1)
+# #
+# # L0_xiniu=IIr(1)
 # L0_xendu=IIr(end)-1
 # L0_yiniu=JJr(1)
 # L0_yendu=JJr(end)
