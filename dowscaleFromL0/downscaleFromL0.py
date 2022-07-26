@@ -25,8 +25,8 @@ L0_Vstretching = 4
 L0_theta_s = 8.0
 L0_theta_b = 4.0
 
-# Input ROMS grid to which interpolate operational L0 grid results
-modelgrid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
+# Input ROMS grid to which interpolate operational L0 grid results (L1 grid?)
+L1_grid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
 
 # Enter grid vertical coordinate parameters --These need to be consistent with the ROMS setup.
 theta_s = 8.0
@@ -42,38 +42,40 @@ clm_file  = 'L0_L1_GOMSAB_1km_clm.nc'
 bry_file  = 'L0_L1_GOMSAB_1km_bry.nc'
 
 # Extract the characteristics of the child grids
+#
+# print('Getting roms grid dimensions ...')
+#
+# modelgridData = Dataset(L1_grid)
+#
+# h = modelgridData['h']
+# hmin = h.min()
+# if Vtransform == 1:
+#
+#     hc = min(max(hmin, 0), Tcline)
+# elif Vtransform == 2:
+#
+#     hc = Tcline
+# else:
+#     print('ERROR: invalic Vtransform = ', Vtransform)
+#     sys.exit(1)
 
-print('Getting roms grid dimensions ...')
 
-modelgridData = Dataset(modelgrid)
-
-h = modelgridData['h']
-hmin = h.min()
-if Vtransform == 1:
-
-    hc = min(max(hmin, 0), Tcline)
-elif Vtransform == 2:
-
-    hc = Tcline
-else:
-    print('ERROR: invalic Vtransform = ', Vtransform)
-    sys.exit(1)
-
-
-# Read the input grid.
-gridIn = pyroms.grid.get_ROMS_grid('in', modelgrid, L0_out)
-lat_rho = gridIn.hgrid.lat_rho
-lat_u   = gridIn.hgrid.lat_u
-lat_v   = gridIn.hgrid.lat_v
-
-nxr, nyr = lat_rho.shape
-nxu, nyu = lat_u.  shape
-nxv, nyv = lat_v.  shape
-
-# Initialize the variables of interest
+# Time ranges
 time   = np.arange(timeIni, timeEnd, datetime.timedelta(hours=3))
 time4d = np.arange(timeIni, timeEnd, datetime.timedelta(days=1))
 
+# Read the input grid.
+gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
+L1_lat_rho = gridIn.hgrid.L1_lat_rho
+L1_lat_u   = gridIn.hgrid.L1_lat_u
+L1_lat_v   = gridIn.hgrid.L1_lat_v
+L1_lon_rho = gridIn.hgrid.L1_lat_rho
+L1_lon_u   = gridIn.hgrid.L1_lat_u
+L1_lon_v   = gridIn.hgrid.L1_lat_v
+
+nxr, nyr = L1_lat_rho.shape
+nxu, nyu = L1_lat_u.  shape
+nxv, nyv = L1_lat_v.  shape
 
 L1_u       = np.zeros(nxu, nyu, L1_N, len(time4d))
 L1_v       = np.zeros(nxv, nyv, L1_N, len(time4d))
@@ -87,32 +89,36 @@ L1_vbar    = np.zeros(nxv, nyv, len(time))
 L1_zeta    = np.zeros(nxr, nyr, len(time))
 
 # Computes the domain ranges (with 0.1 deg of margin).
-L1_lon_max = max(max(lon_rho)) + 0.1
-L1_lon_min = min(min(lon_rho)) - 0.1
-L1_lat_max = max(max(lat_rho)) + 0.1
-L1_lat_min = min(min(lat_rho)) - 0.1
+L1_lon_max = max(max(L1_lon_rho)) + 0.1
+L1_lon_min = min(min(L1_lon_rho)) - 0.1
+L1_lat_max = max(max(L1_lat_rho)) + 0.1
+L1_lat_min = min(min(L1_lat_rho)) - 0.1
 
-# # READ L0 GRID INFORMATION AND EXTRACT VARIABLES
-#
-# lonr=ncread(L0_grid,'lon_rho')
-# latr=ncread(L0_grid,'lat_rho')
-# [IIr,JJr]=find((lonr<=L1_lon_max & lonr>=L1_lon_min) & (latr<=L1_lat_max & latr>=L1_lat_min))
-# L0_xinir=IIr(1)
-# L0_xendr=IIr(end)
-# L0_yinir=JJr(1)
-# L0_yendr=JJr(end)
-# L0_lonr=lonr(IIr(1):IIr(end),JJr(1):JJr(end))
-# L0_latr=latr(IIr(1):IIr(end),JJr(1):JJr(end))
-# [L0_nxr,L0_nyr]=size(L0_lonr)
-#
-# L0_xiniu=IIr(1)
-# L0_xendu=IIr(end)-1
-# L0_yiniu=JJr(1)
-# L0_yendu=JJr(end)
-# L0_xiniv=IIr(1)
-# L0_xendv=IIr(end)
-# L0_yiniv=JJr(1)
-# L0_yendv=JJr(end)-1
+# READ L0 GRID INFORMATION AND EXTRACT VARIABLES
+gridIn = pyroms.grid.get_ROMS_grid('L1', L1_grid, L0_out)
+
+
+stop
+
+lonr=ncread(L0_grid,'lon_rho')
+latr=ncread(L0_grid,'lat_rho')
+[IIr,JJr]=find((lonr<=L1_lon_max & lonr>=L1_lon_min) & (latr<=L1_lat_max & latr>=L1_lat_min))
+L0_xinir=IIr(1)
+L0_xendr=IIr(end)
+L0_yinir=JJr(1)
+L0_yendr=JJr(end)
+L0_lonr=lonr(IIr(1):IIr(end),JJr(1):JJr(end))
+L0_latr=latr(IIr(1):IIr(end),JJr(1):JJr(end))
+[L0_nxr,L0_nyr]=size(L0_lonr)
+
+L0_xiniu=IIr(1)
+L0_xendu=IIr(end)-1
+L0_yiniu=JJr(1)
+L0_yendu=JJr(end)
+L0_xiniv=IIr(1)
+L0_xendv=IIr(end)
+L0_yiniv=JJr(1)
+L0_yendv=JJr(end)-1
 #
 # clear lonr latr IIr JJr
 #
