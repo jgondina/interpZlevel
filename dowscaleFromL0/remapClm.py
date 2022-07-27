@@ -30,6 +30,8 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     src_var = cdf.variables[src_varname][0]
     time = cdf.variables['ocean_time'][0]
 
+    print(cdf.variables[src_varname])
+
 
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
