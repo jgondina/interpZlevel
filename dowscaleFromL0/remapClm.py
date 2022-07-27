@@ -112,7 +112,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
 #       flooded = xr.DataArray(src_varz)
 #       flooded.to_netcdf("flooded.nc")
     else:
-        src_varz = pyroms.remapping.flood2d(src_var)
+        src_varz = pyroms.remapping.flood2d(src_var,src_grd)
 
 
     # horizontal interpolation using xesmf
