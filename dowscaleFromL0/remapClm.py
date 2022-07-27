@@ -113,7 +113,6 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     else:
         src_varz = src_var
 
-    return src_varz
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
@@ -225,17 +224,14 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
 
 
     # remaping
-    print('remapping and rotating u and v from', src_grd.name, \
-                      'to', dst_grd.name)
+    print('remapping and rotating u and v from', src_grd.name, 'to', dst_grd.name)
     print('time =', time)
 
 
     # flood the grid
     print('flood the grid')
-    src_uz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varu, src_grd, pos='t', \
-                spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
-    src_vz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varv, src_grd, pos='t', \
-                spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
+    src_uz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varu, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
+    src_vz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varv, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
