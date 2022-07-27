@@ -36,6 +36,9 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     # var2[np.abs(var - fillValue) < 1e-6] = 0.0
 
     print(var2[:,:].shape)
+    print(var.sum())
+    print(var2.sum())
     tdest = regrid(var2)
+    print(tdest)
 
     return tdest
