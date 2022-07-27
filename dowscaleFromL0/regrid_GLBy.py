@@ -2,10 +2,7 @@ import xarray as xr
 import xesmf
 import numpy as np
 
-def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
-    # coords = xr.open_dataset('/import/AKWATERS/kshedstrom/gridpak/Arctic2/grid_Arctic_4.nc')
-    # coords = coords.rename({'lon_rho': 'lon', 'lat_rho': 'lat'})
-    # gsource = xr.open_dataset('/import/AKWATERS/kshedstrom/HYCOM/Svalbard/data/HYCOM_GLBy0.08_2018_345.nc')
+def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
 
     srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho}
     dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho}
@@ -17,11 +14,13 @@ def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
         filename='regrid_t.nc',
         reuse_weights=False
     )
-    print(fld)
-    fff = np.zeros(fld.shape)
-    fff[~np.isnan(fld)] = fld[~np.isnan(fld)]
-    fff[np.abs(fld) > 1e10] = 0.0
-    fld[np.isnan(fld)] = 0.0
-    print(fld)
-    tdest = regrid(fff)
+
+    # Fills nans and other invalid values.
+    var2 = np.zeros(var.shape)
+    var2[~np.isnan(var)] = var[~np.isnan(var)]
+    var2[np.abs(var - fillValue) > 1e-10] = 0.0
+
+    print(var)
+    tdest = regrid(var2)
+
     return tdest
