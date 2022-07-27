@@ -48,9 +48,9 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
 
-    #get missing value
-    spval = src_var._FillValue
-    src_var = src_var[0]
+    # #get missing value
+    # spval = src_var._FillValue
+    # src_var = src_var[0]
 
     # determine variable dimension
     ndim = len(src_var.shape)
@@ -94,7 +94,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
 
     # create variable in file
     print('Creating variable', dst_varname)
-    nc.createVariable(dst_varname, 'f8', dimensions, fill_value=spval)
+    nc.createVariable(dst_varname, 'f8', dimensions)
     nc.variables[dst_varname].long_name = long_name
     nc.variables[dst_varname].units = units
     nc.variables[dst_varname].field = field
