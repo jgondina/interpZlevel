@@ -57,7 +57,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     Cpos = 'rho'
     z = src_grd.vgrid.z_r
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
-    if src_varname == 'ssh':
+    if src_varname == 'zeta':
         dst_varname = 'zeta'
         dimensions = ('ocean_time', 'eta_rho', 'xi_rho')
         long_name = 'free-surface'
