@@ -12,7 +12,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     plt.imshow(dst_grd.hgrid.mask_rho)
     plt.show()
 
-    print(np.sum(var[0,:,:][src_grd.hgrid.mask_rho.shape]))
+    # print(np.sum(var[0,:,:][src_grd.hgrid.mask_rho.shape]))
 
     print(src_grd.hgrid.lat_rho.shape, src_grd.hgrid.mask_rho.shape)
     print(dst_grd.hgrid.lat_rho.shape, dst_grd.hgrid.mask_rho.shape)
@@ -35,7 +35,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     var2[~np.isnan(var)] = var[~np.isnan(var)]
     var2[np.abs(var - fillValue) > 1e-10] = 0.0
 
-    print(var2)
+    print(var2[0,:,:].shape)
     tdest = regrid(var2[0,:,:])
 
     return tdest
