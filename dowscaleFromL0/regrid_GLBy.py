@@ -16,5 +16,6 @@ def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
         filename='regrid_t.nc',
         reuse_weights=False
     )
+    print(fld)
     tdest = regrid(fld)
     return tdest

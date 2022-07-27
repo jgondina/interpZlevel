@@ -125,8 +125,8 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
         print('before vertical remap 1', dst_varz[:,928,324])
         print('before vertical remap 2', dst_varz[:,460,350])
         print('vertical interpolation from standard z level to sigma')
-        dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz, \
-                          dst_grd, Cpos=Cpos, spval=spval, flood=False)
+        dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
+                                          dst_grd, Cpos=Cpos, spval=spval, flood=False)
         print('after vertical remap 1', dst_var[:,928,324])
         print('after vertical remap 2', dst_var[:,460,350])
 
