@@ -12,6 +12,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     plt.imshow(dst_grd.hgrid.mask_rho)
     plt.show()
 
+    print(np.sum(var[0,:,:][src_grd.hgrid.mask_rho.shape]))
+
     print(src_grd.hgrid.lat_rho.shape, src_grd.hgrid.mask_rho.shape)
     print(dst_grd.hgrid.lat_rho.shape, dst_grd.hgrid.mask_rho.shape)
     srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
