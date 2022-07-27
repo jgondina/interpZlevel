@@ -21,16 +21,17 @@ timeEnd = datetime.datetime(2022, 7, 7, 0, 0, 0)
 timeInterval = datetime.timedelta(days=1)
 
 # Select L0 parent grid and output file
-L0_grid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
-L0_out  = r'/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc'
+L0_grid = r'/orange/olabarrieta/share/BRYINI_example/useast_grd5_2_cnapsv2.nc'
+L0_out  = r'/blue/olabarrieta/molabarrieta/PROJECTS/NOPP/L1_GOMSAB_1km/ocean_his_00001.nc'
 L0_Vtransform  = 2
 L0_Vstretching = 4
 L0_theta_s = 8.0
 L0_theta_b = 4.0
 
 # Input ROMS grid to which interpolate operational L0 grid results (L1 grid?)
-L1_grid = r'/orange/olabarrieta/share/BRYINI_example/useast_grd5_2_cnapsv2.nc'
-L1_out  = r'/blue/olabarrieta/molabarrieta/PROJECTS/NOPP/L1_GOMSAB_1km/ocean_his_00001.nc'
+L1_grid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
+L1_out  = r'/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc'
+
 
 # Enter grid vertical coordinate parameters --These need to be consistent with the ROMS setup.
 theta_s = 8.0
