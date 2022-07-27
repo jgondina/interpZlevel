@@ -20,7 +20,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     regrid = xesmf.Regridder(
         srcCoords, dstCoords,
         method=method,
-        extrap_method = 'nearest_s2d',
+        # extrap_method = 'nearest_s2d',
         periodic=False,
         filename='regrid_t.nc',
         reuse_weights=False
