@@ -113,10 +113,12 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     else:
         src_varz = src_var
 
+    return src_varz
+
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
 
-    dst_varz = regrid_GLBy(src_varz, method='nearest_s2d')
+    dst_varz = regrid_GLBy(src_varz, method='bilinear')
 
     if ndim == 3:
         # vertical interpolation from standard z level to sigma
@@ -237,8 +239,8 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
-    dst_uz = regrid_GLBy(src_uz, method='nearest_s2d')
-    dst_vz = regrid_GLBy(src_vz, method='nearest_s2d')
+    dst_uz = regrid_GLBy(src_uz, method='bilinear')
+    dst_vz = regrid_GLBy(src_vz, method='bilinear')
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
