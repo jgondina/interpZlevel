@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
 
-    srcMask = (np.abs(var - fillValue) > 1e-10) | np.isnan(var)
+    # srcMask = (np.abs(var - fillValue) > 1e-10) | np.isnan(var)
     #
     # plt.imshow(src_grd.hgrid.mask_rho)
     # plt.figure()
