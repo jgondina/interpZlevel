@@ -196,7 +196,7 @@ oceanTimes = [1]
 for time in oceanTimes:
     print('processing time: %s' % time)
 
-    aaa = remap_clm(L0_out, 'zeta', L0_grid, L1_grid, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    aaa = remap_clm(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
 
     print(aaa)
 
