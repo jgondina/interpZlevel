@@ -8,8 +8,10 @@
 import datetime
 import numpy as np
 import pyroms
-# import pyromstools
-from netCDF4 import Dataset
+import xarray as xr
+import xesmf
+from remapClm import remap_clm
+
 
 
 # Select analysis period
@@ -186,15 +188,17 @@ L0_N, pp  = gridL0.vgrid.s_rho    [L0_xinir:L0_xendr, L0_yinir:L0_yendr].shape
 # # -------------------------------------------------------------------------------------------------
 # # -------------------------------------------------------------------------------------------------
 # # -------------------------------------------------------------------------------------------------
-#
-#
-#
-#
-# for tt=1:L0_nt
-#
-#     disp(tt)
-#
-#     % Interpolate 3-dimensional variables
+
+oceanTimes = []
+
+for time in oceanTimes:
+    print('processing time: %s' % time)
+
+    aaa = remap_clm(L0_out, 'zeta', L0_grid, L1_grid, dxy=20, cdepth=0, kk=0, dst_dir='./')
+
+    print(aaa)
+
+# Interpolate 3-dimensional variables
 #
 #     % Free surface elevation
 #     L0_zeta=double(ncread(L0_out,'zeta',[L0_xinir,L0_yinir,L0_tini+tt-1],[L0_nxr,L0_nyr,1]))
