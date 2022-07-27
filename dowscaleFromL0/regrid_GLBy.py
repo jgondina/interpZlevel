@@ -18,7 +18,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
 
     regrid = xesmf.Regridder(
-        srcCoords, dstCoords,
+        dstCoords, srcCoords,
         method=method,
         # extrap_method = 'nearest_s2d',
         periodic=False,
