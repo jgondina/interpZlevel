@@ -39,7 +39,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     print(var2[:,:].shape)
     print(var.sum())
     print(var2.sum())
-    tdest = regrid(var2)
+    tdest = regrid(var)
     print(tdest)
 
     return tdest
