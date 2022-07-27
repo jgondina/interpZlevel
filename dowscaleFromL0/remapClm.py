@@ -55,7 +55,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
 
     pos = 't'
     Cpos = 'rho'
-    z = src_grd.z_t
+    z = src_grd.vgrid.z_r
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     if src_varname == 'ssh':
         dst_varname = 'zeta'
