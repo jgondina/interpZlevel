@@ -10,7 +10,7 @@ def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
     dstCords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho}
 
     regrid = xesmf.Regridder(
-        srcCords. dstCoords,
+        srcCords, dstCoords,
         method=method,
         periodic=False,
         filename='regrid_t.nc',
