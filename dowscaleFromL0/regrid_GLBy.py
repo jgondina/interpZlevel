@@ -6,8 +6,8 @@ def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
     coords = coords.rename({'lon_rho': 'lon', 'lat_rho': 'lat'})
     gsource = xr.open_dataset('/import/AKWATERS/kshedstrom/HYCOM/Svalbard/data/HYCOM_GLBy0.08_2018_345.nc')
 
-    srcCords = {lat = src_grd.hgrid.lat, lon = src_grd.hgrid.lon}
-    dstCords = {lat = dst_grd.hgrid.lat, lon = dst_grd.hgrid.lon}
+    srcCords = {lat = src_grd.hgrid.lat_rho, lon = src_grd.hgrid.lon_rho}
+    dstCords = {lat = dst_grd.hgrid.lat_rho, lon = dst_grd.hgrid.lon_rho}
 
     regrid = xesmf.Regridder(
         srcCords. dstCoords,
