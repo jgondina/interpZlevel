@@ -112,8 +112,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
 #       flooded = xr.DataArray(src_varz)
 #       flooded.to_netcdf("flooded.nc")
     else:
-        src_varz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_var, src_grd, pos=pos, spval=spval, \
-                                dxy=dxy, cdepth=cdepth, kk=kk)
+        src_varz = src_var
 
 
     # horizontal interpolation using xesmf
