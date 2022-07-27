@@ -122,23 +122,25 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     print('horizontal interpolation using xesmf')
 
     dst_varz = regrid_GLBy(src_grd, dst_grd, src_varz, method='bilinear')
+    dst_var = dst_varz
 
-    if ndim == 3:
-        # vertical interpolation from standard z level to sigma
-        print('before vertical remap 1', dst_varz[:,928,324])
-        print('before vertical remap 2', dst_varz[:,460,350])
-        print('vertical interpolation from standard z level to sigma')
-        dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
-                                          dst_grd, Cpos=Cpos, spval=spval, flood=False)
-        print('after vertical remap 1', dst_var[:,928,324])
-        print('after vertical remap 2', dst_var[:,460,350])
 
-    # land mask
-        idxu = np.where(dst_grd.hgrid.mask_rho == 0)
-        for n in range(dst_grd.vgrid.N):
-            dst_var[n,idxu[0], idxu[1]] = spval
-    else:
-        dst_var = dst_varz
+    # if ndim == 3:
+    #     # vertical interpolation from standard z level to sigma
+    #     print('before vertical remap 1', dst_varz[:,928,324])
+    #     print('before vertical remap 2', dst_varz[:,460,350])
+    #     print('vertical interpolation from standard z level to sigma')
+    #     dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
+    #                                       dst_grd, Cpos=Cpos, spval=spval, flood=False)
+    #     print('after vertical remap 1', dst_var[:,928,324])
+    #     print('after vertical remap 2', dst_var[:,460,350])
+    #
+    # # land mask
+    #     idxu = np.where(dst_grd.hgrid.mask_rho == 0)
+    #     for n in range(dst_grd.vgrid.N):
+    #         dst_var[n,idxu[0], idxu[1]] = spval
+    # else:
+    #     dst_var = dst_varz
 
     # write data in destination file
     print('write data in destination file')
