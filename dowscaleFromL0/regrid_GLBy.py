@@ -18,7 +18,8 @@ def regrid_GLBy(src_grd, dst_grd, fld, method='nearest_s2d'):
         reuse_weights=False
     )
     print(fld)
-    fld[np.abs(fld)>1e20] = 0.0
+    fld[np.abs(fld) > 1e10] = 0.0
     fld[np.isnan(fld)] = 0.0
+    print(fld)
     tdest = regrid(fld)
     return tdest
