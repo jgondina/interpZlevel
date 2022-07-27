@@ -48,6 +48,8 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
 
+    print(src_var)
+
     # #get missing value
     # spval = src_var._FillValue
     # src_var = src_var[0]

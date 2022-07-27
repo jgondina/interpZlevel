@@ -28,10 +28,10 @@ L0_Vstretching = 4
 L0_theta_s = 8.0
 L0_theta_b = 4.0
 
+
 # Input ROMS grid to which interpolate operational L0 grid results (L1 grid?)
 L1_grid = r'/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc'
 L1_out  = r'/blue/olabarrieta/molabarrieta/PROJECTS/NOPP/L1_GOMSAB_1km/ocean_his_00001.nc'
-
 
 
 # Enter grid vertical coordinate parameters --These need to be consistent with the ROMS setup.
@@ -70,8 +70,6 @@ bry_file  = 'L0_L1_GOMSAB_1km_bry.nc'
 time   = np.arange(timeIni, timeEnd, datetime.timedelta(hours=3))
 time4d = np.arange(timeIni, timeEnd, datetime.timedelta(days=1))
 
-# Read the input grid.
-print(L1_grid, L0_out)
 
 ## pyroms.grid.get_ROMS_grid('L0', grid_file = '/orange/olabarrieta/share/BRYINI_example/GOMSAB_1km_ext.nc', hist_file = '/orange/olabarrieta/share/BRYINI_example/noppL0_ocean_his.nc')
 
