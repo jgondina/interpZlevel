@@ -37,6 +37,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     # var2[:,:]=1.0
 
     plt.imshow(var)
+    plt.show()
 
     print(var2[:,:].shape)
     print(var.sum())
