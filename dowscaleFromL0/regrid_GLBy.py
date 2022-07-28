@@ -16,13 +16,13 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
 
     print(src_grd.hgrid.lat_rho.shape, src_grd.hgrid.mask_rho.shape)
     print(dst_grd.hgrid.lat_rho.shape, dst_grd.hgrid.mask_rho.shape)
-    srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho} #, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
-    dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho} #, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
+    srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
+    dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
 
     regrid = xesmf.Regridder(
         srcCoords, dstCoords,
         method=method,
-        extrap_method = 'nearest_s2d',
+        #extrap_method = 'nearest_s2d',
         periodic=False,
         filename='regrid_t.nc',
         reuse_weights=False
