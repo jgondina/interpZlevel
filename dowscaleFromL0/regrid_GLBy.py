@@ -22,7 +22,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     regrid = xesmf.Regridder(
         srcCoords, dstCoords,
         method=method,
-        #extrap_method = 'nearest_s2d',
+        extrap_method = 'nearest_s2d',
         periodic=False,
         filename='regrid_t.nc',
         reuse_weights=False
@@ -31,7 +31,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
     # Fills nans and other invalid values.
 
     var = var[:]
-    var2 = np.zeros(var.shape)
+    var2 = 1000+np.zeros(var.shape)
     var2[~np.isnan(var)] = var[~np.isnan(var)]
     # var2[np.abs(var) > 1e-4] = 0.0
     # var2[:,:]=1.0
