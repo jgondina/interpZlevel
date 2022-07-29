@@ -243,7 +243,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
 
 
 
-def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
 
     # get time
     nctime.long_name = 'time'
