@@ -47,10 +47,10 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         pass
 
     # plt.imshow(var)
-
+    print('111111')
     # Performs the actual regridding
     tdest = regrid(var)
-
+    print('22222')
     # plt.figure()
     # plt.imshow(tdest)
     # plt.show()
