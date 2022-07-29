@@ -11,7 +11,7 @@ import pyroms
 import pyroms_toolbox
 import xarray as xr
 import xesmf
-from remapClm import remap_clm
+from remapClm import remapClimate2D
 
 
 
@@ -198,9 +198,9 @@ for time in oceanTimes:
 
     print('Interpolating 2D variables')
 
-    aaa = remap_clm(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    aaa = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
 
-    aaa = remap_clm(L0_out, 'ubar', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    aaa = remapClimate2D(L0_out, 'ubar', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
 
     print('DONE')
     print(aaa)

@@ -20,8 +20,9 @@ from regrid_GLBy import regrid_GLBy
 class nctime(object):
     pass
 
-def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
 
+    print ('2D rho-var interpolation')
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
@@ -44,11 +45,94 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
-    # #load var
-    # cdf = netCDF.Dataset(src_file)
-    # src_var = cdf.variables[src_varname][0,:,:]
-    #
-    # print(src_var)
+    #get missing value
+    spval = src_var._FillValue
+    src_var = src_var[0]
+
+    # Check variable dimension
+    assert len(src_var.shape) == 2
+
+    pos = 't'
+    Cpos = 'rho'
+    z = src_grd.vgrid.z_r
+    Mp, Lp = dst_grd.hgrid.mask_rho.shape
+    if src_varname == 'zeta':
+        dst_varname = 'zeta'
+        dimensions = ('ocean_time', 'eta_rho', 'xi_rho')
+        long_name = 'free-surface'
+        units = 'meter'
+        field = 'free-surface, scalar, series'
+        vartime = 'ocean_time'
+    elif src_varname == 'temp':
+        dst_varname = 'temp'
+        dimensions = ('ocean_time', 's_rho', 'eta_rho', 'xi_rho')
+        long_name = 'potential temperature'
+        units = 'Celsius'
+        field = 'temperature, scalar, series'
+        vartime = 'ocean_time'
+    elif src_varname == 'salt':
+        dst_varname = 'salt'
+        dimensions = ('ocean_time', 's_rho', 'eta_rho', 'xi_rho')
+        long_name = 'salinity'
+        units = 'PSU'
+        field = 'salinity, scalar, series'
+        vartime = 'ocean_time'
+    else:
+        raise ValueError('Undefined src_varname')
+
+    # create variable in file
+    print('Creating variable', dst_varname)
+    nc.createVariable(dst_varname, 'f8', dimensions)
+    nc.variables[dst_varname].long_name = long_name
+    nc.variables[dst_varname].units = units
+    nc.variables[dst_varname].field = field
+    nc.variables[dst_varname].time = vartime
+
+    # remapping
+    print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
+    print('time =', time)
+    print('ndim =', ndim)
+
+    # horizontal interpolation using xesmf
+    print('horizontal interpolation using xesmf')
+
+    dst_var = regrid_GLBy(src_grd, dst_grd, src_var, method='bilinear', spval=spval)
+
+    # write data in destination file
+    print('write data in destination file')
+    nc.variables['ocean_time'][0] = time
+    nc.variables[dst_varname][0] = dst_var
+
+    # close destination file
+    nc.close()
+
+    if src_varname == 'ssh':
+        return dst_var
+
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+    print('3D rho-var interpolation')
+
+    # get time
+    nctime.long_name = 'time'
+    nctime.units = 'days since 1900-01-01 00:00:00'
+
+    cdf = netCDF.Dataset(src_file)
+    src_var = cdf.variables[src_varname]
+    time = cdf.variables['ocean_time'][0]
+
+    print(cdf.variables[src_varname])
+
+
+    # create IC file
+    dst_file = src_file.rsplit('/')[-1]
+    dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
+    print('\nCreating file', dst_file)
+    if os.path.exists(dst_file) is True:
+        os.remove(dst_file)
+    pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
+
+    # open IC file
+    nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
     #get missing value
     spval = src_var._FillValue
@@ -86,12 +170,11 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
         raise ValueError('Undefined src_varname')
 
 
-    if ndim == 3:
-        # build intermediate zgrid
-        zlevel = -z[::-1,0,0]
-        nzlevel = len(zlevel)
-        dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
-        dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
+    # build intermediate zgrid
+    zlevel = -z[::-1,0,0]
+    nzlevel = len(zlevel)
+    dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
+    dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
 
     # create variable in file
@@ -108,16 +191,11 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     print('time =', time)
     print('ndim =', ndim)
 
-    if ndim == 3:
-        # src_varz = src_var
-        # flood the grid
-        print('flood the grid, spval = ', spval)
-        src_varz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_var, src_grd, pos=pos, spval=spval, \
-                                dxy=dxy, cdepth=cdepth, kk=kk)
-        # flooded = xr.DataArray(src_varz)
-        # flooded.to_netcdf("flooded.nc")
-    else:
-        src_varz = src_var
+
+    # flood the grid
+    print('flood the grid, spval = ', spval)
+    src_varz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_var, src_grd, pos=pos, spval=spval, \
+                            dxy=dxy, cdepth=cdepth, kk=kk)
 
 
     # horizontal interpolation using xesmf
@@ -125,19 +203,16 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
 
     dst_varz = regrid_GLBy(src_grd, dst_grd, src_varz, method='bilinear', spval=spval)
 
-
-    if ndim == 3:
-        # vertical interpolation from standard z level to sigma
-        print('vertical interpolation from standard z level to sigma')
-        dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
-                                          dst_grd, Cpos=Cpos, spval=spval, flood=False)
+    # vertical interpolation from standard z level to sigma
+    print('vertical interpolation from standard z level to sigma')
+    dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
+                                      dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
     # land mask
-        idxu = np.where(dst_grd.hgrid.mask_rho == 0)
-        for n in range(dst_grd.vgrid.N):
-            dst_var[n, idxu[0], idxu[1]] = spval
-    else:
-        dst_var = dst_varz
+    idxu = np.where(dst_grd.hgrid.mask_rho == 0)
+    for n in range(dst_grd.vgrid.N):
+        dst_var[n, idxu[0], idxu[1]] = spval
+
 
     # write data in destination file
     print('write data in destination file')
@@ -147,8 +222,6 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     # close destination file
     nc.close()
 
-    if src_varname == 'ssh':
-        return dst_varz
 
 
 def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
