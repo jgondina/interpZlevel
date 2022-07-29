@@ -326,6 +326,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
     print('111111', dst_uz.shape)
+    dst_uz[:,:,:] = 1.0
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
     print('222222')
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
