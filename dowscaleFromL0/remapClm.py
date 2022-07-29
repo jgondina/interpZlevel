@@ -27,7 +27,7 @@ def remap_clm(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, d
     nctime.units = 'days since 1900-01-01 00:00:00'
 
     cdf = netCDF.Dataset(src_file)
-    src_var = cdf.variables[src_varname][0]
+    src_var = cdf.variables[src_varname]
     time = cdf.variables['ocean_time'][0]
 
     print(cdf.variables[src_varname])
