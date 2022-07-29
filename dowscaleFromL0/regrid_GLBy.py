@@ -36,7 +36,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         method=method,
         extrap_method = 'nearest_s2d',
         periodic=False,
-        filename='./regrid_t.nc',
+        filename='./regrid_%s.nc' % varType,
         reuse_weights=True
     )
 
