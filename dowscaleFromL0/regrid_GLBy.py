@@ -37,7 +37,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         extrap_method = 'nearest_s2d',
         periodic=False,
         filename='./regrid_%s.nc' % varType,
-        reuse_weights=True
+        reuse_weights=False
     )
 
     # Converts a possible masked array into a regular one.
