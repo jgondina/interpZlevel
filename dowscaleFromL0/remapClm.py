@@ -26,8 +26,8 @@ ncAttribsList = {
         'dst_varname': 'zeta',
         'dimensions':  ('ocean_time', 'eta_rho', 'xi_rho'),
         'long_name':   'free-surface',
-        'units:':      'meter',
-        'field:':      'free-surface, scalar, series',
+        'units':      'meter',
+        'field':      'free-surface, scalar, series',
         'vartime':     'ocean_time'},
     'temp': {
         'dst_varname': 'temp',
