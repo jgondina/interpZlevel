@@ -135,7 +135,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
-    dst_var = regrid_GLBy(src_grd, dst_grd, src_var, method='bilinear', spval=spval)
+    dst_var = regrid_GLBy(src_grd, dst_grd, src_var, method='bilinear', fillValue=spval)
 
     # write data in destination file
     print('write data in destination file')
@@ -220,7 +220,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
 
-    dst_varz = regrid_GLBy(src_grd, dst_grd, src_varz, method='bilinear', spval=spval)
+    dst_varz = regrid_GLBy(src_grd, dst_grd, src_varz, method='bilinear', fillValue=spval)
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
