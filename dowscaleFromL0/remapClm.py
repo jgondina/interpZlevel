@@ -41,11 +41,7 @@ ncAttribsList = {
         'units':       'PSU',
         'field':       'salinity, scalar, series',
         'vartime':     'ocean_time'}
-}
 
-# create variable in destination file
-print('Creating variable u')
-a={
     'u': {
         'dst_varname': 'u',
         'dimensions': ('ocean_time', 's_rho', 'eta_u', 'xi_u'),
