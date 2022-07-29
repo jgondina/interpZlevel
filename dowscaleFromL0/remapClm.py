@@ -161,9 +161,6 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     src_varv = cdf.variables['v'][0]
     time = cdf.variables['ocean_time'][0]
 
-    # get dimensions
-    Mp, Lp = dst_grd.hgrid.mask_rho.shape
-
     # create destination file
     dst_file = src_file.rsplit('/')[-1]
     dst_fileu = dst_dir + dst_file[:-3] + '_u_clim_' + dst_grd.name + '.nc'
@@ -171,6 +168,7 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     if os.path.exists(dst_fileu) is True:
         os.remove(dst_fileu)
     pyroms_toolbox.nc_create_roms_file(dst_fileu, dst_grd, nctime)
+
     dst_filev = dst_dir + dst_file[:-3] + '_v_clim_' + dst_grd.name + '.nc'
     print('Creating destination file', dst_filev)
     if os.path.exists(dst_filev) is True:
@@ -243,14 +241,9 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
-    print('before vertical remap u', dst_uz[:,928,324])
-    print('before vertical remap v', dst_vz[:,928,324])
-    dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, \
-                        dst_grd, Cpos='rho', spval=spval, flood=False)
-    dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz,  \
-                        dst_grd, Cpos='rho', spval=spval, flood=False)
-    print('after vertical remap u', dst_uz[:,928,324])
-    print('after vertical remap v', dst_vz[:,928,324])
+    dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
+    dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
+
 
 
     # rotate u,v fields
