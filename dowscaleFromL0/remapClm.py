@@ -313,10 +313,10 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     print('time =', time)
 
 
-    # flood the grid
-    print('flood the grid')
-    src_uz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varu, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
-    src_vz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varv, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
+    # # flood the grid
+    # print('flood the grid')
+    # src_uz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varu, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
+    # src_vz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varv, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
