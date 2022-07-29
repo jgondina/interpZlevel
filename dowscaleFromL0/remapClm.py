@@ -282,7 +282,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     src_varv = src_varv[0]
 
     # build intermediate zgrid
-    zlevel = -src_grd.z_t[::-1,0,0]
+    zlevel = -src_grd.vgrid.z_r[::-1,0,0]
     nzlevel = len(zlevel)
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
