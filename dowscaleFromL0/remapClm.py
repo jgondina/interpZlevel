@@ -116,14 +116,14 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
-        dst_varname = ncAttribs['ncAttribs']
+        dst_varname = ncAttribs[ncAttribs]
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
         sys.exit(1)
 
     # create variable in file
     print('Creating variable', dst_varname)
-    nc.createVariable(dst_varname, 'f8', ncAttribs['dimensions'])
+    nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
     nc.variables[dst_varname].long_name = ncAttribs['long_name']
     nc.variables[dst_varname].units     = ncAttribs['units']
     nc.variables[dst_varname].field     = ncAttribs['field']
@@ -186,14 +186,14 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
-        dst_varname = ncAttribs['ncAttribs']
+        dst_varname = ncAttribs[ncAttribs]
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
         sys.exit(1)
 
     # create variable in file
     print('Creating variable', dst_varname)
-    nc.createVariable(dst_varname, 'f8', ncAttribs['dimensions'])
+    nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
     nc.variables[dst_varname].long_name = ncAttribs['long_name']
     nc.variables[dst_varname].units     = ncAttribs['units']
     nc.variables[dst_varname].field     = ncAttribs['field']
@@ -294,18 +294,18 @@ def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='
         nc = varList[src_varname]
         try:
             ncAttribs = ncAttribsList[src_varname]
-            dst_varname = ncAttribs['ncAttribs']
+            dst_varname = ncAttribs[ncAttribs]
         except:
             print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
             sys.exit(1)
 
         # create variable in file
         print('Creating variable', dst_varname)
-        nc.createVariable(dst_varname, 'f8', ncAttribs['dimensions'])
+        nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
         nc.variables[dst_varname].long_name = ncAttribs['long_name']
-        nc.variables[dst_varname].units = ncAttribs['units']
-        nc.variables[dst_varname].field = ncAttribs['field']
-        nc.variables[dst_varname].time = ncAttribs['vartime']
+        nc.variables[dst_varname].units =     ncAttribs['units']
+        nc.variables[dst_varname].field =     ncAttribs['field']
+        nc.variables[dst_varname].time =      ncAttribs['vartime']
 
 
     # remaping
