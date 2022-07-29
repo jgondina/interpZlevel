@@ -320,8 +320,8 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
-    dst_uz = regrid_GLBy(src_varu, method='bilinear', varType='u', fillValue=spval)
-    dst_vz = regrid_GLBy(src_varv, method='bilinear', varType='v', fillValue=spval)
+    dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=spval)
+    dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=spval)
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
