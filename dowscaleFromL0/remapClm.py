@@ -43,6 +43,40 @@ ncAttribsList = {
         'vartime':     'ocean_time'}
 }
 
+# create variable in destination file
+print('Creating variable u')
+a={
+    'u': {
+        'dst_varname': 'u',
+        'dimensions': ('ocean_time', 's_rho', 'eta_u', 'xi_u'),
+        'long_name':  '3D u-momentum component',
+        'units':      'meter second-1',
+        'field':      'u-velocity, scalar, series',
+        'time':       'ocean_time'},
+    'ubar': {
+        'dst_varname': 'ubar',
+        'dimensions':  ('ocean_time', 'eta_u', 'xi_u'),
+        'long_name':   '2D u-momentum component',
+        'units':       'meter second-1',
+        'field':       'ubar-velocity,, scalar, series',
+        'time':        'ocean_time'},
+    'v': {
+        'dst_varname': 'v',
+        'dimensions': ('ocean_time', 's_rho', 'eta_v', 'xi_v'),
+        'long_name':  '3D v-momentum component',
+        'units':      'meter second-1',
+        'field':      'u-velocity, scalar, series',
+        'time':       'ocean_time'},
+    'vbar': {
+        'dst_varname': 'vbar',
+        'dimensions':  ('ocean_time', 'eta_v', 'xi_v'),
+        'long_name':   '2D v-momentum component',
+        'units':       'meter second-1',
+        'field':       'ubar-velocity,, scalar, series',
+        'time':        'ocean_time'}
+
+}
+
 
 
 class nctime(object):
@@ -174,15 +208,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
 
-    # create variable in file
-    print('Creating variable', dst_varname)
-    nc.createVariable(dst_varname, 'f8', dimensions)
-    nc.variables[dst_varname].long_name = long_name
-    nc.variables[dst_varname].units = units
-    nc.variables[dst_varname].field = field
-    nc.variables[dst_varname].time = vartime
-
-
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
     print('time =', time)
@@ -219,7 +244,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
 
 
 
-def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
 
     # get time
     nctime.long_name = 'time'
@@ -263,33 +288,24 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
-    # create variable in destination file
-    print('Creating variable u')
-    ncu.createVariable('u', 'f8', ('ocean_time', 's_rho', 'eta_u', 'xi_u'), fill_value=spval)
-    ncu.variables['u'].long_name = '3D u-momentum component'
-    ncu.variables['u'].units = 'meter second-1'
-    ncu.variables['u'].field = 'u-velocity, scalar, series'
-    ncu.variables['u'].time = 'ocean_time'
-    # create variable in destination file
-    print('Creating variable ubar')
-    ncu.createVariable('ubar', 'f8', ('ocean_time', 'eta_u', 'xi_u'), fill_value=spval)
-    ncu.variables['ubar'].long_name = '2D u-momentum component'
-    ncu.variables['ubar'].units = 'meter second-1'
-    ncu.variables['ubar'].field = 'ubar-velocity,, scalar, series'
-    ncu.variables['ubar'].time = 'ocean_time'
+    # create variables in destination file
+    print('Creating variables u, v, ubar, vbar')
+    varList = {'u': ncu, 'v': ncv, 'ubar': ncu, 'vbar': ncv)
+    for src_varname in varList:
+        nc = varList[src_varname]
+        try:
+            ncAttribs = ncAttribsList[src_varname]
+            dst_varname = ncAttribs['ncAttribs']
+        except:
+            print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
 
-    print('Creating variable v')
-    ncv.createVariable('v', 'f8', ('ocean_time', 's_rho', 'eta_v', 'xi_v'), fill_value=spval)
-    ncv.variables['v'].long_name = '3D v-momentum component'
-    ncv.variables['v'].units = 'meter second-1'
-    ncv.variables['v'].field = 'v-velocity, scalar, series'
-    ncv.variables['v'].time = 'ocean_time'
-    print('Creating variable vbar')
-    ncv.createVariable('vbar', 'f8', ('ocean_time', 'eta_v', 'xi_v'), fill_value=spval)
-    ncv.variables['vbar'].long_name = '2D v-momentum component'
-    ncv.variables['vbar'].units = 'meter second-1'
-    ncv.variables['vbar'].field = 'vbar-velocity,, scalar, series'
-    ncv.variables['vbar'].time = 'ocean_time'
+        # create variable in file
+        print('Creating variable', dst_varname)
+        nc.createVariable(dst_varname, 'f8', ncAttribs['dimensions'])
+        nc.variables[dst_varname].long_name = ncAttribs['long_name']
+        nc.variables[dst_varname].units = ncAttribs['units']
+        nc.variables[dst_varname].field = ncAttribs['field']
+        nc.variables[dst_varname].time = ncAttribs['vartime']
 
 
     # remaping
