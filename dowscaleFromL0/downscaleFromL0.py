@@ -198,7 +198,7 @@ for time in oceanTimes:
 
     print('Interpolating 2D variables')
 
-    aaa = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    # aaa = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
 
     aaa = remapClimateUV2D(L0_out, gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
     # (src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./')
