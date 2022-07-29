@@ -116,7 +116,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
-        dst_varname = ncAttribs[ncAttribs]
+        dst_varname = ncAttribs['dst_varname']
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
         sys.exit(1)
@@ -186,7 +186,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
-        dst_varname = ncAttribs[ncAttribs]
+        dst_varname = ncAttribs['dst_varname']
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
         sys.exit(1)
@@ -294,7 +294,7 @@ def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='
         nc = varList[src_varname]
         try:
             ncAttribs = ncAttribsList[src_varname]
-            dst_varname = ncAttribs[ncAttribs]
+            dst_varname = ncAttribs['dst_varname']
         except:
             print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
             sys.exit(1)
