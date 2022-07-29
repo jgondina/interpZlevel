@@ -290,7 +290,7 @@ def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='
 
     # create variables in destination file
     print('Creating variables u, v, ubar, vbar')
-    varList = {'u': ncu, 'v': ncv, 'ubar': ncu, 'vbar': ncv)
+    varList = {'u': ncu, 'v': ncv, 'ubar': ncu, 'vbar': ncv}
     for src_varname in varList:
         nc = varList[src_varname]
         try:
