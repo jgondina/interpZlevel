@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 import os
 try:
@@ -117,6 +119,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
         dst_varname = ncAttribs['ncAttribs']
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
+        sys.exit(1)
 
     # create variable in file
     print('Creating variable', dst_varname)
@@ -186,6 +189,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
         dst_varname = ncAttribs['ncAttribs']
     except:
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
+        sys.exit(1)
 
     # create variable in file
     print('Creating variable', dst_varname)
@@ -293,6 +297,7 @@ def remap_clm_uv2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='
             dst_varname = ncAttribs['ncAttribs']
         except:
             print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
+            sys.exit(1)
 
         # create variable in file
         print('Creating variable', dst_varname)
