@@ -40,8 +40,7 @@ ncAttribsList = {
         'long_name':   'salinity',
         'units':       'PSU',
         'field':       'salinity, scalar, series',
-        'vartime':     'ocean_time'}
-
+        'vartime':     'ocean_time'},
     'u': {
         'dst_varname': 'u',
         'dimensions': ('ocean_time', 's_rho', 'eta_u', 'xi_u'),
