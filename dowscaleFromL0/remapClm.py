@@ -49,28 +49,28 @@ ncAttribsList = {
         'long_name':  '3D u-momentum component',
         'units':      'meter second-1',
         'field':      'u-velocity, scalar, series',
-        'time':       'ocean_time'},
+        'vartime':       'ocean_time'},
     'ubar': {
         'dst_varname': 'ubar',
         'dimensions':  ('ocean_time', 'eta_u', 'xi_u'),
         'long_name':   '2D u-momentum component',
         'units':       'meter second-1',
         'field':       'ubar-velocity,, scalar, series',
-        'time':        'ocean_time'},
+        'vartime':        'ocean_time'},
     'v': {
         'dst_varname': 'v',
         'dimensions': ('ocean_time', 's_rho', 'eta_v', 'xi_v'),
         'long_name':  '3D v-momentum component',
         'units':      'meter second-1',
         'field':      'u-velocity, scalar, series',
-        'time':       'ocean_time'},
+        'vartime':       'ocean_time'},
     'vbar': {
         'dst_varname': 'vbar',
         'dimensions':  ('ocean_time', 'eta_v', 'xi_v'),
         'long_name':   '2D v-momentum component',
         'units':       'meter second-1',
         'field':       'ubar-velocity,, scalar, series',
-        'time':        'ocean_time'}
+        'vartime':        'ocean_time'}
 
 }
 
