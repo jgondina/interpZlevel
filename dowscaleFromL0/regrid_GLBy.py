@@ -1,3 +1,4 @@
+import datetime
 import xarray as xr
 import xesmf
 import numpy as np
@@ -28,27 +29,25 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
         reuse_weights=False
     )
 
-    # Fills nans and other invalid values.
+    # Converts a possible masked array into a regular one.
+    try:
+        var = var[:].data
+    except:
+        pass
 
-    var = var[:].data
-    # print(var)
-    # # var2 = 10000000+np.zeros(var.shape)
-    # # var2[~np.isnan(var)] = var[~np.isnan(var)]
-    # var2 = var;
-    # # var2[np.abs(var) > 1e-4] = 0.0
-    # # var2[:,:]=1.0
+    # plt.imshow(var)
 
-    plt.imshow(var)
-
-
-    # print(var2[:,:].shape)
-    # print(var.sum())
-    # print(var2.sum())
+    # Performs the actual regridding
+    print(datetime.datetime.now())
     tdest = regrid(var)
-    # print(sum(tdest))
-
-    plt.figure()
-    plt.imshow(tdest)
-    plt.show()
+    print(datetime.datetime.now())
+    tdest = regrid(var)
+    print(datetime.datetime.now())
+    tdest = regrid(var)
+    print(datetime.datetime.now())
+    tdest = regrid(var)
+    # plt.figure()
+    # plt.imshow(tdest)
+    # plt.show()
 
     return tdest
