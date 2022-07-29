@@ -7,12 +7,12 @@ import matplotlib.pyplot as plt
 def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31):
 
     # Computes the masks
-    srcMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
-    dstMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
+    # srcMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
+    # dstMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
 
     print(src_grd.hgrid.lat_rho.shape, src_grd.hgrid.mask_rho.shape)
     print(dst_grd.hgrid.lat_rho.shape, dst_grd.hgrid.mask_rho.shape)
-    srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': .astype(np.int)}
+    srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
     dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
 
     # Computes the regridder.
