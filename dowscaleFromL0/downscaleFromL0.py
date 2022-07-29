@@ -196,11 +196,16 @@ oceanTimes = [1]
 for time in oceanTimes:
     print('processing time: %s' % time)
 
+    print('Interpolating 2D variables')
+
     aaa = remap_clm(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
 
+    aaa = remap_clm(L0_out, 'ubar', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+
+    print('DONE')
     print(aaa)
 
-# Interpolate 3-dimensional variables
+# Interpolate 2-dimensional variables
 #
 #     % Free surface elevation
 #     L0_zeta=double(ncread(L0_out,'zeta',[L0_xinir,L0_yinir,L0_tini+tt-1],[L0_nxr,L0_nyr,1]))
