@@ -91,7 +91,6 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
     print('time =', time)
-    print('ndim =', ndim)
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
@@ -189,8 +188,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
     print('time =', time)
-    print('ndim =', ndim)
-
 
     # flood the grid
     print('flood the grid, spval = ', spval)
