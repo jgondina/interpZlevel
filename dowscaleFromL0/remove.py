@@ -61,7 +61,8 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     else:
         raise 'Warning,%s bad position. Use depth at Arakawa-C rho points instead.' % Cpos
 
-    print('3')
+    print('3',z.shape)
+
     nlev, Mm, Lm = varz.shape
     Nm = depth.shape[0]
 
