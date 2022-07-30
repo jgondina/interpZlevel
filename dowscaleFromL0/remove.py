@@ -1,8 +1,8 @@
 # encoding: utf-8
 
 import numpy as np
-import _interp
-import _remapping
+# import _interp
+# import _remapping
 
 import pyroms
 
@@ -88,11 +88,16 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print('HERE')
     for k in range(Nm):
         print(k)
-        var[k, :, :] = _interp.xhslice(varz,
+        print(varz,
                                        z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                        depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                        mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                        imode, spval)
+        # var[k, :, :] = _interp.xhslice(varz,
+        #                                z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+        #                                depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
+        #                                mask[jrange[0]:jrange[1], irange[0]:irange[1]],
+        #                                imode, spval)
         print('here')
         # mask
         var = np.ma.masked_values(var, spval, rtol=1e-5)
