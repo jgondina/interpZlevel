@@ -204,6 +204,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     # build intermediate zgrid
     zlevel = -z[::-1,0,0]
     nzlevel = len(zlevel)
+    print('>>>>>>>>>', nzlevel, z.shape)
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
