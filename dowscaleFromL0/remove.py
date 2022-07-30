@@ -1,4 +1,5 @@
 # encoding: utf-8
+import sys
 
 import numpy as np
 # import _interp
@@ -90,26 +91,34 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print(-9999 * np.ones((1, z.shape[1], z.shape[2])))
     print(z)
     print(100 * np.ones((1, z.shape[1], z.shape[2])))
+    print('-----------')
+    print((-9999 * np.ones((1, z.shape[1], z.shape[2]))).shape)
+    print(z.shape)
+    print((100 * np.ones((1, z.shape[1], z.shape[2]))).shape)
     z = np.concatenate((-9999 * np.ones((1, z.shape[1], z.shape[2])),
                         z,
                         100 * np.ones((1, z.shape[1], z.shape[2]))), 0)
     print('7')
+    sys.stdout.flush()
     var = np.ma.zeros((Nm, Mm, Lm))
 
     print('HERE')
     for k in range(Nm):
         print(k)
+        sys.stdout.flush()
         print(varz,
                                        z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                        depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                        mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                        imode, spval)
+        sys.stdout.flush()
         # var[k, :, :] = _interp.xhslice(varz,
         #                                z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                mask[jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                imode, spval)
         print('here')
+
         # mask
         var = np.ma.masked_values(var, spval, rtol=1e-5)
         # var[k,:,:] = np.ma.masked_where(mask == 0, var[k,:,:])
