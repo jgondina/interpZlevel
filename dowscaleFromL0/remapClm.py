@@ -204,8 +204,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     # build intermediate zgrid
     zlevel = -z[::-1,0,0]
     nzlevel = len(zlevel)
-    print('11>>>>>>>>>', nzlevel)
-    print('22>>>>', z.shape)
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
@@ -325,6 +323,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     print('horizontal interpolation using xesmf')
     dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=spval)
     dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=spval)
+    print('>>>><><><><>>>>>>', dst_uz.shape)
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
