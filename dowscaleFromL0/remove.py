@@ -30,7 +30,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     """
     print('lalala')
     varz = varz.copy()
-
+    print('1')
     assert len(varz.shape) == 3, 'var must be 3D'
 
     if mode == 'linear':
@@ -40,6 +40,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     else:
         raise  'Warning, %s not supported, defaulting to linear' % mode
 
+    print('2')
     if Cpos is 'rho':
         z = grdz.vgrid.z[:]
         depth = grd.vgrid.z_r[0, :]
@@ -59,9 +60,11 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     else:
         raise 'Warning,%s bad position. Use depth at Arakawa-C rho points instead.' % Cpos
 
+    print('3')
     nlev, Mm, Lm = varz.shape
     Nm = depth.shape[0]
 
+    print('4')
     if irange is None:
         irange = (0, Lm)
     else:
@@ -71,18 +74,19 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         jrange = (0, Mm)
     else:
         assert varz.shape[1] == jrange[1] - jrange[0], 'var shape and jrange must agreed'
-
+    print('5')
     # flood varz if requested
     if flood is True:
         varz = pyroms.remapping.flood(varz, grdz, Cpos=Cpos,
                                       irange=irange, jrange=jrange, spval=spval,
                                       dmax=dmax, cdepth=cdepth, kk=kk)
 
+    print('6')
     varz = np.concatenate((varz[0:1, :, :], varz, varz[-1:, :, :]), 0)
     z = np.concatenate((-9999 * np.ones((1, z.shape[1], z.shape[2])),
                         z,
                         100 * np.ones((1, z.shape[1], z.shape[2]))), 0)
-
+    print('7')
     var = np.ma.zeros((Nm, Mm, Lm))
 
     print('HERE')
