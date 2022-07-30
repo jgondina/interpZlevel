@@ -18,6 +18,7 @@ import xarray as xr
 import xesmf
 import pdb
 from regrid_GLBy import regrid_GLBy
+from remove import z22roms
 
 
 
@@ -331,6 +332,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     # print('111111', dst_grdz.vgrid.__dict__)
     print('>>>>>', dst_grd.vgrid.z_r[:])
     # dst_uz[:,:,:] = 1.0
+    z22roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
     print('222222')
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
