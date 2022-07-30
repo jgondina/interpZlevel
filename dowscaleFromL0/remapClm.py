@@ -347,7 +347,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
 
 
     # rotate u,v fields
-    src_angle = regrid_GLBy(src_grd.angle, method='bilinear')
+    src_angle = regrid_GLBy(src_grd.hgrid.angle, method='bilinear')
 
     dst_angle = dst_grd.hgrid.angle_rho
     angle = dst_angle - src_angle
