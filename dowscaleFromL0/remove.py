@@ -82,7 +82,14 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                       dmax=dmax, cdepth=cdepth, kk=kk)
 
     print('6')
+    print(varz[0:1, :, :])
+    print(varz)
+    print(varz[-1:, :, :])
     varz = np.concatenate((varz[0:1, :, :], varz, varz[-1:, :, :]), 0)
+    print('6,5')
+    print(-9999 * np.ones((1, z.shape[1], z.shape[2])))
+    print(z)
+    print(100 * np.ones((1, z.shape[1], z.shape[2])))
     z = np.concatenate((-9999 * np.ones((1, z.shape[1], z.shape[2])),
                         z,
                         100 * np.ones((1, z.shape[1], z.shape[2]))), 0)
