@@ -98,6 +98,8 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     a = -9999 * np.ones((1, z.shape[1], z.shape[2]))
     b = z.copy()
     c = 100 * np.ones((1, z.shape[1], z.shape[2]))
+    print('7.1')
+    sys.stdout.flush()
     z = np.concatenate((a,b,c), 0)
     print('7')
     sys.stdout.flush()
