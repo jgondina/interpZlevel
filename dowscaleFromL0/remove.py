@@ -38,7 +38,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     elif mode == 'spline':
         imode = 1
     else:
-        raise Warning, '%s not supported, defaulting to linear' % mode
+        raise  'Warning, %s not supported, defaulting to linear' % mode
 
     if Cpos is 'rho':
         z = grdz.vgrid.z[:]
@@ -57,8 +57,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         depth = grd.vgrid.z_w[0, :]
         mask = grd.hgrid.mask_rho
     else:
-        raise Warning, '%s bad position. Use depth at Arakawa-C \
-                             rho points instead.' % Cpos
+        raise 'Warning,%s bad position. Use depth at Arakawa-C rho points instead.' % Cpos
 
     nlev, Mm, Lm = varz.shape
     Nm = depth.shape[0]
@@ -66,14 +65,12 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     if irange is None:
         irange = (0, Lm)
     else:
-        assert varz.shape[2] == irange[1] - irange[0], \
-            'var shape and irange must agreed'
+        assert varz.shape[2] == irange[1] - irange[0], 'var shape and irange must agreed'
 
     if jrange is None:
         jrange = (0, Mm)
     else:
-        assert varz.shape[1] == jrange[1] - jrange[0], \
-            'var shape and jrange must agreed'
+        assert varz.shape[1] == jrange[1] - jrange[0], 'var shape and jrange must agreed'
 
     # flood varz if requested
     if flood is True:
