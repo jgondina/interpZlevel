@@ -81,10 +81,6 @@ class nctime(object):
     pass
 
 def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
-    if idxTime is not None:
-        print ('3D rho-var interpolation of %s at time idx = %i' % (src_varname, idxTime))
-    else:
-        print('3D rho-var interpolation of %s' % (src_varname))
 
     # get time
     nctime.long_name = 'time'
@@ -92,10 +88,13 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
-    time = cdf.variables['ocean_time'][0]
-    
-    print('FFFFFFF', time, '-', cdf.variables['ocean_time'][:])
 
+    if idxTime is not None:
+        time = cdf.variables['ocean_time'][idxTime]
+    else:
+        time = cdf.variables['ocean_time'][0]
+    print('3D rho-var interpolation of %s at time = %f' % (src_varname, time))
+    
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
