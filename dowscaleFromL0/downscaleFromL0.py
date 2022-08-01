@@ -199,123 +199,22 @@ for time in oceanTimes:
     print('Interpolating 2D variables')
 
     # aaa = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    #
+    # aaa = remapClimateUV2D(L0_out, gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    # # (src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    #
+    # print('DONE')
+    # print(aaa)
 
-    aaa = remapClimateUV2D(L0_out, gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
-    # (src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./')
+    # Interpolate 2-dimensional variables
 
-    print('DONE')
-    print(aaa)
+    print('Interpolating sea surface elevation')
+    L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dst_dir='./')
 
-# Interpolate 2-dimensional variables
-#
-#     % Free surface elevation
-#     L0_zeta=double(ncread(L0_out,'zeta',[L0_xinir,L0_yinir,L0_tini+tt-1],[L0_nxr,L0_nyr,1]))
-#     aa(:,:)=squeeze(L0_zeta(:,:,1))
-#     aa(L0_maskr==0)=nan
-#     aa(:,:)=maplev(aa)
-#     zz=griddata(L0_lonr,L0_latr,aa,gn.lon_rho,gn.lat_rho)
-#     L1_zeta(:,:,tt)=zz(:,:)
-#     clear aa zz
-#     display('zeta:',num2str(tt))
-#
-#     L0_ubar=double(ncread(L0_out,'ubar',[L0_xiniu,L0_yiniu,L0_tini+tt-1],[L0_nxu,L0_nyu,1]))
-#     au(:,:)=squeeze(L0_ubar(:,:,1))
-#     au(L0_masku==0)=nan
-#     au(:,:)=maplev(au)
-#     aur=u2rho_2d_mw(au)
-#     display('ubar:',num2str(tt))
-#
-#     L0_vbar=double(ncread(L0_out,'vbar',[L0_xiniv,L0_yiniv,L0_tini+tt-1],[L0_nxv,L0_nyv,1]))
-#     av(:,:)=squeeze(L0_vbar(:,:,1))
-#     av(L0_maskv==0)=nan
-#     av(:,:)=maplev(av)
-#     avr=v2rho_2d_mw(av)
-#     display('vbar:',num2str(tt))
-#     % Compute Northward and Eastward velocities, important!
-#
-#     vel=aur + avr.*sqrt(-1)
-#     vel=vel .* exp ( sqrt(-1) * L0_angler)
-#     velu=real(vel)
-#     velv=imag(vel)
-#     velu1=griddata(L0_lonr,L0_latr,velu,gn.lon_rho,gn.lat_rho)
-#     velv1=griddata(L0_lonr,L0_latr,velv,gn.lon_rho,gn.lat_rho)
-#
-#     % Rotate velocities to ROMS grid, important!
-#
-#     ubar1(:,:)=velu1.*cos(gn.angle)+velv1.*sin(gn.angle)
-#     vbar1(:,:)=velv1.*cos(gn.angle)-velu1.*sin(gn.angle)
-#     L1_ubar(:,:,tt)=rho2u_2d_mw(ubar1)  % defined at u points
-#     L1_vbar(:,:,tt)=rho2v_2d_mw(vbar1)  % defined at v points
-#
-#     clear vel au av aur avr velu velv velu1 velv1 ubar1 vbar1
-#     clear L0_ubar L0_vbar
-#
-# end
-# toc
-#
-# tic
-# tt=0
-# for tt1=1:8:L0_nt
-#     tt=tt+1
-#     disp(tt)
-#
-# % Interpolate 3-dimensional variables
-#
-#     % Free surface elevation
-#     L0_zeta=double(ncread(L0_out,'zeta',[L0_xinir,L0_yinir,L0_tini+tt1-1],[L0_nxr,L0_nyr,1]))
-#     aa(:,:)=squeeze(L0_zeta(:,:,1))
-#     aa(L0_maskr==0)=nan
-#     aa(:,:)=maplev(aa)
-#     zz=griddata(L0_lonr,L0_latr,aa,gn.lon_rho,gn.lat_rho)
-#     L1_zeta_4d(:,:,tt)=zz(:,:)
-#     clear aa zz
-#
-#     L0_u=double(ncread(L0_out,'u',[L0_xiniu,L0_yiniu,1,L0_tini+tt1-1],[L0_nxu,L0_nyu,inf,1]))
-#     L0_v=double(ncread(L0_out,'v',[L0_xiniv,L0_yiniv,1,L0_tini+tt1-1],[L0_nxv,L0_nyv,inf,1]))
-#
-#     L0_z(:,:,:)=set_depth(L0_Vtransform,L0_Vstretching,L0_theta_s,L0_theta_b,L0_hc,L0_N, ...
-#         5,L0_h,squeeze(L0_zeta(:,:,1)))
-#
-#     L0_z(isnan(L0_z)==1)=0
-#
-#     for zz=1:L0_N
-#         L0_Hz(:,:,zz)=abs(L0_z(:,:,zz+1)-L0_z(:,:,zz))
-#     end
-#
-#     [L0_ubar(:,:),L0_vbar(:,:)]=uv_barotropic(squeeze(L0_u(:,:,:,1)),squeeze(L0_v(:,:,:,1)),squeeze(L0_Hz(:,:,:,1)))
-#
-#     clear L0_Hz
-#
-#     au(:,:)=L0_ubar(:,:)
-#     au(L0_masku==0)=nan
-#     au(:,:)=maplev(au)
-#     aur=u2rho_2d_mw(au)
-#
-#     av(:,:)=L0_vbar(:,:)
-#     av(L0_maskv==0)=nan
-#     av(:,:)=maplev(av)
-#     avr=v2rho_2d_mw(av)
-#
-#     % Compute Northward and Eastward velocities, important!
-#
-#     vel=aur + avr.*sqrt(-1)
-#     vel=vel .* exp ( sqrt(-1) * L0_angler)
-#     velu=real(vel)
-#     velv=imag(vel)
-#     velu1=griddata(L0_lonr,L0_latr,velu,gn.lon_rho,gn.lat_rho)
-#     velv1=griddata(L0_lonr,L0_latr,velv,gn.lon_rho,gn.lat_rho)
-#
-#     % Rotate velocities to ROMS grid, important!
-#
-#     ubar1(:,:)=velu1.*cos(gn.angle)+velv1.*sin(gn.angle)
-#     vbar1(:,:)=velv1.*cos(gn.angle)-velu1.*sin(gn.angle)
-#     L1_ubar_4d(:,:,tt)=rho2u_2d_mw(ubar1)  % defined at u points
-#     L1_vbar_4d(:,:,tt)=rho2v_2d_mw(vbar1)  % defined at v points
-#
-#     clear vel au av aur avr velu velv velu1 velv1 ubar1 vbar1
-#     clear L0_ubar L0_vbar
-#
-#     % Interpolate 4-dimensional variables
+
+    L0_UV = remapClimateUV2D(L0_out, gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
+
+    # Interpolate 4-dimensional variables
 #     L0_temp=double(ncread(L0_out,'temp',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
 #     L0_salt=double(ncread(L0_out,'salt',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
 #

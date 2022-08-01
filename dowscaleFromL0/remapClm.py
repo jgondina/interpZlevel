@@ -80,7 +80,7 @@ ncAttribsList = {
 class nctime(object):
     pass
 
-def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
 
     print ('2D rho-var interpolation')
     # get time
@@ -147,7 +147,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     if src_varname == 'ssh':
         return dst_var
 
-def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
     print('3D rho-var interpolation')
 
     # get time
@@ -208,10 +208,10 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
     print('time =', time)
 
-    # flood the grid
-    print('flood the grid, spval = ', spval)
-    src_varz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_var, src_grd, pos=pos, spval=spval, \
-                            dxy=dxy, cdepth=cdepth, kk=kk)
+    # # flood the grid
+    # print('flood the grid, spval = ', spval)
+    # src_varz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_var, src_grd, pos=pos, spval=spval, \
+    #                         dxy=dxy, cdepth=cdepth, kk=kk)
 
 
     # horizontal interpolation using xesmf
@@ -274,7 +274,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     src_varv = cdf.variables['v']
 
     #get missing value
-    spval = src_varu._FillValue
+    fillValue = src_varu._FillValue
     src_varu = src_varu[0]
     src_varv = src_varv[0]
 
@@ -312,41 +312,42 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     print('time =', time)
 
 
-    # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
-    print('>>>>>>> >> ', src_varu.shape, src_varv.shape)
-    dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=spval)
-    dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=spval)
+    dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=fillValue)
+    dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=fillValue)
 
-    print('>>>>>>> >>2 ', dst_uz.shape, dst_vz.shape)
-    # vertical interpolation from standard z level to sigma
-    dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
-    dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
+    print('Vertical interpolation from standard z level to sigma')
+    dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
+    dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
 
-    print('>>>>>>> >>3 ', dst_u.shape, dst_v.shape)
-    # rotate u,v fields
+
+
+    print('Rotating u, v fields')
+    print('  Interpolating the angle')
     src_angle = regrid_GLBy(src_grd, dst_grd, src_grd.hgrid.angle_rho, method='bilinear')
 
+    print('  Computing the difference of angles')
     dst_angle = dst_grd.hgrid.angle_rho
     angle = dst_angle - src_angle
     angle = np.tile(angle, (dst_grd.vgrid.N, 1, 1))
+
+    print('  Actual rotation')
     U = dst_u + dst_v*1j
     eitheta = np.exp(-1j*angle[:,:,:])
     U = U * eitheta
     dst_u = np.real(U)
     dst_v = np.imag(U)
 
-
-    # move back to u,v points
+    print('  Move back to U, V points')
     dst_u = 0.5 * (dst_u[:,:,:-1] + dst_u[:,:,1:])
     dst_v = 0.5 * (dst_v[:,:-1,:] + dst_v[:,1:,:])
 
-    # spval
-    idxu = np.where(dst_grd.hgrid.mask_u == 0)
-    idxv = np.where(dst_grd.hgrid.mask_v == 0)
+    print('Putting FillValue in the masked nodes')
+    idxu = (dst_grd.hgrid.mask_u == 0)
+    idxv = (dst_grd.hgrid.mask_v == 0)
     for n in range(dst_grd.vgrid.N):
-        dst_u[n,idxu[0], idxu[1]] = spval
-        dst_v[n,idxv[0], idxv[1]] = spval
+        dst_u[n,idxu, idxu] = fillValue
+        dst_v[n,idxv, idxv] = fillValue
 
 
     # compute depth average velocity ubar and vbar
@@ -365,12 +366,11 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
         for j in range(dst_vbar.shape[0]):
             dst_vbar[j,i] = (dst_v[:,j,i] * np.diff(z_v[:,j,i])).sum() / -z_v[0,j,i]
 
-    # spval
-    dst_ubar[idxu[0], idxu[1]] = spval
-    dst_vbar[idxv[0], idxv[1]] = spval
+    # fillValue
+    dst_ubar[idxu[0], idxu[1]] = fillValue
+    dst_vbar[idxv[0], idxv[1]] = fillValue
 
-    # write data in destination file
-    print('write data in destination file')
+    print('Write data in destination file')
     ncu.variables['ocean_time'][0] = time
     ncu.variables['u'][0] = dst_u
     ncu.variables['ubar'][0] = dst_ubar

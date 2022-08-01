@@ -1,10 +1,7 @@
-import datetime
 import sys
-
-import xarray as xr
 import xesmf
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, varType = 'rho'):
 
@@ -24,11 +21,6 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     else:
         print('ERROR: Invalid varType. Should be one of rho, u, v')
         sys.exit(1)
-
-    print(src_grd.hgrid.lat_u.shape)
-    print(src_grd.hgrid.mask_u.shape)
-    print(dst_grd.hgrid.lat_u.shape)
-    print(dst_grd.hgrid.mask_u.shape)
 
     # Computes the regridder.
     regrid = xesmf.Regridder(
