@@ -91,12 +91,10 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     src_var = cdf.variables[src_varname]
     time = cdf.variables['ocean_time'][0]
 
-    print(cdf.variables[src_varname])
-
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
-    print('\nCreating file', dst_file)
+    print('Creating file', dst_file)
     if os.path.exists(dst_file) is True:
         os.remove(dst_file)
     pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
@@ -160,13 +158,11 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dxy=20, cdepth=0, kk
     src_var = cdf.variables[src_varname]
     time = cdf.variables['ocean_time'][0]
 
-    print(cdf.variables[src_varname])
-
 
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
-    print('\nCreating file', dst_file)
+    print('Creating file', dst_file)
     if os.path.exists(dst_file) is True:
         os.remove(dst_file)
     pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
@@ -284,14 +280,10 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
 
     # build intermediate zgrid
     zlevel = -src_grd.vgrid.z_r[:]
-    print('QQQQQ', zlevel.shape)
     zlevel = zlevel[::-1,0,0]
-    print('QQQQQ', zlevel.shape)
 
     nzlevel = len(zlevel)
-    print('PPPPPPPPP', nzlevel, src_grd.vgrid.z_r[:,:,::-1].shape, src_grd.vgrid.z_r[:,:,:].shape)
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
-    print('PPPPPPPPP', dst_zcoord.z.shape)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
     # create variables in destination file
@@ -320,32 +312,18 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     print('time =', time)
 
 
-    # # flood the grid
-    # print('flood the grid')
-    # src_uz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varu, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
-    # src_vz = pyroms_toolbox.Grid_HYCOM.flood_fast(src_varv, src_grd, pos='t', spval=spval, dxy=dxy, cdepth=cdepth, kk=kk)
-
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
+    print('>>>>>>> >> ', src_varu.shape, src_varv.shape)
     dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=spval)
     dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=spval)
-    print('>>>><><><><>>>>>>', dst_uz.shape)
 
+    print('>>>>>>> >>2 ', dst_uz.shape, dst_vz.shape)
     # vertical interpolation from standard z level to sigma
-    print('vertical interpolation from standard z level to sigma')
-    # print('dadasdasdsa', dst_uz[::-1,:,:])
-    # a = np.array(dst_uz[::-1,:,:])
-    # print('dsadkjsaldjsal',a)
-    # print('111111', dst_grdz.vgrid.__dict__)
-    print('>>>>>', dst_grd.vgrid.z_r[:])
-    # dst_uz[:,:,:] = 1.0
-    # z22roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
-    print('222222')
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=spval, flood=False)
-    print('333333')
 
-
+    print('>>>>>>> >>3 ', dst_u.shape, dst_v.shape)
     # rotate u,v fields
     src_angle = regrid_GLBy(src_grd, dst_grd, src_grd.hgrid.angle_rho, method='bilinear')
 

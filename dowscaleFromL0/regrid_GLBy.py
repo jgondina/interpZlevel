@@ -46,11 +46,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     except:
         pass
 
-    # plt.imshow(var)
-    # Performs the actual regridding
+
     tdest = regrid(var)
-    # plt.figure()
-    # plt.imshow(tdest)
-    # plt.show()
+
 
     return tdest
