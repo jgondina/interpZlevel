@@ -421,8 +421,6 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     ncu = netCDF.Dataset(dst_fileu, 'a', format='NETCDF3_64BIT')
     ncv = netCDF.Dataset(dst_filev, 'a', format='NETCDF3_64BIT')
 
-
-
     # build intermediate zgrid
     zlevel = -src_grd.z_t[::-1,0,0]
     nzlevel = len(zlevel)

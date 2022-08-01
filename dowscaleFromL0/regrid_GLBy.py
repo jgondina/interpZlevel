@@ -16,7 +16,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     elif varType == 'u':
         srcCoords = {'lat': src_grd.hgrid.lat_u  , 'lon': src_grd.hgrid.lon_u  , 'mask': src_grd.hgrid.mask_u  .astype(np.int)}
         dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
-        print(src_grd.hgrid.lat_u.shape, src_grd.hgrid.lat_v.shape, var.shape)
+        print(src_grd.hgrid.lat_u.shape, src_grd.hgrid.lat_u.shape, var.shape)
         plt.imshow(var); plt.show()
     elif varType == 'v':
         srcCoords = {'lat': src_grd.hgrid.lat_v  , 'lon': src_grd.hgrid.lon_v  , 'mask': src_grd.hgrid.mask_v  .astype(np.int)}
