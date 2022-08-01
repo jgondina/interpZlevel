@@ -53,7 +53,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
 
     tdest = regrid(var)
 
-    plt.imshow(tdest[0, :, :]);
+    plt.imshow(tdest[:, :]);
     plt.show()
 
 
