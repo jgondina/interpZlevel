@@ -380,6 +380,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
 
     print('>>>1')
     for i in range(dst_ubar.shape[1]):
+        print(i)
         for j in range(dst_ubar.shape[0]):
             dst_ubar[j,i] = (dst_u[:,j,i] * np.diff(z_u[:,j,i])).sum() / -z_u[0,j,i]
 
