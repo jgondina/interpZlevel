@@ -322,6 +322,15 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
 
+    print('LLLLLLL', dst_uz[0, :, :] - dst_uz[11, :, :])
+    plt.ion()
+    plt.imshow(dst_u[0, :, :],vmin=-1,vmax=1)
+    plt.figure()
+    plt.imshow(dst_u[10, :, :],vmin=-1,vmax=1)
+    plt.figure()
+    plt.ioff()
+
+
     plt.imshow(dst_u[0, :, :])
     plt.show()
 
