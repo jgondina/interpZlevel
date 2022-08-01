@@ -351,6 +351,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     idxu = (np.where(dst_grd.hgrid.mask_u == 0))[0]
     idxv = (np.where(dst_grd.hgrid.mask_v == 0))[0]
     print('>>>>>>', idxu.shape, idxu.min(), idxu.max())
+    print('>>>>>>', idxv.shape, idxv.min(), idxv.max())
     for n in range(dst_grd.vgrid.N):
         dst_u[n,idxu, idxu] = fillValue
         dst_v[n,idxv, idxv] = fillValue
