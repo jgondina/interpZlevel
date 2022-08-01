@@ -81,7 +81,7 @@ class nctime(object):
     pass
 
 def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
-    if idxTime is None:
+    if idxTime is not None:
         print ('3D rho-var interpolation of %s at time idx = %i' % (src_varname, idxTime))
     else:
         print('3D rho-var interpolation of %s' % (src_varname))
@@ -155,7 +155,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         return dst_var
 
 def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
-    if idxTime is None:
+    if idxTime is not None:
         print ('3D rho-var interpolation of %s at time idx = %i' % (src_varname, idxTime))
     else:
         print('3D rho-var interpolation of %s' % (src_varname))
