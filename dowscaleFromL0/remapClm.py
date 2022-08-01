@@ -230,7 +230,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
 
-    dst_varz = regrid_GLBy(src_grd, dst_grd, src_varz, method='bilinear', fillValue=spval)
+    dst_varz = regrid_GLBy(src_grd, dst_grd, src_var, method='bilinear', fillValue=spval)
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
