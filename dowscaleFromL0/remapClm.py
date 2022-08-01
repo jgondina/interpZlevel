@@ -362,8 +362,8 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
     dst_v = 0.5 * (dst_v[:,:-1,:] + dst_v[:,1:,:])
 
     print('Putting FillValue in the masked nodes')
-    idxu = dst_grd.hgrid.mask_u == 0)
-    idxv = dst_grd.hgrid.mask_v == 0)
+    idxu = (dst_grd.hgrid.mask_u == 0)
+    idxv = (dst_grd.hgrid.mask_v == 0)
     print('>>>>>>', idxu.shape, idxu.min(), idxu.max())
     print('>>>>>>', idxv.shape, idxv.min(), idxv.max())
     for n in range(dst_grd.vgrid.N):
