@@ -57,9 +57,9 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         plt.imshow(tdest[:, :])
     except:
         plt.ion()
-        plt.imshow(tdest[0, :, :],vmin=-1,vmax=1);
+        plt.imshow(tdest[0, :, :],vmin=-1,vmax=1)
         plt.figure()
-        plt.imshow(tdest[3, :, :],vmin=-1,vmax=1);
+        plt.imshow(tdest[10, :, :],vmin=-1,vmax=1)
         plt.figure()
         plt.ioff()
 
