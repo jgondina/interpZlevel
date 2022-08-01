@@ -187,7 +187,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     pos = 't'
     Cpos = 'rho'
-    z = src_grd.vgrid.z_r
+    z = src_grd.vgrid.z_r[:]
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
@@ -209,7 +209,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     print ('XXXXXXXX', z.shape)
     zlevel = -z[::-1,0,0]
     nzlevel = len(zlevel)
-    print('XXXXXXXX', z.zlevel.shape)
+    print('XXXXXXXX', zlevel.shape)
 
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
