@@ -196,10 +196,10 @@ oceanTimes = [1,2,3]
 for idxTime, time in enumerate(oceanTimes):
     print('processing time: %s' % time)
 
-    print('Interpolating 2D + time variables')
-    L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dst_dir='./')
-
-    L0_UV = remapClimateUV2D(L0_out, gridL0, gridL1, dst_dir='./')
+    # print('Interpolating 2D + time variables')
+    # L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dst_dir='./')
+    #
+    # L0_UV = remapClimateUV2D(L0_out, gridL0, gridL1, dst_dir='./')
 
 
     print('Interpolating 3D + time variables')
