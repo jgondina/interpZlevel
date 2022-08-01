@@ -217,7 +217,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
-    print('time =', time)
+    print('time =', procTime)
 
     # # flood the grid
     # print('flood the grid, spval = ', spval)
@@ -243,7 +243,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # write data in destination file
     print('write data in destination file')
-    nc.variables['ocean_time'][0] = time
+    nc.variables['ocean_time'][0] = procTime
     nc.variables[dst_varname][0] = dst_var
 
     # close destination file
