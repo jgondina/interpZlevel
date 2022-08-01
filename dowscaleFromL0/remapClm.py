@@ -153,6 +153,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     if src_varname == 'ssh':
         return dst_var
 
+
 def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
     if idxTime is not None:
         print ('3D rho-var interpolation of %s at time idx = %i' % (src_varname, idxTime))
@@ -184,9 +185,10 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     if (idxTime is None):
         src_var = src_var[0]
     else:
-        src_var = src_var[0][idxTime]
+        src_var = src_var[idxTime]
 
     # Check variable dimension
+    print(src_var.shape)
     assert len(src_var.shape) == 3
 
     pos = 't'
@@ -249,7 +251,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # close destination file
     nc.close()
-
 
 
 def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
