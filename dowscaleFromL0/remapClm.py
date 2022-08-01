@@ -90,10 +90,10 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     src_var = cdf.variables[src_varname]
 
     if idxTime is not None:
-        time = cdf.variables['ocean_time'][idxTime]
+        procTime = cdf.variables['ocean_time'][idxTime]
     else:
-        time = cdf.variables['ocean_time'][0]
-    print('3D rho-var interpolation of %s at time = %f' % (src_varname, time))
+        procTime = cdf.variables['ocean_time'][0]
+    print('3D rho-var interpolation of %s at time = %f' % (src_varname, procTime))
     
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
@@ -134,7 +134,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
-    print('time =', time)
+    print('time =', procTime)
 
     # horizontal interpolation using xesmf
     print('horizontal interpolation using xesmf')
@@ -142,7 +142,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # write data in destination file
     print('write data in destination file')
-    nc.variables['ocean_time'][0] = time
+    nc.variables['ocean_time'][0] = procTime
     nc.variables[dst_varname][0] = dst_var
     
     print('EEEEEEEEEEEEEEE', nc.variables[dst_varname][0].shape)
@@ -378,6 +378,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
     dst_ubar = np.zeros((dst_u.shape[1], dst_u.shape[2]))
     dst_vbar = np.zeros((dst_v.shape[1], dst_v.shape[2]))
 
+    print('>>>1')
     for i in range(dst_ubar.shape[1]):
         for j in range(dst_ubar.shape[0]):
             dst_ubar[j,i] = (dst_u[:,j,i] * np.diff(z_u[:,j,i])).sum() / -z_u[0,j,i]
@@ -385,6 +386,7 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
     for i in range(dst_vbar.shape[1]):
         for j in range(dst_vbar.shape[0]):
             dst_vbar[j,i] = (dst_v[:,j,i] * np.diff(z_v[:,j,i])).sum() / -z_v[0,j,i]
+    print('>>>2')
 
     # fillValue
     dst_ubar[idxu] = fillValue
