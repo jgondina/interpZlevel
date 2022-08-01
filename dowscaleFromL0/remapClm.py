@@ -394,10 +394,14 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
-    cdf = netCDF.Dataset(src_file)
-    src_varu = cdf.variables['u'][0]
-    src_varv = cdf.variables['v'][0]
     time = cdf.variables['ocean_time'][0]
+
+    cdf = netCDF.Dataset(src_file)
+    src_varu = cdf.variables['u']
+    src_varv = cdf.variables['v']
+    spval = src_varu._FillValue
+    src_varu = src_varu[0]
+    src_varv = src_varv[0]
 
     # create destination file
     dst_file = src_file.rsplit('/')[-1]
@@ -417,15 +421,7 @@ def remap_clm_uv(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./
     ncu = netCDF.Dataset(dst_fileu, 'a', format='NETCDF3_64BIT')
     ncv = netCDF.Dataset(dst_filev, 'a', format='NETCDF3_64BIT')
 
-    #load var
-    cdf = netCDF.Dataset(src_file)
-    src_varu = cdf.variables['u']
-    src_varv = cdf.variables['v']
 
-    #get missing value
-    spval = src_varu._FillValue
-    src_varu = src_varu[0]
-    src_varv = src_varv[0]
 
     # build intermediate zgrid
     zlevel = -src_grd.z_t[::-1,0,0]
