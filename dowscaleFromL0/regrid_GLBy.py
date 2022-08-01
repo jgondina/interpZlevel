@@ -26,14 +26,23 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         sys.exit(1)
 
     # Computes the regridder.
-    regrid = xesmf.Regridder(
-        srcCoords, dstCoords,
-        method=method,
-        extrap_method = 'nearest_s2d',
-        periodic=False,
-        filename='./regrid_%s.nc' % varType,
-        reuse_weights=False
-    )
+    try:
+        regrid = xesmf.Regridder(
+            srcCoords, dstCoords,
+            method=method,
+            extrap_method = 'nearest_s2d',
+            periodic=False,
+            filename='./regrid_%s.nc' % varType,
+            reuse_weights=True)
+    except:
+        regrid = xesmf.Regridder(
+            srcCoords, dstCoords,
+            method=method,
+            extrap_method = 'nearest_s2d',
+            periodic=False,
+            filename='./regrid_%s.nc' % varType,
+            reuse_weights=False)
+
 
     # Converts a possible masked array into a regular one.
     try:
