@@ -43,6 +43,9 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
             filename='./regrid_%s.nc' % varType,
             reuse_weights=False)
 
+    print('LLLLLLLL',tdest[0, :, :]-tdest[1, :, :])
+    print('eeeLLLL', tdest[0, :, :] - tdest[3, :, :])
+
 
     # Converts a possible masked array into a regular one.
     try:

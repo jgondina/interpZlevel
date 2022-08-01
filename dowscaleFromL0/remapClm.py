@@ -276,7 +276,6 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     src_varu = src_varu[0]
     src_varv = src_varv[0]
 
-    print('MMMDMMASFDMMFDMFDS   ', src_varu.shape)
 
     # build intermediate zgrid
     zlevel = -src_grd.vgrid.z_r[:]
