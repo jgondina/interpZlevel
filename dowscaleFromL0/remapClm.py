@@ -94,7 +94,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     src_var = cdf.variables[src_varname]
     time = cdf.variables['ocean_time'][0]
     
-    print('FFFFFFF', time[:])
+    print('FFFFFFF', time, '-', cdf.variables['ocean_time'][:])
 
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
