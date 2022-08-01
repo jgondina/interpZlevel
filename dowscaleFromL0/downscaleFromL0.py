@@ -203,7 +203,7 @@ for idxTime, time in enumerate(oceanTimes):
 
 
     print('Interpolating 3D + time variables')
-    L0_temp = remapClimate2D(L0_out, 'temp', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
+    L0_temp = remapClimate3D(L0_out, 'temp', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
 
 
 #     L0_temp=double(ncread(L0_out,'temp',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
