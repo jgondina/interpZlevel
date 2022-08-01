@@ -193,28 +193,19 @@ print(gridL0.vgrid.s_rho.shape)
 
 oceanTimes = [1]
 
-for time in oceanTimes:
+for idxTime, time in enumerate(oceanTimes):
     print('processing time: %s' % time)
 
-    print('Interpolating 2D variables')
-
-    # aaa = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
-    #
-    # aaa = remapClimateUV2D(L0_out, gridL0, gridL1, dxy=20, cdepth=0, kk=0, dst_dir='./')
-    # # (src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./')
-    #
-    # print('DONE')
-    # print(aaa)
-
-    # Interpolate 2-dimensional variables
-
-    print('Interpolating sea surface elevation')
+    print('Interpolating 2D + time variables')
     L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dst_dir='./')
-
 
     L0_UV = remapClimateUV2D(L0_out, gridL0, gridL1, dst_dir='./')
 
-    # Interpolate 4-dimensional variables
+
+    print('Interpolating 3D + time variables')
+    L0_temp = remapClimate2D(L0_out, 'temp', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
+
+
 #     L0_temp=double(ncread(L0_out,'temp',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
 #     L0_salt=double(ncread(L0_out,'salt',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
 #

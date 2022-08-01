@@ -80,9 +80,12 @@ ncAttribsList = {
 class nctime(object):
     pass
 
-def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
+def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
+    if idxTime is None:
+        print ('3D rho-var interpolation of %s at time idx' % (src_varname, idxTime))
+    else:
+        print('3D rho-var interpolation of %s' % (src_varname))
 
-    print ('2D rho-var interpolation')
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
@@ -90,6 +93,8 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
     time = cdf.variables['ocean_time'][0]
+    
+    print('FFFFFFF', time[:])
 
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
@@ -140,6 +145,8 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
     print('write data in destination file')
     nc.variables['ocean_time'][0] = time
     nc.variables[dst_varname][0] = dst_var
+    
+    print('EEEEEEEEEEEEEEE', nc.variables[dst_varname][0].shape)
 
     # close destination file
     nc.close()
@@ -147,8 +154,11 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
     if src_varname == 'ssh':
         return dst_var
 
-def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
-    print('3D rho-var interpolation')
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
+    if idxTime is None:
+        print ('3D rho-var interpolation of %s at time idx' % (src_varname, idxTime))
+    else:
+        print('3D rho-var interpolation of %s' % (src_varname))
 
     # get time
     nctime.long_name = 'time'
@@ -172,7 +182,10 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
 
     #get missing value
     spval = src_var._FillValue
-    src_var = src_var[0]
+    if (idxTime is None):
+        src_var = src_var[0]
+    else:
+        src_var = src_var[0][idxTime]
 
     # Check variable dimension
     assert len(src_var.shape) == 3
@@ -240,7 +253,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./'):
 
 
 
-def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir='./'):
+def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
+    print('3D velocity interpolation')
 
     # get time
     nctime.long_name = 'time'
@@ -348,13 +362,13 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     dst_v = 0.5 * (dst_v[:,:-1,:] + dst_v[:,1:,:])
 
     print('Putting FillValue in the masked nodes')
-    idxu = (np.where(dst_grd.hgrid.mask_u == 0))[0]
-    idxv = (np.where(dst_grd.hgrid.mask_v == 0))[0]
+    idxu = dst_grd.hgrid.mask_u == 0)
+    idxv = dst_grd.hgrid.mask_v == 0)
     print('>>>>>>', idxu.shape, idxu.min(), idxu.max())
     print('>>>>>>', idxv.shape, idxv.min(), idxv.max())
     for n in range(dst_grd.vgrid.N):
-        dst_u[n,idxu, idxu] = fillValue
-        dst_v[n,idxv, idxv] = fillValue
+        dst_u[n,idxu] = fillValue
+        dst_v[n,idxv] = fillValue
 
 
     # compute depth average velocity ubar and vbar
@@ -374,8 +388,8 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
             dst_vbar[j,i] = (dst_v[:,j,i] * np.diff(z_v[:,j,i])).sum() / -z_v[0,j,i]
 
     # fillValue
-    dst_ubar[idxu[0], idxu[1]] = fillValue
-    dst_vbar[idxv[0], idxv[1]] = fillValue
+    dst_ubar[idxu] = fillValue
+    dst_vbar[idxv] = fillValue
 
     print('Write data in destination file')
     ncu.variables['ocean_time'][0] = time
