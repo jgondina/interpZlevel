@@ -155,18 +155,15 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
 
 def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
-    if idxTime is not None:
-        print ('3D rho-var interpolation of %s at time idx = %i' % (src_varname, idxTime))
-    else:
-        print('3D rho-var interpolation of %s' % (src_varname))
-
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
 
-    cdf = netCDF.Dataset(src_file)
-    src_var = cdf.variables[src_varname]
-    time = cdf.variables['ocean_time'][0]
+    if idxTime is not None:
+        procTime = cdf.variables['ocean_time'][idxTime]
+    else:
+        procTime = cdf.variables['ocean_time'][0]
+    print('3D rho-var interpolation of %s at time = %f' % (src_varname, procTime))
 
 
     # create IC file
@@ -181,6 +178,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
     #get missing value
+    cdf = netCDF.Dataset(src_file)
+    src_var = cdf.variables[src_varname]
     spval = src_var._FillValue
     if (idxTime is None):
         src_var = src_var[0]
@@ -188,7 +187,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         src_var = src_var[idxTime]
 
     # Check variable dimension
-    print(src_var.shape)
     assert len(src_var.shape) == 3
 
     pos = 't'
@@ -212,8 +210,11 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
 
     # build intermediate zgrid
+    print ('XXXXXXXX', z.shape)
     zlevel = -z[::-1,0,0]
     nzlevel = len(zlevel)
+    print('XXXXXXXX', z.zlevel.shape)
+
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
