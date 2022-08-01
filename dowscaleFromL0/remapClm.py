@@ -316,10 +316,15 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=fillValue)
     dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=fillValue)
 
+    plt.imshow(dst_uz[0,:,:])
+    plt.show()
+
     print('Vertical interpolation from standard z level to sigma')
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
 
+    plt.imshow(dst_u[0, :, :])
+    plt.show()
 
 
     print('Rotating u, v fields')
