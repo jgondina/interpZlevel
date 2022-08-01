@@ -246,8 +246,6 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
     cdf = netCDF.Dataset(src_file)
-    src_varu = cdf.variables['u'][0]
-    src_varv = cdf.variables['v'][0]
     time = cdf.variables['ocean_time'][0]
 
     # create destination file
@@ -277,6 +275,8 @@ def remapClimateUV2D(src_file, src_grd, dst_grd, dxy=20, cdepth=0, kk=0, dst_dir
     fillValue = src_varu._FillValue
     src_varu = src_varu[0]
     src_varv = src_varv[0]
+
+    print('MMMDMMASFDMMFDMFDS   ', src_varu.shape)
 
     # build intermediate zgrid
     zlevel = -src_grd.vgrid.z_r[:]
