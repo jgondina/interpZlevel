@@ -159,10 +159,15 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
 
-    if idxTime is not None:
-        procTime = cdf.variables['ocean_time'][idxTime]
-    else:
-        procTime = cdf.variables['ocean_time'][0]
+    cdf = netCDF.Dataset(src_file)
+    src_var = cdf.variables[src_varname]
+    spval = src_var._FillValue
+
+    if idxTime is None:
+        idxTime = 0
+    procTime = cdf.variables['ocean_time'][idxTime]
+    src_var = src_var[idxTime]
+
     print('3D rho-var interpolation of %s at time = %f' % (src_varname, procTime))
 
 
@@ -176,15 +181,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
-
-    #get missing value
-    cdf = netCDF.Dataset(src_file)
-    src_var = cdf.variables[src_varname]
-    spval = src_var._FillValue
-    if (idxTime is None):
-        src_var = src_var[0]
-    else:
-        src_var = src_var[idxTime]
 
     # Check variable dimension
     assert len(src_var.shape) == 3
