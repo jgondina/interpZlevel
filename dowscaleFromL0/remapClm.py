@@ -126,6 +126,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # create variable in file (if needed)
     if (dst_varname not in nc.variables.keys()):
+        print (nc.variables.keys())
         print('Creating variable', dst_varname)
         nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
         nc.variables[dst_varname].long_name = ncAttribs['long_name']
