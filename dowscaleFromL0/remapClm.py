@@ -185,6 +185,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
             os.remove(dst_file)
         pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
         createdFiles[dst_file] = 'done'
+        print(createdFiles)
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
