@@ -124,13 +124,15 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
         sys.exit(1)
 
-    # create variable in file
-    print('Creating variable', dst_varname)
-    nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
-    nc.variables[dst_varname].long_name = ncAttribs['long_name']
-    nc.variables[dst_varname].units     = ncAttribs['units']
-    nc.variables[dst_varname].field     = ncAttribs['field']
-    nc.variables[dst_varname].time      = ncAttribs['vartime']
+    # create variable in file (if needed)
+    if (dst_varname not in nc.variables):
+        print('Creating variable', dst_varname)
+        nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
+        nc.variables[dst_varname].long_name = ncAttribs['long_name']
+        nc.variables[dst_varname].units     = ncAttribs['units']
+        nc.variables[dst_varname].field     = ncAttribs['field']
+        nc.variables[dst_varname].time      = ncAttribs['vartime']
+        nc.variables['ocean_time'] = [5000000.0,5000001.0,5000002.0]
 
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
@@ -245,7 +247,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     print('write data in destination file at time idx = %i (%f)' % (idxTime, procTime))
     nc.variables['ocean_time'][idxTime] = procTime
     nc.variables[dst_varname][idxTime,:,:,:] = dst_var
-    print(nc.variables[dst_varname][0,:,:,:])
+    print(nc.variables[dst_varname][idxTime,:,:,:])
 
     # close destination file
     nc.close()
