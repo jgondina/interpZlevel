@@ -242,7 +242,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
 
     # write data in destination file
-    print('write data in destination file')
+    print('write data in destination file at time idx = %i (%f)' % (idxTime, procTime))
     nc.variables['ocean_time'][idxTime] = procTime
     nc.variables[dst_varname][idxTime] = dst_var
 
