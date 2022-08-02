@@ -75,6 +75,8 @@ ncAttribsList = {
 
 }
 
+# Dictionary with all the netCDF files that have been already created.
+createdFiles = {}
 
 
 class nctime(object):
@@ -178,10 +180,11 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
     print('Creating file', dst_file)
-    if os.path.exists(dst_file) is True:
-        os.remove(dst_file)
-    pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
-
+    if dst_file not in createdFiles:
+        if os.path.exists(dst_file) is True:
+            os.remove(dst_file)
+        pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
+        createdFiles[dst_file] = 'done'
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
