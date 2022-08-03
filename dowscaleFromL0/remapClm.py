@@ -246,9 +246,9 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
     # print(dst_grd.vgrid.__dict__)
-    print('HHHHHH', dst_grd.vgrid.z[:,200,200])
-    print('HHHHHH', dst_grd.vgrid.z[:, 300, 300])
-    print('HHHHHH', dst_grd.vgrid.N, dst_grd.vgrid.z[:, 500, 500])
+    print('HHHHHH', dst_grd.vgrid.z_r[:,200,200])
+    print('HHHHHH', dst_grd.vgrid.z_r[:, 300, 300])
+    print('HHHHHH', dst_grd.vgrid.N, dst_grd.vgrid.z_r[:, 500, 500])
     dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
                                       dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
