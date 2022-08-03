@@ -132,5 +132,6 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         # var[k,:,:] = np.ma.masked_where(mask == 0, var[k,:,:])
 
     print('OOOOOOUUUTT!!!')
+    sys.stdout.flush()
 
     return var
