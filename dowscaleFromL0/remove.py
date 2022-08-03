@@ -2,10 +2,12 @@
 import sys
 
 import numpy as np
-# import _interp
-# import _remapping
 
 import pyroms
+import pyroms._interp
+import pyroms._remapping
+
+
 
 
 def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \

@@ -207,41 +207,6 @@ for idxTime, time in enumerate(oceanTimes):
     L0_salt = remapClimate3D(L0_out, 'salt', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
 
 
-#     L0_temp=double(ncread(L0_out,'temp',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
-#     L0_salt=double(ncread(L0_out,'salt',[L0_xinir,L0_yinir,1,L0_tini+tt1-1],[L0_nxr,L0_nyr,inf,1]))
-#
-#     temp1(:,:,:)=L0_temp(:,:,:)
-#     salt1(:,:,:)=L0_salt(:,:,:)
-#     u1(:,:,:)=L0_u(:,:,:)
-#     v1(:,:,:)=L0_v(:,:,:)
-#
-#     for zz=1:L0_N
-#         aa(:,:)=squeeze(temp1(:,:,zz))
-#         aa(L0_maskr==0)=nan
-#         aa=maplev(aa)
-#         temp2(:,:,zz)=aa
-#         clear aa
-#
-#         aa(:,:)=squeeze(salt1(:,:,zz))
-#         aa(L0_maskr==0)=nan
-#         aa=maplev(aa)
-#         salt2(:,:,zz)=aa
-#         clear aa
-#
-#         aa(:,:)=squeeze(u1(:,:,zz))
-#         aa(L0_masku==0)=nan
-#         aa=maplev(aa)
-#         u2(:,:,zz)=aa
-#         clear aa
-#
-#         aa(:,:)=squeeze(v1(:,:,zz))
-#         aa(L0_maskv==0)=nan
-#         aa=maplev(aa)
-#         v2(:,:,zz)=aa
-#         clear aa
-#     end
-#
-#     clear temp1 salt1 u1 v1
 #
 #     aa(:,:)=squeeze(L0_zeta(:,:,1))
 #     aa(L0_maskr==0)=nan
@@ -334,6 +299,8 @@ for idxTime, time in enumerate(oceanTimes):
 # toc
 # % save('E:\FLORIDA_GRIDS\L1\L0_L1_GOMSAB.mat','time','time4d','L1_temp','L1_salt','L1_u','L1_v','L1_ubar_4d','L1_vbar_4d','L1_zeta_4d','L1_ubar','L1_vbar','L1_zeta','-v7.3')
 #
+
+
 # %% CREATE INITIAL CONDITION
 # init_time=time4d(1,1)-datenum(1858,11,17)
 # create_roms_init_from_coawst(modelgrid,init_file,init_time,...
@@ -357,37 +324,38 @@ for idxTime, time in enumerate(oceanTimes):
 # %% CREATE BOUNDARY CONDITION
 # time_bry=time-datenum(1858,11,17)
 # time4d_bry=time4d-datenum(1858,11,17)
-# zeta_north=squeeze(L1_zeta(:,end,:))
-# ubar_north=squeeze(L1_ubar(:,end,:))
-# vbar_north=squeeze(L1_vbar(:,end,:))
-# u_north=squeeze(L1_u(:,end,:,:))
-# v_north=squeeze(L1_v(:,end,:,:))
-# salt_north=squeeze(L1_salt(:,end,:,:))
-# temp_north=squeeze(L1_temp(:,end,:,:))
-#
-# zeta_south=squeeze(L1_zeta(:,1,:))
-# ubar_south=squeeze(L1_ubar(:,1,:))
-# vbar_south=squeeze(L1_vbar(:,1,:))
-# u_south=squeeze(L1_u(:,1,:,:))
-# v_south=squeeze(L1_v(:,1,:,:))
-# salt_south=squeeze(L1_salt(:,1,:,:))
-# temp_south=squeeze(L1_temp(:,1,:,:))
-# %
-# zeta_east=squeeze(L1_zeta(end,:,:))
-# ubar_east=squeeze(L1_ubar(end,:,:))
-# vbar_east=squeeze(L1_vbar(end,:,:))
-# u_east=squeeze(L1_u(end,:,:,:))
-# v_east=squeeze(L1_v(end,:,:,:))
-# salt_east=squeeze(L1_salt(end,:,:,:))
-# temp_east=squeeze(L1_temp(end,:,:,:))
-# %
-# zeta_west=squeeze(L1_zeta(1,:,:))
-# ubar_west=squeeze(L1_ubar(1,:,:))
-# vbar_west=squeeze(L1_vbar(1,:,:))
-# u_west=squeeze(L1_u(1,:,:,:))
-# v_west=squeeze(L1_v(1,:,:,:))
-# salt_west=squeeze(L1_salt(1,:,:,:))
-# temp_west=squeeze(L1_temp(1,:,:,:))
+
+zeta_north  = L1_zeta[:,-1,:]
+ubar_north  = L1_ubar[:,-1,:]
+vbar_north  = L1_vbar[:,-1,:]
+u_north     = L1_u[:,-1,:,:]
+v_north     = L1_v[:,-1,:,:]
+salt_north  = L1_salt[:,-1,:,:]
+temp_north  = L1_temp[:,-1,:,:]
+
+zeta_south  = L1_zeta[,0,:]
+ubar_south  = L1_ubar[,0,:]
+vbar_south  = L1_vbar[,0,:]
+u_sout      = L1_u[:0,:,:]
+v_sout      = L1_v[:0,:,:]
+salt_south  = L1_salt[:0,:,:]
+temp_south  = L1_temp[:0,:,:]
+
+zeta_east   = L1_zeta[-1,:,:]
+ubar_east   = L1_ubar[-1,:,:]
+vbar_east   = L1_vbar[-1,:,:]
+u_east      = L1_u[-1,:,:,:]
+v_east      = L1_v[-1,:,:,:]
+salt_east   = L1_salt[-1,:,:,:]
+temp_east   = L1_temp[-1,:,:,:]
+
+zeta_west   = L1_zeta[0,:,:]
+ubar_west   = L1_ubar[0,:,:]
+vbar_west   = L1_vbar[0,:,:]
+u_west      = L1_u[0,:,:,:]
+v_west      = L1_v[0,:,:,:]
+salt_west   = L1_salt[0,:,:,:]
+temp_west   = L1_temp[0,:,:,:]
 #
 # create_roms_bry_from_coawst(modelgrid,bry_file,time_bry,time4d_bry,...
 #     Sinp.theta_s,Sinp.theta_b,Sinp.Tcline,Sinp.Vtransform,Sinp.Vstretching,Sinp.N,...
