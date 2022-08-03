@@ -100,10 +100,13 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
-    print('Creating file', dst_file)
-    if os.path.exists(dst_file) is True:
-        os.remove(dst_file)
-    pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
+    if dst_file not in createdFiles:
+        print('Creating file', dst_file)
+        if os.path.exists(dst_file) is True:
+            os.remove(dst_file)
+        pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
+        createdFiles[dst_file] = 'done'
+        print(createdFiles)
 
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
@@ -179,8 +182,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     # create IC file
     dst_file = src_file.rsplit('/')[-1]
     dst_file = dst_dir + dst_file[:-3] + '_' + src_varname + '_clim_' + dst_grd.name + '.nc'
-    print('Creating file', dst_file)
     if dst_file not in createdFiles:
+        print('Creating file', dst_file)
         if os.path.exists(dst_file) is True:
             os.remove(dst_file)
         pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
@@ -242,6 +245,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
+    print('HHHHHH', dst_varz[::-1,:,:])
     dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
                                       dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
