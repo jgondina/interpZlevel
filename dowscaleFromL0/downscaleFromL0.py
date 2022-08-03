@@ -11,7 +11,7 @@ import pyroms
 import pyroms_toolbox
 import xarray as xr
 import xesmf
-from remapClm import remapClimate2D, remapClimate3D, remapClimateUV2D
+from remapClm import remapClimate2D, remapClimate3D, remapClimateUV
 
 
 

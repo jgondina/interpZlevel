@@ -106,7 +106,6 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
             os.remove(dst_file)
         pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
         createdFiles[dst_file] = 'done'
-        print(createdFiles)
 
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
@@ -131,7 +130,6 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # create variable in file (if needed)
     if (dst_varname not in nc.variables.keys()):
-        print (nc.variables.keys())
         print('Creating variable', dst_varname)
         nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
         nc.variables[dst_varname].long_name = ncAttribs['long_name']
@@ -188,7 +186,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
             os.remove(dst_file)
         pyroms_toolbox.nc_create_roms_file(dst_file, dst_grd, nctime)
         createdFiles[dst_file] = 'done'
-        print(createdFiles)
+
     # open IC file
     nc = netCDF.Dataset(dst_file, 'a', format='NETCDF3_64BIT')
 
@@ -208,7 +206,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # create variable in file (if needed)
     if (dst_varname not in nc.variables.keys()):
-        print (nc.variables.keys())
         print('Creating variable', dst_varname)
         nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
         nc.variables[dst_varname].long_name = ncAttribs['long_name']
@@ -268,28 +265,36 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     nc.close()
 
 
-def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
+def remapClimateUV(src_file, src_grd, dst_grd, dst_dir='./', idxTime = None):
     print('3D velocity interpolation')
 
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
     cdf = netCDF.Dataset(src_file)
-    time = cdf.variables['ocean_time'][0]
+
+    if idxTime is None:
+        idxTime = 0
+    procTime = cdf.variables['ocean_time'][idxTime]
+
 
     # create destination file
     dst_file = src_file.rsplit('/')[-1]
     dst_fileu = dst_dir + dst_file[:-3] + '_u_clim_' + dst_grd.name + '.nc'
-    print('\nCreating destination file', dst_fileu)
-    if os.path.exists(dst_fileu) is True:
-        os.remove(dst_fileu)
-    pyroms_toolbox.nc_create_roms_file(dst_fileu, dst_grd, nctime)
+    if dst_fileu not in createdFiles:
+        print('Creating file', dst_fileu)
+        if os.path.exists(dst_fileu) is True:
+            os.remove(dst_fileu)
+        pyroms_toolbox.nc_create_roms_file(dst_fileu, dst_grd, nctime)
+        createdFiles[dst_fileu] = 'done'
 
     dst_filev = dst_dir + dst_file[:-3] + '_v_clim_' + dst_grd.name + '.nc'
-    print('Creating destination file', dst_filev)
-    if os.path.exists(dst_filev) is True:
-        os.remove(dst_filev)
-    pyroms_toolbox.nc_create_roms_file(dst_filev, dst_grd, nctime)
+    if dst_filev not in createdFiles:
+        print('Creating file', dst_filev)
+        if os.path.exists(dst_filev) is True:
+            os.remove(dst_filev)
+        pyroms_toolbox.nc_create_roms_file(dst_filev, dst_grd, nctime)
+        createdFiles[dst_filev] = 'done'
 
     # open destination file
     ncu = netCDF.Dataset(dst_fileu, 'a', format='NETCDF3_64BIT')
@@ -302,8 +307,8 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
 
     #get missing value
     fillValue = src_varu._FillValue
-    src_varu = src_varu[0]
-    src_varv = src_varv[0]
+    src_varu = src_varu[idxTime]
+    src_varv = src_varv[idxTime]
 
 
     # build intermediate zgrid
@@ -326,34 +331,35 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
             print('ERROR: INVALID SOURCE VARIABLE: %s' % src_varname)
             sys.exit(1)
 
-        # create variable in file
-        print('Creating variable', dst_varname)
-        nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
-        nc.variables[dst_varname].long_name = ncAttribs['long_name']
-        nc.variables[dst_varname].units =     ncAttribs['units']
-        nc.variables[dst_varname].field =     ncAttribs['field']
-        nc.variables[dst_varname].time =      ncAttribs['vartime']
+        # create variable in file (if needed)
+        if (dst_varname not in nc.variables.keys()):
+            print('Creating variable', dst_varname)
+            nc.createVariable(dst_varname, 'f8',  ncAttribs['dimensions'])
+            nc.variables[dst_varname].long_name = ncAttribs['long_name']
+            nc.variables[dst_varname].units =     ncAttribs['units']
+            nc.variables[dst_varname].field =     ncAttribs['field']
+            nc.variables[dst_varname].time =      ncAttribs['vartime']
 
 
     # remaping
     print('remapping and rotating u and v from', src_grd.name, 'to', dst_grd.name)
-    print('time =', time)
+    print('time =', procTime)
 
 
     print('horizontal interpolation using xesmf')
     dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=fillValue)
     dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=fillValue)
 
-    plt.imshow(dst_uz[0,:,:])
-    plt.show()
+    # plt.imshow(dst_uz[0,:,:])
+    # plt.show()
 
     print('Vertical interpolation from standard z level to sigma')
     dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
     dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
 
 
-    plt.imshow(dst_u[0, :, :])
-    plt.show()
+    # plt.imshow(dst_u[0, :, :])
+    # plt.show()
 
 
     print('Rotating u, v fields')
@@ -410,13 +416,13 @@ def remapClimateUV2D(src_file, src_grd, dst_grd,  dst_dir='./'):
     dst_vbar[idxv] = fillValue
 
     print('Write data in destination file')
-    ncu.variables['ocean_time'][0] = time
-    ncu.variables['u'][0] = dst_u
-    ncu.variables['ubar'][0] = dst_ubar
+    ncu.variables['ocean_time'][idxTime] = procTime
+    ncu.variables['u'][idxTime] = dst_u
+    ncu.variables['ubar'][idxTime] = dst_ubar
 
-    ncv.variables['ocean_time'][0] = time
-    ncv.variables['v'][0] = dst_v
-    ncv.variables['vbar'][0] = dst_vbar
+    ncv.variables['ocean_time'][idxTime] = procTime
+    ncv.variables['v'][idxTime] = dst_v
+    ncv.variables['vbar'][idxTime] = dst_vbar
 
     # close destination file
     ncu.close()
