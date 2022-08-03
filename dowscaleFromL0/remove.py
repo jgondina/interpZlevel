@@ -114,17 +114,17 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     for k in range(Nm):
         print(k)
         sys.stdout.flush()
-        print(varz,
-                                       z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                       depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                       mask[jrange[0]:jrange[1], irange[0]:irange[1]],
-                                       imode, spval)
-        sys.stdout.flush()
-        # var[k, :, :] = _interp.xhslice(varz,
+        # print(varz,
         #                                z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                mask[jrange[0]:jrange[1], irange[0]:irange[1]],
         #                                imode, spval)
+        sys.stdout.flush()
+        var[k, :, :] = _interp.xhslice(varz,
+                                       z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+                                       depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
+                                       mask[jrange[0]:jrange[1], irange[0]:irange[1]],
+                                       imode, spval)
         print('here')
 
         # mask
