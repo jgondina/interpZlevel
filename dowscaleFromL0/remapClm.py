@@ -245,6 +245,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
+    print(dst_grdz.vgrid.__dict__)
     print('HHHHHH', dst_grdz.vgrid.z[:,200,200])
     print('HHHHHH', dst_grdz.vgrid.z[:, 300, 300])
     print('HHHHHH', dst_grd.vgrid.N, dst_grdz.vgrid.z[:, 500, 500])
