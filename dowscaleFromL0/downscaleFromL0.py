@@ -17,7 +17,6 @@ import xesmf
 from remapClm import remapClimate2D, remapClimate3D, remapClimateUV
 from setDepth import setDepth
 
-from vgrid import *
 
 
 
