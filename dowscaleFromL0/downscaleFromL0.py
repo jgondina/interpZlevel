@@ -12,7 +12,7 @@ import pyroms_toolbox
 import xarray as xr
 import xesmf
 from remapClm import remapClimate2D, remapClimate3D, remapClimateUV
-from ../setDepth import setDepth
+from setDepth import setDepth
 
 
 
