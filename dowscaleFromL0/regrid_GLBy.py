@@ -25,7 +25,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         print('ERROR: Invalid varType. Should be one of rho, u, v')
         sys.exit(1)
 
-    # Computes the regridder.
+    # Computes the regridder. If the weights file does not exist or has any problem, recreates it.
     try:
         regrid = xesmf.Regridder(
             srcCoords, dstCoords,

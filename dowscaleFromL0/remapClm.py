@@ -394,16 +394,19 @@ def remapClimateUV(src_file, src_grd, dst_grd, dst_dir='./', idxTime = None):
 
 
     # compute depth average velocity ubar and vbar
-    # get z at the right position
+    # get z at the U, V positions
     z_u = 0.5 * (dst_grd.vgrid.z_w[0,:,:,:-1] + dst_grd.vgrid.z_w[0,:,:,1:])
     z_v = 0.5 * (dst_grd.vgrid.z_w[0,:,:-1,:] + dst_grd.vgrid.z_w[0,:,1:,:])
 
     dst_ubar = np.zeros((dst_u.shape[1], dst_u.shape[2]))
     dst_vbar = np.zeros((dst_v.shape[1], dst_v.shape[2]))
 
+    print('RRRRRTTTTT   ', dst_ubar.shape, z_u.shape)
+    print('RRRRRTTTTT2  ', dst_vbar.shape, z_v.shape)
+
     print('>>>1')
     for i in range(dst_ubar.shape[1]):
-        print(i)
+        # print(i)
         for j in range(dst_ubar.shape[0]):
             dst_ubar[j,i] = (dst_u[:,j,i] * np.diff(z_u[:,j,i])).sum() / -z_u[0,j,i]
 

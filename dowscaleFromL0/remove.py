@@ -44,19 +44,19 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         raise  'Warning, %s not supported, defaulting to linear' % mode
 
     print('2')
-    if Cpos is 'rho':
+    if Cpos == 'rho':
         z = grdz.vgrid.z[:]
         depth = grd.vgrid.z_r[0, :]
         mask = grd.hgrid.mask_rho
-    elif Cpos is 'u':
+    elif Cpos == 'u':
         z = 0.5 * (grdz.vgrid.z[:, :, :-1] + grdz.vgrid.z[:, :, 1:])
         depth = 0.5 * (grd.vgrid.z_r[0, :, :, :-1] + grd.vgrid.z_r[0, :, :, 1:])
         mask = grd.hgrid.mask_u
-    elif Cpos is 'v':
+    elif Cpos == 'v':
         z = 0.5 * (grdz.vgrid.z[:, :-1, :] + grdz.vgrid.z[:, 1:, :])
         depth = 0.5 * (grd.vgrid.z_r[0, :, :-1, :] + grd.vgrid.z_r[0, :, 1:, :])
         mask = grd.hgrid.mask_v
-    elif Cpos is 'w':
+    elif Cpos == 'w':
         z = grdz.vgrid.z[:]
         depth = grd.vgrid.z_w[0, :]
         mask = grd.hgrid.mask_rho
