@@ -105,6 +105,7 @@ def stretching(Vstretching, theta_s, theta_b, N, kgrid, report = False):
 
 
     elif Vstretching == VStretch.Shchepetkin2010:
+        print('rttrtrtr',theta_s)
 
         if theta_s > 0:
             Csur = (1.0 - np.cosh(theta_s*s))/(np.cosh(theta_s) - 1.0)
