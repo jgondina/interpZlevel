@@ -203,7 +203,7 @@ for idxTime, time in enumerate(time):
     print('processing time: %s' % time)
 
     # print('Interpolating 2D + time variables')
-    L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./')
+    L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
     #
     L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 

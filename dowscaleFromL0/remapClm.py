@@ -91,10 +91,9 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
 
-    if idxTime is not None:
-        procTime = cdf.variables['ocean_time'][idxTime]
-    else:
-        procTime = cdf.variables['ocean_time'][0]
+    if idxTime is None:
+        idxTime = 0
+    procTime = cdf.variables['ocean_time'][idxTime]
     print('2D rho-var interpolation of %s at time = %f' % (src_varname, procTime))
     
     # create IC file
