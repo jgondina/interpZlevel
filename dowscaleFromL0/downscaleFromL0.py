@@ -5,6 +5,9 @@
 #  NOPP-NHCI project, based on efforts by:
 #  written by Maitane Olabarrieta 09/26/2021
 
+
+sys.path.append(r'..')
+
 import datetime
 import numpy as np
 import pyroms
