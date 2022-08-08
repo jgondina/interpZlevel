@@ -60,9 +60,10 @@ def stretching(Vstretching, theta_s, theta_b, N, kgrid, report = False):
     elif kgrid == KGrid.Rho:
         numLevels = N
         print('HHHHJSDSDSDSJKDSJ', N)
-        levels = np.arange(N.size) + 0.5
+        levels = np.arange(numLevels) + 0.5
 
     s = (1.0/numLevels)*(levels - numLevels)
+    print('daksal;dks;a',s)
 
     if Vstretching == VStretch.Original:
 
