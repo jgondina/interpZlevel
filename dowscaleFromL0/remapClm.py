@@ -159,7 +159,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='
         return dst_var
 
 
-def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None):
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None, z = none):
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
@@ -224,6 +224,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print('XXXXXXXX', zlevel.shape)
 
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
+    dst_zcoord = z
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
 
