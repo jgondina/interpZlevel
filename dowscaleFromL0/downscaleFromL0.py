@@ -17,6 +17,8 @@ import xesmf
 from remapClm import remapClimate2D, remapClimate3D, remapClimateUV
 from setDepth import setDepth
 
+from vgrid import *
+
 
 
 # Select analysis period
@@ -212,6 +214,8 @@ for idxTime, time in enumerate(time):
     # print('dddddddd', L0_zr[:, :,:])
 
     # L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
+
+    s_coordinate_2(h, theta_b, theta_s, Tcline, N, hraw=None, zeta=None):
 
     L0_zr = setDepth(L0_Vtransform, L0_Vstretching, L0_theta_s, L0_theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta)
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta=None, report=False):
