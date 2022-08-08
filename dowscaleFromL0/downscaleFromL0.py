@@ -6,7 +6,7 @@
 #  written by Maitane Olabarrieta 09/26/2021
 
 import sys
-sys.path.append(r'..')
+sys.path.append(r'/home/jo.gonzalez/projects/interpZlevel')
 
 import datetime
 import numpy as np
