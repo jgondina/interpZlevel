@@ -193,18 +193,18 @@ print(gridL0.vgrid.s_rho.shape)
 
 oceanTimes = [5000000.0,5000001.0,5000002.0]
 
-for idxTime, time in enumerate(oceanTimes):
+for idxTime, time in enumerate(time):
     print('processing time: %s' % time)
 
     # print('Interpolating 2D + time variables')
     # L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, dst_dir='./')
     #
-    L0_UV = remapClimateUV(L0_out, gridL0, gridL1, dst_dir='./')
+    L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
 
     print('Interpolating 3D + time variables')
-    L0_temp = remapClimate3D(L0_out, 'temp', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
-    L0_salt = remapClimate3D(L0_out, 'salt', gridL0, gridL1, dst_dir='./', idxTime = idxTime)
+    L0_temp = remapClimate3D(L0_out, 'temp', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
+    L0_salt = remapClimate3D(L0_out, 'salt', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
 
 #

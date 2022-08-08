@@ -82,7 +82,7 @@ createdFiles = {}
 class nctime(object):
     pass
 
-def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
+def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='./', idxTime = None):
 
     # get time
     nctime.long_name = 'time'
@@ -136,7 +136,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         nc.variables[dst_varname].units     = ncAttribs['units']
         nc.variables[dst_varname].field     = ncAttribs['field']
         nc.variables[dst_varname].time      = ncAttribs['vartime']
-        nc.variables['ocean_time'] = [5000000.0,5000001.0,5000002.0]
+        nc.variables['ocean_time'] = oceanTimes
 
     # remapping
     print('remapping', dst_varname, 'from', src_grd.name, 'to', dst_grd.name)
@@ -160,7 +160,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         return dst_var
 
 
-def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTime = None):
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None):
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
@@ -168,6 +168,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
     spval = src_var._FillValue
+
+    print('XXXXXXXXXXXXXXXXXX',cdf.variables.keys())
 
     if idxTime is None:
         idxTime = 0
@@ -212,7 +214,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
         nc.variables[dst_varname].units     = ncAttribs['units']
         nc.variables[dst_varname].field     = ncAttribs['field']
         nc.variables[dst_varname].time      = ncAttribs['vartime']
-        nc.variables['ocean_time'] = [5000000.0,5000001.0,5000002.0]
+        nc.variables['ocean_time'] = oceanTimes
 
 
     # build intermediate zgrid
@@ -266,7 +268,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, dst_dir='./', idxTim
     nc.close()
 
 
-def remapClimateUV(src_file, src_grd, dst_grd, dst_dir='./', idxTime = None):
+def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None):
     print('3D velocity interpolation')
 
     # get time
@@ -340,6 +342,7 @@ def remapClimateUV(src_file, src_grd, dst_grd, dst_dir='./', idxTime = None):
             nc.variables[dst_varname].units =     ncAttribs['units']
             nc.variables[dst_varname].field =     ncAttribs['field']
             nc.variables[dst_varname].time =      ncAttribs['vartime']
+            nc.variables['ocean_time'] = oceanTimes
 
 
     # remaping
