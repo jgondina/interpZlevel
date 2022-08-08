@@ -205,6 +205,10 @@ for idxTime, time in enumerate(time):
     # print('Interpolating 2D + time variables')
     L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
     #
+
+    L0_zr = setDepth(L0_Vtransform, L0_Vstretching, L0_theta_s, L0_theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta)
+
+
     L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
     L0_zr = setDepth(L0_Vtransform, L0_Vstretching, L0_theta_s, L0_theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta)
