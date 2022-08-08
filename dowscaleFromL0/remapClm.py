@@ -159,7 +159,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='
         return dst_var
 
 
-def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None, z = none):
+def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None, z = None):
     # get time
     nctime.long_name = 'time'
     nctime.units = 'days since 1900-01-01 00:00:00'
