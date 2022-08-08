@@ -232,6 +232,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     L1_N = 15
     Vstretching = 4
     dst_zcoord = pyroms.vgrid.s_coordinate_2(dst_grd.vgrid.h, theta_b, theta_s, Tcline, L1_N, zeta=z)
+
+    print(dst_zcoord.__dict)
     # print('>>>>>>2', dst_zcoord.shape)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
