@@ -62,7 +62,7 @@ def stretching(Vstretching, theta_s, theta_b, N, kgrid, report = False):
         print('HHHHJSDSDSDSJKDSJ', N)
         levels = np.arange(N.size) + 0.5
 
-    s = (1.0/N)*(levels - N)
+    s = (1.0/numLevels)*(levels - numLevels)
 
     if Vstretching == VStretch.Original:
 
