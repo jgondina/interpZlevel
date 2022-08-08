@@ -169,8 +169,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     src_var = cdf.variables[src_varname]
     spval = src_var._FillValue
 
-    print('XXXXXXXXXXXXXXXXXX',cdf.variables['ocean_time'])
-    print('XXXXXXXXXXXXXXXXXX', cdf.variables['ntime'])
+    print('XXXXXXXXXXXXXXXXXX',cdf.variables['ocean_time'][:])
+    print('XXXXXXXXXXXXXXXXXX', cdf.variables['ntimes'])
 
     if idxTime is None:
         idxTime = 0
