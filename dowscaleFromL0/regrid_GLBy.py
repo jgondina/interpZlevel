@@ -20,7 +20,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         # plt.imshow(var[0,:,:]); plt.show()
     elif varType == 'v':
         srcCoords = {'lat': src_grd.hgrid.lat_v  , 'lon': src_grd.hgrid.lon_v  , 'mask': src_grd.hgrid.mask_v  .astype(np.int)}
-        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
+        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': 1+0*dst_grd.hgrid.mask_rho.astype(np.int)}
     else:
         print('ERROR: Invalid varType. Should be one of rho, u, v')
         sys.exit(1)
