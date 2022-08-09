@@ -204,6 +204,8 @@ L1_hc     = gridL1.vgrid.hc
 
 oceanTimes = [5000000.0,5000001.0,5000002.0]
 
+
+
 for idxTime, time in enumerate(time):
     print('processing time: %s' % time)
 
@@ -216,7 +218,7 @@ for idxTime, time in enumerate(time):
     # print('ddddddddddd', L0_zr[:,100,100])
     # print('dddddddd', L0_zr[:, :,:])
 
-    # L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
+    L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
     # s_coordinate_2(h, theta_b, theta_s, Tcline, N, hraw=None, zeta=None):
 
