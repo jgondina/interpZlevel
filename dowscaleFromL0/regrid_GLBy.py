@@ -50,6 +50,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     except:
         pass
 
+    print('______', var.shape)
+
 
     tdest = regrid(var)
 
@@ -63,7 +65,9 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     #     plt.figure()
     #     plt.ioff()
 
-    plt.show()
+    # plt.show()
+
+    print('______', tdest.shape)
 
 
     return tdest
