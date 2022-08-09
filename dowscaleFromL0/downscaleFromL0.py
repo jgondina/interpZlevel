@@ -208,7 +208,7 @@ for idxTime, time in enumerate(time):
     print('processing time: %s' % time)
 
     # print('Interpolating 2D + time variables')
-    L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
+    L0_zeta_to_L1 = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
 
     # L0_zr = setDepth(L0_Vtransform, L0_Vstretching, L0_theta_s, L0_theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta)
@@ -220,11 +220,11 @@ for idxTime, time in enumerate(time):
 
     # s_coordinate_2(h, theta_b, theta_s, Tcline, N, hraw=None, zeta=None):
 
-    print('====', L0_hc, L0_zeta[:].shape)
+    print('====', L0_hc, L0_zeta_to_L1[:].shape)
 
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta[L0_xinir:L0_xendr, L0_yinir:L0_yendr])
     L1_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L0_hc, L0_N, 1, L1_h,
-                     zeta=L0_zeta[L0_xinir:L0_xendr, L0_yinir:L0_yendr])
+                     zeta=L0_zeta_to_L1)
     print(':::::::::', L0_zr.shape)
 
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta=None, report=False):
