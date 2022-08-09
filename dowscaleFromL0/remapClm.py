@@ -270,9 +270,9 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     #                                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
     # land mask
-    idxu = np.where(dst_grd.hgrid.mask_rho == 0)
+    idx = np.where(dst_grd.hgrid.mask_rho == 0)
     for n in range(dst_grd.vgrid.N):
-        dst_var[n, idxu[0], idxu[1]] = spval
+        dst_var[n, idx[0], idx[1]] = np.nan
 
 
     # write data in destination file
