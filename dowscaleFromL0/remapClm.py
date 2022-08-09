@@ -257,7 +257,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print('vertical interpolation from standard z level to sigma')
     # print(dst_grd.vgrid.__dict__)
     print('999999   ', dst_varz[::-1,:,:].shape, dst_grdz.vgrid.z.shape)
-    dst_var = z22roms(dst_grdz, dst_grdz,
+    dst_var = z22roms(dst_grdz.vgrid.z, dst_grdz,
                       dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
 
