@@ -262,12 +262,12 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print(dst_varz.shape)
     print(dst_grdz.vgrid.z.shape)
 
-    dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
-                      dst_grd, Cpos=Cpos, spval=spval, flood=False)
+    # dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
+    #                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
     print('999999   ', dst_varz[::-1,:,:].shape, dst_grdz.vgrid.z.shape)
-    # dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
-    #                                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
+    dst_var = pyroms.remapping.z2roms(dst_varz[::-1, :, :], dst_grdz,
+                          dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
     # land mask
     idx = np.where(dst_grd.hgrid.mask_rho == 0)
