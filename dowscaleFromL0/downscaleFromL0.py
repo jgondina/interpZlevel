@@ -228,8 +228,8 @@ for idxTime, time in enumerate(time):
 
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta=None, report=False):
     print('Interpolating 3D + time variables')
-    L0_temp = remapClimate3D(L0_out, 'temp', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L0_zr)
-    L0_salt = remapClimate3D(L0_out, 'salt', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L0_zr)
+    L0_temp = remapClimate3D(L0_out, 'temp', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L1_zr)
+    L0_salt = remapClimate3D(L0_out, 'salt', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L1_zr)
 
 
 #
