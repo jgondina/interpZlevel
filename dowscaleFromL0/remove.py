@@ -101,6 +101,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
 
     for k in range(Nm):
+        print(Nm)
         print('1111', z)
         z = np.array(z)
         print('2222', z)
