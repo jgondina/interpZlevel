@@ -223,7 +223,9 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print('XXXXXXXX', dst_grd.vgrid.h.shape)
     zlevel = -z[::-1, :, :]
 
-    dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
+    print('TTTTT', dst_grd.vgrid.z.shape)
+    dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, dst_grd.vgrid.z, dst_grd.vgrid.z.shape[0])
+
     # print('>>>>>>>', dst_zcoord.__dict__)
 
     # theta_s = 8.0
@@ -235,7 +237,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
 
     print(dst_zcoord.__dict__)
     # print('>>>>>>2', dst_zcoord.shape)
-    dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', src_grd.hgrid, dst_zcoord)
+    dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, src_zcoord)
 
 
     # remapping
