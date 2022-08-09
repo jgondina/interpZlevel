@@ -222,7 +222,7 @@ for idxTime, time in enumerate(time):
 
     print('====', L0_hc, L0_zeta[:].shape)
 
-    L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta)
+    L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L0_hc, L0_N, 1, L0_h, zeta = L0_zeta[L0_xinir:L0_xendr, L0_yinir:L0_yendr])
     print(':::::::::', L0_zr.shape)
 
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta=None, report=False):
