@@ -220,7 +220,7 @@ for idxTime, time in enumerate(time):
 
     # s_coordinate_2(h, theta_b, theta_s, Tcline, N, hraw=None, zeta=None):
 
-    L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L1_hc, L1_N, 1, L1_h, zeta = L0_zeta)
+    L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L1_hc, L1_N, 1, L1_h, zeta = L1_zeta)
     print(':::::::::', L0_zr.shape)
 
     # L0_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta=None, report=False):
