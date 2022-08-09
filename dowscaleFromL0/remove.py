@@ -102,9 +102,8 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     for k in range(Nm):
         print(Nm)
-        print('1111', z)
-        z = np.array(z)
-        print('2222', z)
+        print('1111', varz.shape)
+        print('2222', z.shape)
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
