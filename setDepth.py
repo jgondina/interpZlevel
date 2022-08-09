@@ -102,6 +102,7 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
                  '            hc         = %f\n'
                  '            hmin       = %f\n' % (Vtransform, hc, hmin))
 
+    print('>>>>>', zeta.shape)
     if zeta is None:
         zeta = np.zeros(h.shape)
 
