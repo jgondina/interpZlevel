@@ -168,6 +168,9 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
 
         else:
             z0 = Z0(s[k], C[k], hc, h)
+            aaaa = Z(z0, zeta, h)
+            print(z0.shape)
+            print(aaaa.shape)
             z[k, :,:] = Z(z0, zeta, h)
 
     return z
