@@ -206,7 +206,7 @@ for idxTime, time in enumerate(time):
     # print('Interpolating 2D + time variables')
     L0_zeta = remapClimate2D(L0_out, 'zeta', gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime)
 
-    print(':::::', L0_zeta.__dict__)
+    print(':::::', L0_zeta.shape)
     print(':::::', gridL0.vgrid.h.shape)
     print(':::::', gridL1.vgrid.h.shape)
 
