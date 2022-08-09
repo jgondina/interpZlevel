@@ -197,7 +197,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
 
     pos = 't'
     Cpos = 'rho'
-    z = src_grd.vgrid.z_r[:]
+    # z = src_grd.vgrid.z_r[:]
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
