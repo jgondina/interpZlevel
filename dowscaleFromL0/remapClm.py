@@ -155,8 +155,7 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='
     # close destination file
     nc.close()
 
-    if src_varname == 'ssh':
-        return dst_var
+    return dst_var
 
 
 def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None, z = None):
