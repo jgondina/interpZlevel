@@ -260,6 +260,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     # dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
     #                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
+    print('999999   ', dst_grdz.vgrid.z)
     dst_var = pyroms.remapping.z2roms(dst_varz[::-1,:,:], dst_grdz,
                                       dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
