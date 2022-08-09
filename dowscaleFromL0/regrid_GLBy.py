@@ -67,7 +67,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
 
     # plt.show()
 
-    print('______', tdest.shape)
+    print('___c___', tdest.shape)
 
 
     return tdest
