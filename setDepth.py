@@ -151,6 +151,8 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
 
     z = np.zeros((numLevels,) + h.shape)
 
+    print('ppppp pp p p ', z.shape)
+
     if Vtransform == VTransform.Original:
         Z0 = oldZ0
         Z  = oldZ
@@ -169,7 +171,7 @@ def setDepth(Vtransform, Vstretching, theta_s, theta_b, hc, N, igrid, h, zeta = 
         else:
             z0 = Z0(s[k], C[k], hc, h)
             aaaa = Z(z0, zeta, h)
-            print(z0.shape)
+            print(k, z.shape)
             print(aaaa.shape)
             z[k, :,:] = Z(z0, zeta, h)
 
