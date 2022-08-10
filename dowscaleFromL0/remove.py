@@ -127,7 +127,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print('Creating processes for vertical interpolation')
     jobs = []
     try:
-        sharedVar = multiprocessing.RawArray('f', var.flatten())
+        print(sharedVar.shape)
     except:
         sharedVar = multiprocessing.Array('f', var.flatten())
     print('222222', var.shape)
