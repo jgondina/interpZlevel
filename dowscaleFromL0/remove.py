@@ -106,6 +106,9 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
+
+        global sharedVar
+
         print('    Process %i, started' % k)
         # var[k, :, :] =\
         aaa = pyroms._interp.xhslice(varz, z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
@@ -129,7 +132,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     try:
         print(sharedVar.shape)
     except:
-        sharedVar = multiprocessing.Array('f', var.flatten())
+        sharedVar = multiprocessing.RawArray('d', var.flatten())
     print('222222', var.shape)
     # multiprocessing.shared_memory.SharedMemory(name='lalala', create=True, size=var.flatten().size*8)
 
