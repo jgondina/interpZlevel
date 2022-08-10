@@ -102,12 +102,11 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     var = np.ma.zeros((Nm, Mm, Lm))
 
-    def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
+    def worker(k, queue, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
         print('    Process %i, started' % k)
         # var[k, :, :] =\
-        aaa = pyroms._interp.xhslice(varz,
-                                              z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+        aaa = pyroms._interp.xhslice(varz,                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
@@ -122,7 +121,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print('Creating processes for vertical interpolation')
     jobs = []
     for k in range(Nm):
-        p = multiprocessing.Process(target=worker, args=(k, var, varz, z, depth, mask, imode, spval, irange, jrange))
+        p = multiprocessing.Process(target=worker, args=(k, var, queue, z, depth, mask, imode, spval, irange, jrange))
         jobs.append(p)
         p.start()
 
