@@ -12,7 +12,7 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
 
     if varType == 'rho':
         srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
-        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': 1+0*dst_grd.hgrid.mask_rho.astype(np.int)}
+        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho} #, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
     elif varType == 'u':
         srcCoords = {'lat': src_grd.hgrid.lat_u  , 'lon': src_grd.hgrid.lon_u  , 'mask': src_grd.hgrid.mask_u  .astype(np.int)}
         dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
