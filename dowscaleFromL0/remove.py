@@ -129,7 +129,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     jobs = []
     global sharedVar
     try:
-        print(sharedVar.shape)
+        print(sharedVar)
     except:
         sharedVar = multiprocessing.RawArray('d', var.flatten())
     print('222222', var.shape)
