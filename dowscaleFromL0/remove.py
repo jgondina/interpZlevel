@@ -113,7 +113,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
-        print (sum(var, 0))
+        print (sum(var, 0)!=0)
         print('4444', mask.shape)
         # mask
         var = np.ma.masked_values(var, spval, rtol=1e-5)
