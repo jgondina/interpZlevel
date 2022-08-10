@@ -106,7 +106,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         print('2222', z.shape)
         print('3333', depth.shape)
         print('2222', mask.shape)
-        varz = 0.0
+        varz[:,:,:] = 0.0
         varz[::2,:,:] = 1
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
