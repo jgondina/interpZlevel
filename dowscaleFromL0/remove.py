@@ -104,17 +104,18 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
-        print('Process %i, started' % k, var[k, :, :].sum())
+        print('    Process %i, started' % k, var[k, :, :].sum())
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
-        print('Process %i, finished' % k, var[k, :, :].sum())
-        if k<2:
-            plt.imshow(var[k, :, :])
-            plt.show()
+        print('    Process %i, finished' % k, var[k, :, :].sum())
+        # if k<2:
+        #     plt.imshow(var[k, :, :])
+        #     plt.show()
 
+    print('Creating processes for vertical interpolation')
     jobs = []
     for k in range(Nm):
         p = multiprocessing.Process(target=worker, args=(k, var, varz, z, depth, mask, imode, spval, irange, jrange))
@@ -122,7 +123,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         p.start()
 
 
-    print('here')
+    print('  Waiting for processes to finish')
 
     while len(jobs)>0:
         jobs[0].join()
