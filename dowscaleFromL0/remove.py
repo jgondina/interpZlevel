@@ -6,7 +6,7 @@ import numpy as np
 import pyroms
 import pyroms._interp
 import pyroms._remapping
-
+from matplotlib.pyplot import plt
 
 import multiprocessing
 
@@ -111,6 +111,8 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                               mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
         print('Process %i, finished' % k, var[k, :, :].sum())
+        plt.imshow(var[k, :, :])
+        plt.show()
 
     jobs = []
     for k in range(Nm):
