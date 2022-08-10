@@ -111,7 +111,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                      1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                      imode, spval)
         i1 = k*len(aaa)
-        var[i1:i1 + len(aaa)] = aaa
+        var[i1:i1 + len(aaa)] = aaa.flatten()
         print('    Process %i, finished' % k, len(aaa[:]))
         # if k<2:
         #     plt.imshow(aaa)
