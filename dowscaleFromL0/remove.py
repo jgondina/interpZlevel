@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import multiprocessing
 queue = multiprocessing.SimpleQueue()
 
-sharedVar = 7
+sharedVar = None
 
 def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
            spval=1e37, flood=True, dmax=0, cdepth=0, kk=0, \
@@ -128,10 +128,11 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print('Creating processes for vertical interpolation')
     jobs = []
     global sharedVar
-    try:
-        print(sharedVar)
-    except:
+
+    if sharedVar is None:
         sharedVar = multiprocessing.RawArray('d', var.flatten())
+    print(sharedVar)
+
     print('222222', var.shape)
     # multiprocessing.shared_memory.SharedMemory(name='lalala', create=True, size=var.flatten().size*8)
 
