@@ -121,7 +121,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     print('Creating processes for vertical interpolation')
     jobs = []
     for k in range(Nm):
-        p = multiprocessing.Process(target=worker, args=(k, var, queue, z, depth, mask, imode, spval, irange, jrange))
+        p = multiprocessing.Process(target=worker, args=(k, queue, varz, z, depth, mask, imode, spval, irange, jrange))
         jobs.append(p)
         p.start()
 
