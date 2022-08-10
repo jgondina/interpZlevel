@@ -104,13 +104,13 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
-        print('Process %i, started' % k)
+        print('Process %i, started' % k, var[k, :, :].sum())
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
-        print('Process %i, finished' % k)
+        print('Process %i, finished' % k, var[k, :, :].sum())
 
     jobs = []
     for k in range(Nm):
