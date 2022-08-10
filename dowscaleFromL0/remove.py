@@ -9,7 +9,7 @@ import pyroms._remapping
 import matplotlib.pyplot as plt
 
 import multiprocessing
-queue = multiprocessing.JoinableQueue()
+queue = multiprocessing.SimpleQueue()
 
 
 
@@ -115,7 +115,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         #     plt.imshow(aaa)
         #     plt.show()
 
-        queue.put(aaa)
+        queue.put(aaa.shape)
         # queue.put({'idx': k, 'data': aaa})
         print(k)
 
