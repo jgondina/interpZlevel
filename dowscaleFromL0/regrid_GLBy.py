@@ -6,19 +6,16 @@ import matplotlib.pyplot as plt
 
 def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, varType = 'rho'):
 
-    # Computes the masks
-    # srcMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
-    # dstMask = (np.abs(var - fillValue) < 1e-10*(np.abs(fillValue))) | np.isnan(var) | (src_grd.hgrid.mask_rho == 1.0)
-
+    # Uncomment the dst maks to interpolate only on the wet nodes.
     if varType == 'rho':
         srcCoords = {'lat': src_grd.hgrid.lat_rho, 'lon': src_grd.hgrid.lon_rho, 'mask': src_grd.hgrid.mask_rho.astype(np.int)}
         dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho} #, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
     elif varType == 'u':
         srcCoords = {'lat': src_grd.hgrid.lat_u  , 'lon': src_grd.hgrid.lon_u  , 'mask': src_grd.hgrid.mask_u  .astype(np.int)}
-        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
+        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho} #, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
     elif varType == 'v':
         srcCoords = {'lat': src_grd.hgrid.lat_v  , 'lon': src_grd.hgrid.lon_v  , 'mask': src_grd.hgrid.mask_v  .astype(np.int)}
-        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
+        dstCoords = {'lat': dst_grd.hgrid.lat_rho, 'lon': dst_grd.hgrid.lon_rho} #, 'mask': dst_grd.hgrid.mask_rho.astype(np.int)}
     else:
         print('ERROR: Invalid varType. Should be one of rho, u, v')
         sys.exit(1)
@@ -51,16 +48,6 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
 
     tdest = regrid(var)
 
-    try:
-        print(varType)
-        plt.imshow(dst_grd.hgrid.lon_rho)
-        plt.show()
-        plt.imshow(tdest[0, :, :])
-        plt.show()
-        plt.imshow(src_grd.hgrid.mask_rho)
-        plt.show()
-    except:
-        pass
 
     # try:
     #     plt.imshow(tdest[:, :])
