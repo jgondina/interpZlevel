@@ -6,7 +6,7 @@ import numpy as np
 import pyroms
 import pyroms._interp
 import pyroms._remapping
-from matplotlib.pyplot import plt
+import matplotlib.pyplot as plt
 
 import multiprocessing
 
