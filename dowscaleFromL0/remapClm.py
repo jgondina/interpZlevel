@@ -248,8 +248,8 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print('vertical interpolation from standard z level to sigma')
 
 
-    # dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
-    #                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
+    dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
+                      dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
     dst_var = pyroms.remapping.z2roms(dst_varz[::-1, :, :], dst_grdz,
                           dst_grd, Cpos=Cpos, spval=spval, flood=False)
