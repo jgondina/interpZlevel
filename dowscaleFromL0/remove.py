@@ -101,7 +101,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
 
     for k in range(Nm):
-        print(k, Nm)
+        print(k, Nm, imode)
         print('1111', varz.shape)
         print('2222', z.shape)
         print('3333', depth.shape)
