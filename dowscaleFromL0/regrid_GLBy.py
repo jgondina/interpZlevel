@@ -53,6 +53,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
 
     try:
         print(varType)
+        plt.imshow(dst_grd.hgrid.lon_rho)
+        plt.show()
         plt.imshow(tdest[0, :, :])
         plt.show()
         plt.imshow(src_grd.hgrid.mask_rho)
