@@ -9,7 +9,7 @@ import pyroms._remapping
 import matplotlib.pyplot as plt
 
 import multiprocessing
-
+queue = multiprocessing.SimpleQueue()
 
 
 
@@ -116,7 +116,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         #     plt.imshow(aaa)
         #     plt.show()
 
-        return aaa
+        queue.put(k)
 
     print('Creating processes for vertical interpolation')
     jobs = []
@@ -128,13 +128,14 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     print('  Waiting for processes to finish')
 
+
     idx = 0
     while len(jobs)>0:
 
         # if idx<2:
-        aaa  = jobs[0].join()
-        print(jobs[0].__dict__)
-        print('>>>>>>   ',aaa, jobs[0].result())
+        jobs[0].join()
+        # print(jobs[0].__dict__)
+        print('>>>>>>   ', idx, queue.get())
             # plt.imshow(aaa)
             # plt.show()
         # var[k,:,:] = jobs[0].join()
