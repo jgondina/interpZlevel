@@ -35,7 +35,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     Interpolate the variable from z vertical grid grdz to ROMS grid grd
     """
 
-    global sharedVar
+
 
     varz = varz.copy()
 
@@ -107,8 +107,6 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
 
-        global sharedVar
-
         print('    Process %i, started' % k)
         # var[k, :, :] =\
         aaa = pyroms._interp.xhslice(varz, z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
@@ -129,6 +127,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     print('Creating processes for vertical interpolation')
     jobs = []
+    global sharedVar
     try:
         print(sharedVar.shape)
     except:
