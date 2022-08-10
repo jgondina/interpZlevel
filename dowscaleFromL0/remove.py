@@ -111,8 +111,9 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
         print('Process %i, finished' % k, var[k, :, :].sum())
-        plt.imshow(var[k, :, :])
-        plt.show()
+        if k<2:
+            plt.imshow(var[k, :, :])
+            plt.show()
 
     jobs = []
     for k in range(Nm):
