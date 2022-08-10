@@ -108,7 +108,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              mask[jrange[0]:jrange[1], irange[0]:irange[1]],
+                                              1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
         print('Process %i, finished' % k, var[k, :, :].sum())
         plt.imshow(var[k, :, :])
