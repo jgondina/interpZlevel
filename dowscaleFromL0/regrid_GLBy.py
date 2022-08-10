@@ -55,6 +55,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
         print(varType)
         plt.imshow(tdest[0, :, :])
         plt.show()
+        plt.imshow(src_grd.hgrid.mask_rho)
+        plt.show()
     except:
         pass
 
