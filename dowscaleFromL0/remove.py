@@ -101,16 +101,19 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
 
     for k in range(Nm):
-        print(Nm)
+        print(k, Nm)
         print('1111', varz.shape)
         print('2222', z.shape)
         print('3333', depth.shape)
         print('2222', mask.shape)
+        varz = 0.0
+        varz[::2,:,:] = 1
         var[k, :, :] = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
+        print (sum(var, 0))
         print('4444', mask.shape)
         # mask
         var = np.ma.masked_values(var, spval, rtol=1e-5)
