@@ -110,7 +110,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
-        print('    Process %i, finished' % k)
+        print('    Process %i, finished' % k, size(aaa[:]))
         # if k<2:
         #     plt.imshow(aaa)
         #     plt.show()
