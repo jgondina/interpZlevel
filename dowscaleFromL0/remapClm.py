@@ -406,11 +406,12 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     dst_vbar = np.zeros((dst_v.shape[1], dst_v.shape[2]))
 
     print('>>>1')
-    aaa = np.diff(z_u[:,:,:], 1, 0)
-    print(aaa.shape, dst_u.shape)
+    diffZ_u = np.diff(z_u[:,:,:], 1, 0)
+    diffZ_v = np.diff(z_v[:,:,:], 1, 0)
+    print(diffZ_u.shape, dst_u.shape)
     print(dst_u[:,1,1].shape, np.diff(z_u[:,1,1]).shape)
-    dst_ubar[:, :] = np.sum(dst_u*aaa, 0) / -z_u[0,:,:]
-    dst_vbar[:, :] = np.sum(dst_v*aaa, 0) / -z_v[0,:,:]
+    dst_ubar[:, :] = np.sum(dst_u*diffZ_u, 0) / -z_u[0,:,:]
+    dst_vbar[:, :] = np.sum(dst_v*diffZ_v, 0) / -z_v[0,:,:]
 
     # for i in range(dst_ubar.shape[1]):
     #     # print(i)
