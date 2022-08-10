@@ -115,7 +115,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         #     plt.imshow(aaa)
         #     plt.show()
 
-        queue.put(k)
+        queue.put(aaa)
         # queue.put({'idx': k, 'data': aaa})
         print(k)
 
