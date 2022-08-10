@@ -104,16 +104,19 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
-        print('    Process %i, started' % k, var[k, :, :].sum())
-        var[k, :, :] = pyroms._interp.xhslice(varz,
+        print('    Process %i, started' % k)
+        # var[k, :, :] =\
+        aaa = pyroms._interp.xhslice(varz,
                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
-        print('    Process %i, finished' % k, var[k, :, :].sum())
+        print('    Process %i, finished' % k)
         # if k<2:
         #     plt.imshow(var[k, :, :])
         #     plt.show()
+
+        return aaa
 
     print('Creating processes for vertical interpolation')
     jobs = []
@@ -125,9 +128,11 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     print('  Waiting for processes to finish')
 
+    idx = 0
     while len(jobs)>0:
-        jobs[0].join()
+        var[k,:,:] = jobs[0].join()
         jobs = jobs[1:]
+        idx += 1
 
     print('there')
 
