@@ -352,8 +352,6 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     # remaping
     print('remapping and rotating u and v from', src_grd.name, 'to', dst_grd.name)
     print('time =', procTime)
-
-
     print('horizontal interpolation using xesmf')
     dst_uz = regrid_GLBy(src_grd, dst_grd, src_varu, method='bilinear', varType='u', fillValue=fillValue)
     dst_vz = regrid_GLBy(src_grd, dst_grd, src_varv, method='bilinear', varType='v', fillValue=fillValue)
@@ -408,14 +406,19 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     dst_vbar = np.zeros((dst_v.shape[1], dst_v.shape[2]))
 
     print('>>>1')
-    for i in range(dst_ubar.shape[1]):
-        # print(i)
-        for j in range(dst_ubar.shape[0]):
-            dst_ubar[j,i] = (dst_u[:,j,i] * np.diff(z_u[:,j,i])).sum() / -z_u[0,j,i]
+    aaa = np.diff(z_u[:,:,:], 0)
+    print(aaa.shape, dst_u.shape)
+    dst_ubar[:, :] = np.sum(dst_u*aaa, 0) / -z_u[0,:,:]
+    dst_vbar[:, :] = np.sum(dst_v*aaa, 0) / -z_v[0,:,:]
 
-    for i in range(dst_vbar.shape[1]):
-        for j in range(dst_vbar.shape[0]):
-            dst_vbar[j,i] = (dst_v[:,j,i] * np.diff(z_v[:,j,i])).sum() / -z_v[0,j,i]
+    # for i in range(dst_ubar.shape[1]):
+    #     # print(i)
+    #     for j in range(dst_ubar.shape[0]):
+    #         dst_ubar[j,i] = (dst_u[:,j,i] * np.diff(z_u[:,j,i])).sum() / -z_u[0,j,i]
+    #
+    # for i in range(dst_vbar.shape[1]):
+    #     for j in range(dst_vbar.shape[0]):
+    #         dst_vbar[j,i] = (dst_v[:,j,i] * np.diff(z_v[:,j,i])).sum() / -z_v[0,j,i]
     print('>>>2')
 
     # fillValue
