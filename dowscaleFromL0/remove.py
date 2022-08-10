@@ -110,8 +110,9 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                      depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                      1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                      imode, spval)
-        i1 = k*len(aaa)
-        var[i1:i1 + len(aaa)] = aaa.flatten()
+        w = aaa.flatten().size
+        i1 = k*w
+        var[i1:i1 + w] = aaa.flatten()
         print('    Process %i, finished' % k, len(aaa[:]))
         # if k<2:
         #     plt.imshow(aaa)
@@ -123,7 +124,10 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     print('Creating processes for vertical interpolation')
     jobs = []
-    sharedVar = multiprocessing.Array('f', var.flatten())
+    try:
+        sharedVar
+    except:
+        sharedVar = multiprocessing.Array('f', var.flatten())
     print('222222')
     for k in range(Nm):
         p = multiprocessing.Process(target=worker, args=(k, sharedVar, varz, z, depth, mask, imode, spval, irange, jrange))
