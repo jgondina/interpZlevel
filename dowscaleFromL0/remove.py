@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import multiprocessing
 queue = multiprocessing.SimpleQueue()
 
-var = None
+sharedVar = None
 
 def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
            spval=1e37, flood=True, dmax=0, cdepth=0, kk=0, \
@@ -35,7 +35,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     Interpolate the variable from z vertical grid grdz to ROMS grid grd
     """
 
-    global var
+    global sharedVar
 
     varz = varz.copy()
 
@@ -130,7 +130,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         sharedVar
     except:
         sharedVar = multiprocessing.Array('f', var.flatten())
-    print('222222')
+    print('222222', var.flatten().size)
     for k in range(Nm):
         p = multiprocessing.Process(target=worker, args=(k, sharedVar, varz, z, depth, mask, imode, spval, irange, jrange))
         jobs.append(p)
