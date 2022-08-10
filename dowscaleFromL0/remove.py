@@ -116,7 +116,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         #     plt.imshow(aaa)
         #     plt.show()
 
-        queue.put({'idx': k, 'data': aaa)
+        queue.put({'idx': k, 'data': aaa})
 
     print('Creating processes for vertical interpolation')
     jobs = []
