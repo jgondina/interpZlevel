@@ -150,8 +150,6 @@ def remapClimate2D(src_file, src_varname, src_grd, dst_grd, oceanTimes,dst_dir='
     nc.variables['ocean_time'][idxTime] = procTime
     nc.variables[dst_varname][idxTime] = dst_var
     
-    print('EEEEEEEEEEEEEEE', nc.variables[dst_varname][0].shape)
-
     # close destination file
     nc.close()
 
@@ -166,10 +164,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     cdf = netCDF.Dataset(src_file)
     src_var = cdf.variables[src_varname]
     spval = src_var._FillValue
-
-    print('XXXXXXXXXXXXXXXXXXdasdsas', src_var[:].shape)
-    print('XXXXXXXXXXXXXXXXXX',cdf.variables['ocean_time'][:])
-    print('XXXXXXXXXXXXXXXXXX', cdf.variables['ntimes'])
 
     if idxTime is None:
         idxTime = 0
@@ -197,7 +191,9 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
 
     pos = 't'
     Cpos = 'rho'
-    # z = src_grd.vgrid.z_r[:]
+    if z is None:
+        z = src_grd.vgrid.z_r[:]
+
     Mp, Lp = dst_grd.hgrid.mask_rho.shape
     try:
         ncAttribs = ncAttribsList[src_varname]
@@ -217,15 +213,7 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
         nc.variables['ocean_time'] = oceanTimes
 
 
-    # build intermediate zgrid
-    print ('XXXXXXXX', z.shape)
-    zlevel = -z[::-1,0,0]
-    nzlevel = len(zlevel)
-    print('XXXXXXXX', dst_grd.vgrid.h.shape)
-    zlevel = -z[::-1, :, :]
-
-    print('TTTTT', z.shape)
-    print('TTTTT', src_grd.vgrid.z_r[:].shape)
+    # build intermediate zgrid, with the same horizontal nodes as L1, but the depths of L0
     dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, z, z.shape[0])
 
     # print('>>>>>>>', dst_zcoord.__dict__)
@@ -237,8 +225,6 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     # Vstretching = 4
     # dst_zcoord = pyroms.vgrid.s_coordinate_2(dst_grd.vgrid.h, theta_b, theta_s, Tcline, L1_N, zeta=z)
 
-    print(dst_zcoord.__dict__)
-    # print('>>>>>>2', dst_zcoord.shape)
     dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
 
 
@@ -259,13 +245,11 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
 
     # vertical interpolation from standard z level to sigma
     print('vertical interpolation from standard z level to sigma')
-    print(dst_varz.shape)
-    print(dst_grdz.vgrid.z.shape)
+
 
     # dst_var = z22roms(dst_varz[::-1, :, :], dst_grdz,
     #                   dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
-    print('999999   ', dst_varz[::-1,:,:].shape, dst_grdz.vgrid.z.shape)
     dst_var = pyroms.remapping.z2roms(dst_varz[::-1, :, :], dst_grdz,
                           dst_grd, Cpos=Cpos, spval=spval, flood=False)
 
@@ -279,13 +263,12 @@ def remapClimate3D(src_file, src_varname, src_grd, dst_grd, oceanTimes, dst_dir=
     print('write data in destination file at time idx = %i (%f)' % (idxTime, procTime))
     nc.variables['ocean_time'][idxTime] = procTime
     nc.variables[dst_varname][idxTime,:,:,:] = dst_var
-    print(nc.variables[dst_varname][idxTime,:,:,:])
 
     # close destination file
     nc.close()
 
 
-def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None):
+def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime = None, z = None):
     print('3D velocity interpolation')
 
     # get time
@@ -335,9 +318,13 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     zlevel = -src_grd.vgrid.z_r[:]
     zlevel = zlevel[::-1,0,0]
 
-    nzlevel = len(zlevel)
-    dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
-    dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
+    # nzlevel = len(zlevel)
+    # dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, zlevel, nzlevel)
+    # dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name+'_Z', dst_grd.hgrid, dst_zcoord)
+
+    # build intermediate zgrid, with the same horizontal nodes as L1, but the depths of L0
+    dst_zcoord = pyroms.vgrid.z_coordinate(dst_grd.vgrid.h, z, z.shape[0])
+    dst_grdz = pyroms.grid.ROMS_Grid(dst_grd.name + '_Z', dst_grd.hgrid, dst_zcoord)
 
     # create variables in destination file
     print('Creating variables u, v, ubar, vbar')
@@ -406,8 +393,6 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     print('Putting FillValue in the masked nodes')
     idxu = (dst_grd.hgrid.mask_u == 0)
     idxv = (dst_grd.hgrid.mask_v == 0)
-    print('>>>>>>', idxu.shape, idxu.min(), idxu.max())
-    print('>>>>>>', idxv.shape, idxv.min(), idxv.max())
     for n in range(dst_grd.vgrid.N):
         dst_u[n,idxu] = fillValue
         dst_v[n,idxv] = fillValue
@@ -418,11 +403,9 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     z_u = 0.5 * (dst_grd.vgrid.z_w[0,:,:,:-1] + dst_grd.vgrid.z_w[0,:,:,1:])
     z_v = 0.5 * (dst_grd.vgrid.z_w[0,:,:-1,:] + dst_grd.vgrid.z_w[0,:,1:,:])
 
+
     dst_ubar = np.zeros((dst_u.shape[1], dst_u.shape[2]))
     dst_vbar = np.zeros((dst_v.shape[1], dst_v.shape[2]))
-
-    print('RRRRRTTTTT   ', dst_ubar.shape, z_u.shape)
-    print('RRRRRTTTTT2  ', dst_vbar.shape, z_v.shape)
 
     print('>>>1')
     for i in range(dst_ubar.shape[1]):
