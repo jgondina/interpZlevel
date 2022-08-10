@@ -137,4 +137,6 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
     #     # mask
     #     var = np.ma.masked_values(var, spval, rtol=1e-5)
 
+    var = np.ma.masked_values(var, spval, rtol=1e-5)
+
     return var
