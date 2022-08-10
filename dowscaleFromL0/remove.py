@@ -121,17 +121,20 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     print('here')
 
+    while len(jobs)>0:
+        jobs[0].join()
+        jobs = jobs[1:]
 
+    print('there')
 
-
-    for k in range(Nm):
-
-        var[k, :, :] = pyroms._interp.xhslice(varz,
-                                              z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              mask[jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              imode, spval)
-        # mask
-        var = np.ma.masked_values(var, spval, rtol=1e-5)
+    # for k in range(Nm):
+    #
+    #     var[k, :, :] = pyroms._interp.xhslice(varz,
+    #                                           z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+    #                                           depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
+    #                                           mask[jrange[0]:jrange[1], irange[0]:irange[1]],
+    #                                           imode, spval)
+    #     # mask
+    #     var = np.ma.masked_values(var, spval, rtol=1e-5)
 
     return var
