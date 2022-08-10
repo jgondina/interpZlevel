@@ -9,7 +9,7 @@ import pyroms._remapping
 import matplotlib.pyplot as plt
 
 import multiprocessing
-queue = multiprocessing.QJoinableQueue()
+queue = multiprocessing.JoinableQueue()
 
 
 
