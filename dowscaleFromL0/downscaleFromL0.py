@@ -218,7 +218,7 @@ for idxTime, time in enumerate(time):
     L1_zr = setDepth(Vtransform, Vstretching, theta_s, theta_b, L0_hc, L0_N, 1, L1_h, zeta=L0_zeta_to_L1)
 
 
-    # L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L1_zr)
+    L0_UV = remapClimateUV(L0_out, gridL0, gridL1, oceanTimes, dst_dir='./', idxTime = idxTime, z = L1_zr)
 
     # s_coordinate_2(h, theta_b, theta_s, Tcline, N, hraw=None, zeta=None):
 
