@@ -113,7 +113,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         print('Process %i, finished', k)
 
     jobs = []
-    for i in range(Nm):
+    for k in range(Nm):
         p = multiprocessing.Process(target=worker, args=(k, var, varz, z, depth, mask, imode, spval, irange, jrange))
         jobs.append(p)
         p.start()
