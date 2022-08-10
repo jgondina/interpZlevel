@@ -112,9 +112,9 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
                                               1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                               imode, spval)
         print('    Process %i, finished' % k)
-        # if k<2:
-        #     plt.imshow(var[k, :, :])
-        #     plt.show()
+        if k<2:
+            plt.imshow(aaa)
+            plt.show()
 
         return aaa
 
@@ -130,7 +130,12 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     idx = 0
     while len(jobs)>0:
-        var[k,:,:] = jobs[0].join()
+
+        if k<2:
+            aaa  = jobs[0].join()
+            plt.imshow(aaa)
+            plt.show()
+        # var[k,:,:] = jobs[0].join()
         jobs = jobs[1:]
         idx += 1
 
