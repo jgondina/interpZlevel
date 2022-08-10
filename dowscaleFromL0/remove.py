@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import multiprocessing
 queue = multiprocessing.SimpleQueue()
 
-sharedVar = None
+sharedVar = 7
 
 def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
            spval=1e37, flood=True, dmax=0, cdepth=0, kk=0, \
