@@ -100,16 +100,18 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     z = np.concatenate((a,b,c), 0)
 
-    var = np.ma.zeros((Nm, Mm*Lm))
+    var = np.ma.zeros((Nm, Mm, Lm))
 
     def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
         print('    Process %i, started' % k)
         # var[k, :, :] =\
-        var[k,:] = pyroms._interp.xhslice(varz, z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+        aaa = pyroms._interp.xhslice(varz, z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
                                      depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
                                      1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
                                      imode, spval)
+        i1 = k*len(aaa)
+        var[i1:i1 + len(aaa)] = aaa
         print('    Process %i, finished' % k, len(aaa[:]))
         # if k<2:
         #     plt.imshow(aaa)
