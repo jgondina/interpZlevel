@@ -102,27 +102,28 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
     var = np.ma.zeros((Nm, Mm, Lm))
 
-    def worker(k, queue, varz, z, depth, mask, imode, spval, irange, jrange):
+    def worker(k, var, varz, z, depth, mask, imode, spval, irange, jrange):
         """thread worker function"""
         print('    Process %i, started' % k)
         # var[k, :, :] =\
-        aaa = pyroms._interp.xhslice(varz,                                               z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
-                                              imode, spval)
+        var[k,:,:] = pyroms._interp.xhslice(varz, z[:, jrange[0]:jrange[1], irange[0]:irange[1]],
+                                     depth[k, jrange[0]:jrange[1], irange[0]:irange[1]],
+                                     1 + 0*mask[jrange[0]:jrange[1], irange[0]:irange[1]],
+                                     imode, spval)
         print('    Process %i, finished' % k, len(aaa[:]))
         # if k<2:
         #     plt.imshow(aaa)
         #     plt.show()
 
-        queue.put(aaa[:].data)
+        # queue.put(aaa[:].data)
         # queue.put({'idx': k, 'data': aaa})
         print(k)
 
     print('Creating processes for vertical interpolation')
     jobs = []
+    sharedVar = multiprocessing.Array('f', vars[:])
     for k in range(Nm):
-        p = multiprocessing.Process(target=worker, args=(k, queue, varz, z, depth, mask, imode, spval, irange, jrange))
+        p = multiprocessing.Process(target=worker, args=(k, sharedVar, varz, z, depth, mask, imode, spval, irange, jrange))
         jobs.append(p)
         p.start()
 
@@ -146,6 +147,8 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
         idx += 1
 
     print('there')
+
+    var[:] = sharedVar
 
     # for k in range(Nm):
     #
