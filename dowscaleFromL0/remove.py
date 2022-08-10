@@ -133,7 +133,7 @@ def z22roms(varz, grdz, grd, Cpos='rho', irange=None, jrange=None, \
 
         # if idx<2:
         aaa  = jobs[0].join()
-        print('>>>>>>   ',aaa, jobs[0].result)
+        print('>>>>>>   ',aaa, jobs[0].result())
             # plt.imshow(aaa)
             # plt.show()
         # var[k,:,:] = jobs[0].join()
