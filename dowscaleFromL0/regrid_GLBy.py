@@ -52,7 +52,8 @@ def regrid_GLBy(src_grd, dst_grd, var, method='nearest_s2d', fillValue = 1e31, v
     tdest = regrid(var)
 
     try:
-        plt.imshow(tdest[0,:,:])
+        print(varType)
+        plt.imshow(dst_grd.hgrid.lat_rho[:,:])
         plt.show()
     except:
         pass
