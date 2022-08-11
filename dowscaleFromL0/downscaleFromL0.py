@@ -392,4 +392,5 @@ def main():
 
 
 import cProfile
-cProfile.run('main()')
+
+cProfile.run('main()', sort='cumulative')
