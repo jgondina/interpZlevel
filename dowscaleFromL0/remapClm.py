@@ -361,8 +361,10 @@ def remapClimateUV(src_file, src_grd, dst_grd, oceanTimes, dst_dir='./', idxTime
     # plt.show()
 
     print('Vertical interpolation from standard z level to sigma')
-    dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
-    dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
+    dst_u = z22roms(dst_uz[::-1, :, :], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
+    dst_v = z22roms(dst_uz[::-1, :, :], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
+    # dst_u = pyroms.remapping.z2roms(dst_uz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
+    # dst_v = pyroms.remapping.z2roms(dst_vz[::-1,:,:], dst_grdz, dst_grd, Cpos='rho', spval=fillValue, flood=False)
 
 
     # plt.imshow(dst_u[0, :, :])
