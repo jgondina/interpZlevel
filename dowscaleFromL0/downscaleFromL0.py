@@ -17,8 +17,7 @@ import xesmf
 from remapClm import remapClimate2D, remapClimate3D, remapClimateUV
 from setDepth import setDepth
 
-import cProfile
-cProfile.run('main()')
+
 
 def main():
     # Select analysis period
@@ -390,3 +389,7 @@ def main():
     #     ubar_south,vbar_south,zeta_south,u_south,v_south,salt_south,temp_south,...
     #     zeta_east,ubar_east,vbar_east,u_east,v_east,salt_east,temp_east,...
     #     zeta_west,ubar_west,vbar_west,u_west,v_west,salt_west,temp_west)
+
+
+import cProfile
+cProfile.run('main()')
