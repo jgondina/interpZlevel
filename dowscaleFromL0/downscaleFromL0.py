@@ -20,7 +20,7 @@ from setDepth import setDepth
 import cProfile
 cProfile.run('main()')
 
-def main:
+def main():
     # Select analysis period
     timeIni = datetime.datetime(2022, 7, 2, 0, 0, 0)
     timeEnd = datetime.datetime(2022, 7, 7, 0, 0, 0)
